@@ -1,0 +1,17 @@
+.login {
+  min-height: 100vh;
+  padding: 40px 0;
+}
+
+.login__container {
+  max-width: 350px;
+  padding: 15px;
+}
+
+.login__logo {
+  width: 70px;
+}
+
+.login__input-toggler {
+  max-height: 58px;
+}
