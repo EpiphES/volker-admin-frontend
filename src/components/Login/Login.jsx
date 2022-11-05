@@ -1,7 +1,7 @@
 import './Login.css';
-import wolfIcon from '../../images/wolf.svg';
-import eyeIcon from '../../images/eye-fill.svg';
-import eyeSlashIcon from '../../images/eye-slash.svg';
+import { GiWolfHead } from 'react-icons/gi';
+import { FaEye } from 'react-icons/fa';
+import { FaEyeSlash } from 'react-icons/fa';
 
 import { useState } from 'react';
 import { useFormik } from 'formik';
@@ -10,8 +10,7 @@ import {
   Form,
   FloatingLabel,
   Button,
-  InputGroup,
-  Image, 
+  InputGroup, 
 } from 'react-bootstrap';
 
 const validate = values => {
@@ -21,8 +20,7 @@ const validate = values => {
      errors.email = 'Поле должно быть заполнено';
    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
      errors.email = 'Некорректный адрес электронной почты';
-   }
- 
+   } 
     
    if (!values.password) {
      errors.password = 'Поле должно быть заполнено';
@@ -54,13 +52,9 @@ function Login({ onLogin }) {
       <div 
         className='login__container w-100 m-auto d-flex flex-column align-items-center justify-content-center'
         >
-        <Image 
-          className='login__logo mb-4' 
-          src={ wolfIcon } 
-          alt='логотип' 
-        />
+        <GiWolfHead className='login__logo mb-4'/>
         <h1 className='text-light h3 mb-4 fw-normal'>
-          Вход
+          Добро пожаловать!
         </h1>
         <Form className='w-100' onSubmit={formik.handleSubmit} noValidate>
           <fieldset>
@@ -75,6 +69,7 @@ function Login({ onLogin }) {
                 autoFocus
                 required
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 value={formik.values.email}
                 isInvalid={formik.touched.email && formik.errors.email}
                 autoComplete={'off'}
@@ -83,7 +78,7 @@ function Login({ onLogin }) {
                 {formik.errors.email}
               </Form.Control.Feedback>                                       
             </FloatingLabel>
-                       
+                      
             <InputGroup className='mb-5' >
               <FloatingLabel
                 controlId='floatingPassword'
@@ -94,19 +89,18 @@ function Login({ onLogin }) {
                   placeholder='Password'
                   required
                   onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                   value={formik.values.password}
                   isInvalid={formik.touched.password && formik.errors.password}
                   autoComplete={'off'} 
                 />
-                <Form.Control.Feedback type="invalid" >
+                <Form.Control.Feedback type="invalid">
                   {formik.errors.password}
-                </Form.Control.Feedback>
-                 
+                </Form.Control.Feedback>                
               </FloatingLabel>
               
               <InputGroup.Text onClick={togglePasswordVisibility} className='login__input-toggler' >
-                <Image src={isPasswordVisible ? eyeSlashIcon : eyeIcon} 
-              />              
+                 { isPasswordVisible ? < FaEyeSlash /> : < FaEye /> }             
               </InputGroup.Text>
               
               
@@ -120,16 +114,13 @@ function Login({ onLogin }) {
               size='lg'
               type='submit'
               aria-label='Войти'
-              // disabled={!isFormValid}
+              disabled={!formik.isValid}
               >
               Войти
             </Button>
           </fieldset>
         </Form>
-      </div>
-      
-      
-      
+      </div>      
     </main>
   )
 }
