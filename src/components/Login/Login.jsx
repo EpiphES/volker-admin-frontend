@@ -69,7 +69,6 @@ function Login({ onLogin }) {
                 autoFocus
                 required
                 onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
                 value={formik.values.email}
                 isInvalid={formik.touched.email && formik.errors.email}
                 autoComplete={'off'}
@@ -89,7 +88,6 @@ function Login({ onLogin }) {
                   placeholder='Password'
                   required
                   onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
                   value={formik.values.password}
                   isInvalid={formik.touched.password && formik.errors.password}
                   autoComplete={'off'} 
@@ -114,7 +112,6 @@ function Login({ onLogin }) {
               size='lg'
               type='submit'
               aria-label='Войти'
-              disabled={!formik.isValid}
               >
               Войти
             </Button>
