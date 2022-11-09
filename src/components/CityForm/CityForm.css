@@ -1,0 +1,29 @@
+.city-form__card-badge {
+  display: none;
+  position: absolute;
+  bottom: 50%;
+}
+
+.city-form__card:hover .city-form__card-badge,
+.city-form__card:focus-visible .city-form__card-badge
+{
+  display: block;
+}
+
+.city-form__card {
+  position: relative;
+  padding-top: 100%;
+}
+
+.city-form__card-contain {
+  position: absolute;
+  top:0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.city-form__icon {
+  width: 50%;
+  height: 50%;
+}
