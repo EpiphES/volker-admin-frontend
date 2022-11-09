@@ -17,8 +17,6 @@ const modeSlice = createSlice({
   name: 'modes',
   initialState: {
     modes: [],
-    status: null,
-    error: null,
   },
   reducers: {
     setModes: (state, action) => {

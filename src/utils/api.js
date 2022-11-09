@@ -1,12 +1,7 @@
-const BASE_URL = 'http://volker.stairenx.com:81';
-const PROXY = 'http://cors-anywhere.herokuapp.com/';
-const credentials = {
-  email: 'stairenx@yandex.ru',
-  password: '89129384461'
-}
+import { BASE_URL, PROXY } from "./constants";
 
 function checkResponse(res) {
-  return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}, ${res.statusText}`);
+  return res.ok ? res.json() || 'ok' : Promise.reject(`Ошибка: ${res.status}, ${res.statusText}`);
 }
 
 function checkSuccess(res) {
@@ -29,7 +24,7 @@ export function login({ email, password }) {
     headers: { 
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({ email, password })
   })  
 }
 
@@ -38,7 +33,7 @@ export function getUserInfo(token) {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${token}`,
-    },
+    }
   })
 }
 
@@ -58,6 +53,37 @@ export function getCityById(id) {
       'Authorization': `Bearer ${localStorage.getItem('token')}`
     }
   })
+}
+
+export function createCity({cityName, latitude, longitude, description, modes}) {
+  return request(`${PROXY}${BASE_URL}/City/Create`, {
+    method: 'POST',
+    headers: { 
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    },
+    body: JSON.stringify({cityName, latitude, longitude, description, modes})
+  })  
+}
+
+export function updateCity({id, cityName, latitude, longitude, description, modes}) {
+  return request(`${PROXY}${BASE_URL}/City/Update?id=${id}`, {
+    method: 'POST',
+    headers: { 
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    },
+    body: JSON.stringify({cityName, latitude, longitude, description, modes})
+  })  
+}
+
+export function deleteCity(id) {
+  return request(`${PROXY}${BASE_URL}/City/Delete?id=${id}`, {
+    method: 'DELETE',
+    headers: { 
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    }
+  })  
 }
 
 export function getAllModes() {
