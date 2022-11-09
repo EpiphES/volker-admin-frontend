@@ -13,21 +13,9 @@ import {
   InputGroup, 
 } from 'react-bootstrap';
 
-const validate = values => {
-   const errors = {};
+import { loginFormValidate } from '../../utils/validation';
 
-   if (!values.email) {
-     errors.email = 'Поле должно быть заполнено';
-   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-     errors.email = 'Некорректный адрес электронной почты';
-   } 
-    
-   if (!values.password) {
-     errors.password = 'Поле должно быть заполнено';
-   } 
-   
-   return errors;
- };
+import { EMAIL_REGEX } from '../../utils/constants';
 
 function Login({ onLogin }) {
   const [isPasswordVisible, setPasswordVisible] = useState(false);
@@ -37,7 +25,7 @@ function Login({ onLogin }) {
       email: '',
       password: '',
     },
-    validate,
+    validate: loginFormValidate,
     onSubmit: values => {
       onLogin({email: values.email, password: values.password});
     },
@@ -56,7 +44,7 @@ function Login({ onLogin }) {
         <h1 className='text-light h3 mb-4 fw-normal'>
           Добро пожаловать!
         </h1>
-        <Form className='w-100' onSubmit={formik.handleSubmit} noValidate>
+        <Form className='w-100' onSubmit={formik.handleSubmit} noValidate name='login-form'>
           <fieldset>
             <FloatingLabel
               controlId='floatingInput'
@@ -66,6 +54,7 @@ function Login({ onLogin }) {
                 type='email'
                 name='email'
                 placeholder='name@example.com'
+                pattern={EMAIL_REGEX}
                 autoFocus
                 required
                 onChange={formik.handleChange}
