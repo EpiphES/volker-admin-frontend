@@ -107,3 +107,77 @@ export function getAllModes() {
   })
 }
 
+export function getModeById(modeId) {
+  return request(`${PROXY}${BASE_URL}/MarkerMode/GetMarkerModeById?modeId=${modeId}`, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+}
+
+export function createMode({title, icon, markerTypes}) {
+  return request(`${PROXY}${BASE_URL}/MarkerMode/CreateMode`, {
+    method: 'POST',
+    headers: { 
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    },
+    body: JSON.stringify({title, icon, markerTypes})
+  });  
+}
+
+export function updateMode({id, title, icon, markerTypes}) {
+  return fetch(`${PROXY}${BASE_URL}/MarkerMode/UpdateMode?id=${id}`, {
+    method: 'POST',
+    headers: { 
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    },
+    body: JSON.stringify({title, icon, markerTypes})
+  })
+  .then((res) => res.ok ? res : Promise.reject(`Ошибка: ${res.status}, ${res.statusText}`)); 
+}
+
+export function deleteMode(id) {
+  return fetch(`${PROXY}${BASE_URL}/MarkerMode/DeleteMode?id=${id}`, {
+    method: 'DELETE',
+    headers: { 
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    }
+  })
+  .then((res) => res.ok ? res : Promise.reject(`Ошибка: ${res.status}, ${res.statusText}`));  
+}
+
+export function createType({markerModeId, title, iconOnMap, colorOnMap}) {
+  return request(`${PROXY}${BASE_URL}/MarkerMode/CreateType`, {
+    method: 'POST',
+    headers: { 
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    },
+    body: JSON.stringify({markerModeId, title, iconOnMap, colorOnMap})
+  });  
+}
+
+export function updateType({id, title, iconOnMap, colorOnMap}) {
+  return fetch(`${PROXY}${BASE_URL}/MarkerMode/UpdateType?id=${id}`, {
+    method: 'POST',
+    headers: { 
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    },
+    body: JSON.stringify({title, iconOnMap, colorOnMap})
+  })
+  .then((res) => res.ok ? res : Promise.reject(`Ошибка: ${res.status}, ${res.statusText}`)); 
+}
+
+export function deleteType(id) {
+  return fetch(`${PROXY}${BASE_URL}/MarkerMode/DeleteType?id=${id}`, {
+    method: 'DELETE',
+    headers: { 
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    }
+  })
+  .then((res) => res.ok ? res : Promise.reject(`Ошибка: ${res.status}, ${res.statusText}`));  
+}
