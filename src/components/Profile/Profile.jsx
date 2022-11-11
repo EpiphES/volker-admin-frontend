@@ -11,7 +11,7 @@ function Profile({onLogout}) {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const dispatch = useDispatch();
   const {user} = useSelector(state => state.user);
-  const {cities, currentCity, currentCityStatus, currentCityError } = useSelector(state => state.city);
+  const {cities, currentCity, currentCityStatus, currentCityError, deleteCityStatus, deleteCityError } = useSelector(state => state.city);
 
   const citySelect = cities.map(city => {
     return (<option key={city.id} value={city.id}>{city.cityName}</option>)
@@ -30,6 +30,7 @@ function Profile({onLogout}) {
 
   function handleDeleteCity() {
     dispatch(deleteCity(currentCity.id));
+    handleCloseConfirmModal();
   }
 
   return (
@@ -48,14 +49,16 @@ function Profile({onLogout}) {
         </Card>
         <Card 
           border='dark' className='text-center mb-5'>
-          <Card.Header className='fw-bold'>Текущий город: 
-            {currentCityStatus === 'loading' && <span>Идет загрузка...</span>}
+          <Card.Header className='fw-bold'>
+            Текущий город:
+            {' '} 
+            {currentCityStatus === 'loading' && <small className='text-primary'>Идет загрузка...</small>}
             {currentCityStatus === 'resolved' && currentCity.cityName}
-            {currentCityStatus === 'rejected' && <span>Ошибка: {currentCityError}</span>}
+            {currentCityStatus === 'rejected' && <small className='text-danger'>{currentCityError}</small>}
           </Card.Header>
           <Card.Body>
             <Form.Select aria-label='выберите город' className='mb-3' onChange={handleSelectCity}>
-              <option>{currentCity? currentCity.cityName : 'Выберите город'}</option>
+              <option value={currentCity?.id}>{currentCity? currentCity.cityName : 'Выберите город'}</option>
               {citySelect}
             </Form.Select>
             <Link to='city/create' className='me-2'>
@@ -76,10 +79,10 @@ function Profile({onLogout}) {
             <Button
               type='button'
               variant='danger' 
-              disabled={!currentCity}
+              disabled={!currentCity || deleteCityStatus === 'loading'}
               aria-label='удалить город'
               onClick={handleShowConfirmModal}>
-              Удалить
+              {deleteCityStatus === 'loading' ? 'Удаление...' : 'Удалить'}
             </Button>
           </Card.Body>
         </Card>
@@ -90,6 +93,7 @@ function Profile({onLogout}) {
         show={showConfirmModal}
         onClose={handleCloseConfirmModal}
         onConfirm={handleDeleteCity}
+        onDecline={handleCloseConfirmModal}
       />
     </>
   )
