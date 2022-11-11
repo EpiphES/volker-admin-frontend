@@ -31,6 +31,7 @@ export const createCity = createAsyncThunk(
     try {
       const res = await api.createCity(values);
       dispatch(addCity(res));
+      return res;
     } catch (err) {
       return rejectWithValue(err);
     }
@@ -43,6 +44,7 @@ export const updateCity = createAsyncThunk(
     try {
       await api.updateCity(values);
       dispatch(changeCity(values));
+      return values;
     } catch (err) {
       return rejectWithValue(err);
     }
@@ -73,6 +75,8 @@ const citySlice = createSlice({
     updateCityError: null,
     createCityStatus: null,
     createCityError: null,
+    deleteCityStatus: null,
+    deleteCityError: null,
   },
   reducers: {
     setCities: (state, action) => {
@@ -104,9 +108,43 @@ const citySlice = createSlice({
       state.currentCityStatus = 'rejected';
       state.currentCityError = action.payload;
     },    
-    [deleteCity.fulfilled]: (state, action) => {
+    [updateCity.pending]: (state) => { 
+      state.updateCityStatus = 'loading';
+      state.updateCityError = null;
+    },
+    [updateCity.fulfilled]: (state, action) => {
+      state.updateCityStatus = 'resolved';
+      state.currentCity = action.payload;
+    },
+    [updateCity.rejected]: (state, action) => {
+      state.createCityStatus = 'rejected';
+      state.createCityError = action.payload;
+    },
+    [createCity.pending]: (state) => { 
+      state.createCityStatus = 'loading';
+      state.createCityError = null;
+    },
+    [createCity.fulfilled]: (state, action) => {
+      state.createCityStatus = 'resolved';
+      state.currentCity = action.payload;
+    },
+    [createCity.rejected]: (state, action) => {
+      state.createCityStatus = 'rejected';
+      state.createCityError = action.payload;
+    },
+    [deleteCity.pending]: (state) => { 
+      state.deleteCityStatus = 'loading';
+      state.deleteCityError = null;
+    },    
+    [deleteCity.fulfilled]: (state) => {
+      state.deleteCityStatus = 'resolved';
       state.currentCity = null;
-    }
+    },
+    [deleteCity.rejected]: (state, action) => {
+      state.deleteCityStatus = 'rejected';
+      state.deleteCityError = action.payload;
+    },
+
   },
 });
 export const { setCities, addCity, changeCity, removeCity } = citySlice.actions;
