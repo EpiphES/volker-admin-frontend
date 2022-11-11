@@ -1,15 +1,15 @@
 import { Button, Modal } from "react-bootstrap";
 
-function ConfirmationPopup({text, show, onClose, onConfirm}) {
+function ConfirmationPopup({text, show, onClose, onConfirm, onDecline}) {
   return (
     <Modal show={show} onHide={onClose}>
       <Modal.Header closeButton>
-        <Modal.Title>{text}</Modal.Title>
+        <Modal.Title as='h5'>{text}</Modal.Title>
       </Modal.Header>
       <Modal.Body className='text-end'>
         <Button
           variant='outline-secondary'
-          onClick={onClose}
+          onClick={onDecline}
           aria-label='отмена'
           className='me-3'>
           Отмена
