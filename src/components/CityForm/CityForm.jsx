@@ -2,7 +2,7 @@ import './CityForm.css';
 
 import { useState, useEffect } from 'react';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 
 import { Form, Row, Col, Button, Card, Modal, Badge, InputGroup } from 'react-bootstrap';
@@ -12,14 +12,23 @@ import * as api from '../../utils/api';
 import { cityFormValidate } from '../../utils/validation';
 import { LAT_REGEX, LON_REGEX } from '../../utils/constants';
 
+import { removeModeFromCity } from '../../store/citySlice';
+
 import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup';
 import GoBackButton from '../GoBackButton/GoBackButton';
 import Message from '../Message/Message';
 
-function CityForm({name, city, buttonText, onSubmit, onReset}) {
-  
+function CityForm({name, city, buttonText, onSubmit}) {
+  const dispatch = useDispatch();
   const { modes } = useSelector(state => state.mode);
-  const { updateCityStatus, updateCityError, createCityStatus, createCityError } = useSelector(state => state.city);
+  const { 
+    updateCityStatus, 
+    updateCityError, 
+    createCityStatus, 
+    createCityError,
+    removeModeFromCityStatus,
+    removeModeFromCityError,
+  } = useSelector(state => state.city);
   const [validated, setValidated] = useState(false);
   const [cityModes, setCityModes] = useState([]);  
   const [selectedMode, setSelectedMode] = useState(null);
@@ -27,6 +36,7 @@ function CityForm({name, city, buttonText, onSubmit, onReset}) {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
+  
   
   const formik = useFormik({
     initialValues: {
@@ -37,6 +47,7 @@ function CityForm({name, city, buttonText, onSubmit, onReset}) {
     },
     validate: cityFormValidate,
     onSubmit: values => {
+      removeModes(); 
       onSubmit({
         cityName: values.cityName,
         latitude: values.latitude, 
@@ -47,7 +58,6 @@ function CityForm({name, city, buttonText, onSubmit, onReset}) {
       setShowMessage(true);
     },
     onReset: () => {
-      onReset();
       setCityModes(city.modes);
     }
   });
@@ -114,24 +124,19 @@ function CityForm({name, city, buttonText, onSubmit, onReset}) {
   } 
   
   function handleDeleteMode() {
-    api.removeModeFromCity(city.id, deletedMode.id)
-    .then(() => {
-      setCityModes((prevVal) => prevVal.filter((item) => item.id !== deletedMode.id));
-      setDeletedMode(null);
-      setShowConfirmModal(false);
-    })    
+    setCityModes((prevVal) => prevVal.filter((item) => item.id !== deletedMode.id));
+    setDeletedMode(null);
+    setShowConfirmModal(false);    
   }
 
-  // function dif() {
-  //   if(city.modes.some((mode) => {
-  //       console.log(mode.id);
-  //       return !cityModes.some((item) => {
-  //         console.log(mode.id, item.id);
-  //         return item.id === mode.id})
-  //     })) {
-  //       console.log('differs')
-  //     }
-  // }
+  function removeModes() {
+    const modesToDelete = city.modes.filter((mode) => {
+        return !cityModes.some((item) => item.id === mode.id);
+      })
+    modesToDelete.forEach((mode) => {
+      dispatch(removeModeFromCity({cityId: city.id, modeId: mode.id}))
+    }) 
+  }
 
   useEffect(() => {
     if(city?.modes) {
@@ -152,7 +157,7 @@ function CityForm({name, city, buttonText, onSubmit, onReset}) {
         className='pt-3 text-center mb-3'
         validated={validated}>
         
-        <fieldset disabled={updateCityStatus === 'loading'}>
+        <fieldset disabled={(updateCityStatus === 'loading' || createCityStatus === 'loading' || removeModeFromCityStatus === 'loading')}>
           <Form.Group className='mb-3' >
             <Form.Label className='h6 mb-3'>Название города</Form.Label>
             <Form.Control 
@@ -242,7 +247,7 @@ function CityForm({name, city, buttonText, onSubmit, onReset}) {
             type='submit'
             aria-label={buttonText}
             className='mt-4 me-3'>
-            {(updateCityStatus === 'loading' || createCityStatus === 'loading') ? 'Сохранение...' : buttonText}
+            {(updateCityStatus === 'loading' || createCityStatus === 'loading' || removeModeFromCityStatus === 'loading') ? 'Сохранение...' : buttonText}
           </Button>
           <Button
             variant='dark'
@@ -259,9 +264,9 @@ function CityForm({name, city, buttonText, onSubmit, onReset}) {
 
       <GoBackButton />
       
-      {name === 'update' && updateCityStatus === 'rejected' && <Message type='error' text={updateCityError} show={showMessage} setShow={setShowMessage}/>}
+      {name === 'update' && (updateCityStatus === 'rejected' || removeModeFromCityStatus === 'rejected') && <Message type='error' text={`${updateCityError || ''} ${removeModeFromCityError || ''}`} show={showMessage} setShow={setShowMessage}/>}
 
-      {name === 'update' && updateCityStatus === 'resolved' && <Message type='success' text='Город обновлен!' show={showMessage} setShow={setShowMessage}/>}
+      {name === 'update' && updateCityStatus === 'resolved' && removeModeFromCityStatus === 'resolved' && <Message type='success' text='Город обновлен!' show={showMessage} setShow={setShowMessage}/>}
 
       {name === 'create' && createCityStatus === 'rejected' && <Message type='error' text={createCityError} show={showMessage} setShow={setShowMessage}/>}
 

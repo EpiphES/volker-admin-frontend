@@ -63,6 +63,18 @@ export const deleteCity = createAsyncThunk(
   }
 );
 
+export const removeModeFromCity = createAsyncThunk(
+  'cities/removeModeFromCity',
+  async (values, {rejectWithValue}) => {
+    try {
+      await api.removeModeFromCity(values.cityId, values.modeId);      
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+)
+
+
 
 const citySlice = createSlice({ 
   name: 'cities',
@@ -77,6 +89,8 @@ const citySlice = createSlice({
     createCityError: null,
     deleteCityStatus: null,
     deleteCityError: null,
+    removeModeFromCityStatus: null,
+    removeModeFromCityError: null,
   },
   reducers: {
     setCities: (state, action) => {
@@ -108,18 +122,6 @@ const citySlice = createSlice({
       state.currentCityStatus = 'rejected';
       state.currentCityError = action.payload;
     },    
-    [updateCity.pending]: (state) => { 
-      state.updateCityStatus = 'loading';
-      state.updateCityError = null;
-    },
-    [updateCity.fulfilled]: (state, action) => {
-      state.updateCityStatus = 'resolved';
-      state.currentCity = action.payload;
-    },
-    [updateCity.rejected]: (state, action) => {
-      state.createCityStatus = 'rejected';
-      state.createCityError = action.payload;
-    },
     [createCity.pending]: (state) => { 
       state.createCityStatus = 'loading';
       state.createCityError = null;
@@ -132,6 +134,18 @@ const citySlice = createSlice({
       state.createCityStatus = 'rejected';
       state.createCityError = action.payload;
     },
+    [updateCity.pending]: (state) => { 
+      state.updateCityStatus = 'loading';
+      state.updateCityError = null;
+    },
+    [updateCity.fulfilled]: (state, action) => {
+      state.updateCityStatus = 'resolved';
+      state.currentCity = action.payload;
+    },
+    [updateCity.rejected]: (state, action) => {
+      state.updateCityStatus = 'rejected';
+      state.updateCityError = action.payload;
+    },    
     [deleteCity.pending]: (state) => { 
       state.deleteCityStatus = 'loading';
       state.deleteCityError = null;
@@ -144,7 +158,17 @@ const citySlice = createSlice({
       state.deleteCityStatus = 'rejected';
       state.deleteCityError = action.payload;
     },
-
+    [removeModeFromCity.pending]: (state) => { 
+      state.removeModeFromCityStatus = 'loading';
+      state.removeModeFromCityError = null;
+    },
+    [removeModeFromCity.fulfilled]: (state) => {
+      state.removeModeFromCityStatus = 'resolved';
+    },
+    [removeModeFromCity.rejected]: (state, action) => {
+      state.removeModeFromCityStatus = 'rejected';
+      state.removeModeFromCityError = action.payload;
+    },
   },
 });
 export const { setCities, addCity, changeCity, removeCity } = citySlice.actions;
