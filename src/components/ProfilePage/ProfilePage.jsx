@@ -18,6 +18,10 @@ function ProfilePage({ handleLogout }) {
     dispatch(updateCity({id: currentCity.id, ...values}))
   }
 
+  function handleReset() {
+    dispatch(updateCity(currentCity));
+  }
+
   return (
     <Routes>
       <Route
@@ -42,6 +46,7 @@ function ProfilePage({ handleLogout }) {
             city={currentCity} 
             buttonText='Сохранить'
             onSubmit={handleUpdateCity}
+            onReset={handleReset}
           />
         }
       />
