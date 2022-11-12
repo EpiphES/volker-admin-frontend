@@ -57,6 +57,7 @@ export const deleteCity = createAsyncThunk(
     try {
       await api.deleteCity(id);
       dispatch(removeCity({id}));
+      return id;
     } catch (err) {
       return rejectWithValue(err);
     }
@@ -67,14 +68,13 @@ export const removeModeFromCity = createAsyncThunk(
   'cities/removeModeFromCity',
   async (values, {rejectWithValue}) => {
     try {
-      await api.removeModeFromCity(values.cityId, values.modeId);      
+      await api.removeModeFromCity(values.cityId, values.modeId);
+      return values;     
     } catch (err) {
       return rejectWithValue(err);
     }
   }
-)
-
-
+);
 
 const citySlice = createSlice({ 
   name: 'cities',
@@ -171,6 +171,7 @@ const citySlice = createSlice({
     },
   },
 });
+
 export const { setCities, addCity, changeCity, removeCity } = citySlice.actions;
 
 export default citySlice.reducer;
