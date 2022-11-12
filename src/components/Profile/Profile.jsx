@@ -53,7 +53,7 @@ function Profile({onLogout}) {
             Текущий город:
             {' '} 
             {currentCityStatus === 'loading' && <small className='text-primary'>Идет загрузка...</small>}
-            {currentCityStatus === 'resolved' && currentCity.cityName}
+            {currentCityStatus === 'resolved' && currentCity?.cityName}
             {currentCityStatus === 'rejected' && <small className='text-danger'>{currentCityError}</small>}
           </Card.Header>
           <Card.Body>

@@ -15,7 +15,7 @@ function ProfilePage({ handleLogout }) {
   }
 
   function handleUpdateCity(values) {
-    dispatch(updateCity({id: currentCity.id, ...values}))
+    dispatch(updateCity({id: currentCity.id, ...values}));
   }
 
   return (
