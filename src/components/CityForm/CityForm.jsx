@@ -5,15 +5,16 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 
-import { Form, Row, Col, Button, Card, Modal, Badge, InputGroup } from 'react-bootstrap';
+import { Form, Row, Col, Button, Card, InputGroup } from 'react-bootstrap';
 import { BsPlusCircleDotted } from 'react-icons/bs';
 
-import * as api from '../../utils/api';
 import { cityFormValidate } from '../../utils/validation';
 import { LAT_REGEX, LON_REGEX } from '../../utils/constants';
 
 import { removeModeFromCity } from '../../store/citySlice';
 
+import ModeCard from '../ModeCard/ModeCard';
+import ModalWithSelect from '../ModalWithSelect/ModalWithSelect';
 import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup';
 import GoBackButton from '../GoBackButton/GoBackButton';
 import Message from '../Message/Message';
@@ -31,9 +32,8 @@ function CityForm({name, city, buttonText, onSubmit}) {
   } = useSelector(state => state.city);
   const [validated, setValidated] = useState(false);
   const [cityModes, setCityModes] = useState([]);  
-  const [selectedMode, setSelectedMode] = useState(null);
-  const [deletedMode, setDeletedMode] = useState(null);
-  const [showAddModal, setShowAddModal] = useState(false);
+  const [deletedModeId, setDeletedModeId] = useState('');
+  const [showSelectModal, setShowSelectModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
   
@@ -65,67 +65,37 @@ function CityForm({name, city, buttonText, onSubmit}) {
   const cityModeCards = cityModes.map(item => {
     return (
       <Col key={item.id}>        
-        <Card 
-          as='button'
-          type='button' 
-          className='shadow-sm w-100 h-100 justify-content-center align-items-center gap-2 p-2 city-form__card overflow-auto' 
-          border='success'
-          onClick={() => handleShowConfirmModal(item)}>          
-          <Badge 
-            pill 
-            bg='danger'
-            text='light' 
-            bsPrefix='city-form__card-badge p-2'>
-            Удалить
-          </Badge>
-          <Card.Img src={item.icon} className='w-50'/>          
-          <Card.Title as='h6'>
-            <small>{item.title}</small>
-          </Card.Title>          
-        </Card>
+        <ModeCard mode={item} onClick={handleShowConfirmModal} />
       </Col>  
     )
   })
 
-  const modeSelect = modes.map((mode) => {
-    if(cityModes.some(item => item.id === mode.id)) {
-      return null;
-    }
-    return (
-      <option key={mode.id} value={mode.id}>
-        {mode.title}
-      </option>
-    );        
+  const selectItems = modes.filter((mode) => {
+    return !cityModes.some(item => item.id === mode.id) 
   });
 
-  function handleCloseAddModal() {
-    setShowAddModal(false);
-    setSelectedMode(null);
+  function handleCloseSelectModal() {
+    setShowSelectModal(false);
   };
-  function handleShowAddModal() {
-    setShowAddModal(true);
+  function handleShowSelectModal() {
+    setShowSelectModal(true);
   }  
   function handleCloseConfirmModal() {
     setShowConfirmModal(false);
   }
-  function handleShowConfirmModal(item) {
+  function handleShowConfirmModal(id) {
     setShowConfirmModal(true);
-    setDeletedMode(item);
+    setDeletedModeId(id);
   };
-    
-  function handleSelectMode(e) {
-    const mode = modes.find(item => item.id === +e.target.value);    
-    setSelectedMode(mode);
-  }
   
-  function handleAddMode() {
-    setCityModes((prevVal) => [...prevVal, selectedMode]);
-    setSelectedMode(null);
+  function handleAddMode(id) {
+    const mode = modes.find(item => item.id === +id);
+    setCityModes((prevVal) => [...prevVal, mode]);    
   } 
   
   function handleDeleteMode() {
-    setCityModes((prevVal) => prevVal.filter((item) => item.id !== deletedMode.id));
-    setDeletedMode(null);
+    setCityModes((prevVal) => prevVal.filter((item) => item.id !== deletedModeId));
+    setDeletedModeId('');
     setShowConfirmModal(false);    
   }
 
@@ -220,10 +190,10 @@ function CityForm({name, city, buttonText, onSubmit}) {
                 as='button'
                 type='button'
                 className='city-form__card h-100 w-100 shadow-sm' 
-                onClick={handleShowAddModal}
+                onClick={handleShowSelectModal}
                 border='success'>
-                <div className='city-form__card-contain d-flex align-items-center justify-content-center'>
-                  <BsPlusCircleDotted className='w-50 h-50' />
+                <div className='position-absolute top-0 end-0 bottom-0 start-0 d-flex align-items-center justify-content-center'>
+                  <BsPlusCircleDotted size={50} />
                 </div>              
               </Card>            
             </Col>     
@@ -272,27 +242,15 @@ function CityForm({name, city, buttonText, onSubmit}) {
 
       {name === 'create' && createCityStatus === 'resolved' && <Message type='success' text='Город создан!' show={showMessage} setShow={setShowMessage}/>}
 
-      <Modal show={showAddModal} onHide={handleCloseAddModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Выбор режима</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form.Select aria-label='выберите режим' onChange={handleSelectMode}>
-            {modeSelect}
-          </Form.Select>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button 
-            variant="secondary" 
-            onClick={handleAddMode}
-            disabled={!selectedMode}>
-            Добавить
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <ModalWithSelect 
+        items={selectItems}
+        show={showSelectModal}
+        onClose={handleCloseSelectModal}
+        onSubmit={handleAddMode}
+      />
 
       <ConfirmationPopup 
-        text={`Удалить режим ${deletedMode?.title}?`}
+        text={`Удалить режим ${deletedModeId?.title}?`}
         show={showConfirmModal}
         onClose={handleCloseConfirmModal}
         onConfirm={handleDeleteMode}
