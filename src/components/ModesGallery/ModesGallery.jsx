@@ -1,7 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Row, Col, Spinner, Alert } from 'react-bootstrap';
+import { Row, Col, Alert } from 'react-bootstrap';
+
 import ModeCard from '../ModeCard/ModeCard';
+import Loader from '../Loader/Loader';
 
 
 
@@ -22,11 +24,8 @@ function ModesGallery() {
   }
 
   return (
-    <section className='mt-3 d-flex flex-column align-items-center'>
-      { getModesStatus ==='loading' && 
-      <Spinner animation="border" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </Spinner> }
+    <section className='mt-3'>
+      { getModesStatus ==='loading' && <Loader /> }
       { getModesStatus ==='resolved' && modes.length === 0 && 
       <Alert variant='primary'>
         Режимы не созданы
