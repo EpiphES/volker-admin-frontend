@@ -39,7 +39,18 @@ const cityFormValidate = values => {
    return errors;
  };
 
+ const modeFormValidate = values => {  
+  const errors = {};
+
+   if (!values.title) {
+     errors.title = 'Поле должно быть заполнено';
+   }
+
+   return errors;
+ };
+
 export {
   loginFormValidate,
   cityFormValidate,
+  modeFormValidate,
 }
