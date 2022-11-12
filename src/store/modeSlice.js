@@ -67,6 +67,11 @@ const modeSlice = createSlice({
   name: 'modes',
   initialState: {
     modes: [],
+    currentMode: null,
+    currentModeStatus: null,
+    currentModeError: null,
+    getModesStatus: null,
+    getModesError: null,
     updateModeStatus: null,
     updateModeError: null,
     createModeStatus: null,
@@ -89,8 +94,29 @@ const modeSlice = createSlice({
     },    
   },
   extraReducers: {
+    [getModes.pending]: (state) => { 
+      state.getModesStatus = 'loading';
+      state.getModesError = null;
+    },
     [getModes.fulfilled]: (state, action) => {
+      state.getModesStatus = 'resolved';
       state.modes = action.payload;
+    },
+    [getModes.rejected]: (state, action) => {
+      state.getModesStatus = 'rejected';
+      state.getModesError = action.payload;
+    },
+    [getModeById.pending]: (state) => { 
+      state.currentModeStatus = 'loading';
+      state.currentModeError = null;
+    },
+    [getModeById.fulfilled]: (state, action) => {
+      state.currentModeStatus = 'resolved';
+      state.currentMode = action.payload;
+    },
+    [getModeById.rejected]: (state, action) => {
+      state.currentModeStatus = 'rejected';
+      state.currentModeError = action.payload;
     },
     [createMode.pending]: (state) => { 
       state.createModeStatus = 'loading';
