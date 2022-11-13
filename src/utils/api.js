@@ -1,4 +1,5 @@
-import { BASE_URL, PROXY } from "./constants";
+import { BASE_URL, PROXY, UPLOAD_FOLDER } from "./constants";
+import { changeFileName } from "./utils";
 
 function checkResponse(res) {
   return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}, ${res.statusText}`);
@@ -9,6 +10,10 @@ function checkSuccess(res) {
     return Promise.reject(`Ошибка: ${res.Error}`);
   }
   return res;  
+}
+
+function checkResponseNoBody(res) {
+  return res.ok ? res : Promise.reject(`Ошибка: ${res.status}, ${res.statusText}`);
 }
 
 function request(url, options) {
@@ -75,7 +80,7 @@ export function updateCity({id, cityName, latitude, longitude, description, mode
     },
     body: JSON.stringify({cityName, latitude, longitude, description, modes})
   })
-  .then((res) => res.ok ? res : Promise.reject(`Ошибка: ${res.status}, ${res.statusText}`)); 
+  .then(checkResponseNoBody); 
 }
 
 export function deleteCity(id) {
@@ -85,7 +90,7 @@ export function deleteCity(id) {
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
     }
   })
-  .then((res) => res.ok ? res : Promise.reject(`Ошибка: ${res.status}, ${res.statusText}`));  
+  .then(checkResponseNoBody);  
 }
 
 export function removeModeFromCity(cityId, modeId) {
@@ -95,7 +100,7 @@ export function removeModeFromCity(cityId, modeId) {
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
     }
   })
-  .then((res) => res.ok ? res : Promise.reject(`Ошибка: ${res.status}, ${res.statusText}`));  
+  .then(checkResponseNoBody);  
 }
 
 export function getAllModes() {
@@ -136,7 +141,7 @@ export function updateMode({id, title, icon, markerTypes}) {
     },
     body: JSON.stringify({title, icon, markerTypes})
   })
-  .then((res) => res.ok ? res : Promise.reject(`Ошибка: ${res.status}, ${res.statusText}`)); 
+  .then(checkResponseNoBody); 
 }
 
 export function deleteMode(id) {
@@ -146,7 +151,7 @@ export function deleteMode(id) {
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
     }
   })
-  .then((res) => res.ok ? res : Promise.reject(`Ошибка: ${res.status}, ${res.statusText}`));  
+  .then(checkResponseNoBody);  
 }
 
 export function createType({markerModeId, title, iconOnMap, colorOnMap}) {
@@ -169,7 +174,7 @@ export function updateType({id, title, iconOnMap, colorOnMap}) {
     },
     body: JSON.stringify({title, iconOnMap, colorOnMap})
   })
-  .then((res) => res.ok ? res : Promise.reject(`Ошибка: ${res.status}, ${res.statusText}`)); 
+  .then(checkResponseNoBody); 
 }
 
 export function deleteType(id) {
@@ -179,5 +184,33 @@ export function deleteType(id) {
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
     }
   })
-  .then((res) => res.ok ? res : Promise.reject(`Ошибка: ${res.status}, ${res.statusText}`));  
+  .then(checkResponseNoBody);  
 }
+
+export function uploadFile(file) {
+  const formData = new FormData();
+  const newFileName = changeFileName(file.name);  
+  formData.append('file', file, newFileName);
+  formData.append('folder', UPLOAD_FOLDER);
+  return fetch(`${PROXY}${BASE_URL}/File/Upload`, {
+    method: 'POST',
+    headers: { 
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    },
+    body: formData,
+  })
+  .then(checkResponse);  
+}
+
+export function deleteFile(fileName) {
+  return fetch(`${PROXY}${BASE_URL}/File/Delete?folder=${UPLOAD_FOLDER}&fileName=${fileName}`, {
+    method: 'POST',
+    headers: { 
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    },
+  })
+  .then(checkResponseNoBody); 
+}
+
+
+
