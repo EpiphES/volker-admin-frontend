@@ -32,6 +32,7 @@ function ModalWithSelect({items, show, onClose, onSubmit}) {
           <Form.Select 
             aria-label='выберите режим' 
             onChange={handleChange}>
+            <option>Выберите режим</option>
             {selectOptions}
           </Form.Select>
           <Button 
