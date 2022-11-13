@@ -5,8 +5,7 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 
-import { Form, Row, Col, Button, Card, InputGroup } from 'react-bootstrap';
-import { BsPlusCircleDotted } from 'react-icons/bs';
+import { Form, Row, Col, Button, InputGroup } from 'react-bootstrap';
 
 import { cityFormValidate } from '../../utils/validation';
 import { LAT_REGEX, LON_REGEX } from '../../utils/constants';
@@ -18,6 +17,7 @@ import ModalWithSelect from '../ModalWithSelect/ModalWithSelect';
 import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup';
 import GoBackButton from '../GoBackButton/GoBackButton';
 import Message from '../Message/Message';
+import AddCard from '../AddCard/AddCard';
 
 function CityForm({name, city, buttonText, onSubmit}) {
   const dispatch = useDispatch();
@@ -32,7 +32,7 @@ function CityForm({name, city, buttonText, onSubmit}) {
   } = useSelector(state => state.city);
   const [validated, setValidated] = useState(false);
   const [cityModes, setCityModes] = useState([]);  
-  const [deletedModeId, setDeletedModeId] = useState('');
+  const [deletedMode, setDeletedMode] = useState('');
   const [showSelectModal, setShowSelectModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
@@ -65,7 +65,7 @@ function CityForm({name, city, buttonText, onSubmit}) {
   const cityModeCards = cityModes.map(item => {
     return (
       <Col key={item.id}>        
-        <ModeCard mode={item} onClick={handleShowConfirmModal} />
+        <ModeCard item={item} onClick={handleShowConfirmModal} />
       </Col>  
     )
   })
@@ -85,7 +85,7 @@ function CityForm({name, city, buttonText, onSubmit}) {
   }
   function handleShowConfirmModal(id) {
     setShowConfirmModal(true);
-    setDeletedModeId(id);
+    setDeletedMode(modes.find((item) => item.id === id));
   };
   
   function handleAddMode(id) {
@@ -94,8 +94,8 @@ function CityForm({name, city, buttonText, onSubmit}) {
   } 
   
   function handleDeleteMode() {
-    setCityModes((prevVal) => prevVal.filter((item) => item.id !== deletedModeId));
-    setDeletedModeId('');
+    setCityModes((prevVal) => prevVal.filter((item) => item.id !== deletedMode.id));
+    setDeletedMode('');
     setShowConfirmModal(false);    
   }
 
@@ -185,17 +185,8 @@ function CityForm({name, city, buttonText, onSubmit}) {
           <h6 className='mb-3'>Pежимы</h6>
           <Row xs={3} sm={4} md={5} lg={6}className='g-2 h-100 mb-3'>
             {cityModeCards}
-            <Col>          
-              <Card
-                as='button'
-                type='button'
-                className='city-form__card h-100 w-100 shadow-sm' 
-                onClick={handleShowSelectModal}
-                border='success'>
-                <div className='position-absolute top-0 end-0 bottom-0 start-0 d-flex align-items-center justify-content-center'>
-                  <BsPlusCircleDotted size={50} />
-                </div>              
-              </Card>            
+            <Col> 
+              < AddCard minHeight={'120px'} onClick={handleShowSelectModal} />       
             </Col>     
           </Row>
 
@@ -250,7 +241,7 @@ function CityForm({name, city, buttonText, onSubmit}) {
       />
 
       <ConfirmationPopup 
-        text={`Удалить режим ${deletedModeId?.title}?`}
+        text={`Удалить режим ${deletedMode?.title}?`}
         show={showConfirmModal}
         onClose={handleCloseConfirmModal}
         onConfirm={handleDeleteMode}
