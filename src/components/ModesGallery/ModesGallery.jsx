@@ -14,7 +14,7 @@ function ModesGallery() {
   const modeCards = modes.map(item => {
     return (
       <Col key={item.id}>        
-        <ModeCard mode={item} onClick={handleClick} edit/>
+        <ModeCard item={item} onClick={handleClick} edit />
       </Col>  
     )
   })
@@ -35,7 +35,7 @@ function ModesGallery() {
         {getModesError}
       </Alert> }
 
-      <Row xs={3} sm={4} md={5} lg={6}className='g-2 h-100'>
+      <Row xs={3} sm={4} md={5} lg={6} className='g-2 h-100 mb-3'>
         {modeCards}
       </Row>
     </section>
