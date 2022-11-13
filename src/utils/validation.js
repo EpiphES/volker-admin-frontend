@@ -24,33 +24,48 @@ const loginFormValidate = values => {
 const cityFormValidate = values => {  
   const errors = {};
 
-   if (!values.cityName) {
-     errors.cityName = 'Поле должно быть заполнено';
-   }
+  if (!values.cityName) {
+    errors.cityName = 'Поле должно быть заполнено';
+  }
 
-   if (!latRegex.test(values.latitude)) {
-     errors.latitude = 'Некорректное значение';
-   }
-   
-   if (!lonRegex.test(values.longitude)) {
-     errors.longitude = 'Некорректное значение';
-   } 
+  if (!latRegex.test(values.latitude)) {
+    errors.latitude = 'Некорректное значение';
+  }
+  
+  if (!lonRegex.test(values.longitude)) {
+    errors.longitude = 'Некорректное значение';
+  } 
 
-   return errors;
+  return errors;
  };
 
  const modeFormValidate = values => {  
   const errors = {};
 
-   if (!values.title) {
-     errors.title = 'Поле должно быть заполнено';
-   }
+  if (!values.title) {
+    errors.title = 'Поле должно быть заполнено';
+  }
 
-   return errors;
+  return errors;
  };
+
+ const typeFormValidate = values => {
+  const errors = {};
+
+  if (!values.title) {
+    errors.title = 'Поле должно быть заполнено';
+  }
+
+  if (!values.color) {
+    errors.color = 'Надо выбрать цвет';
+  }
+
+  return errors;
+ }
 
 export {
   loginFormValidate,
   cityFormValidate,
   modeFormValidate,
+  typeFormValidate,
 }
