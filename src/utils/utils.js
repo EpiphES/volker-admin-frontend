@@ -8,6 +8,12 @@ function changeFileName(fileName) {
   return 'file_' + getRandomName() + '.' + fileType;
 }
 
+function getFileNameFromUrl(url) {
+  const splitUrl = url.split('/');
+  return splitUrl[splitUrl.length-1];
+}
+
 export {
   changeFileName,
+  getFileNameFromUrl
 }
