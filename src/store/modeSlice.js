@@ -90,7 +90,14 @@ const modeSlice = createSlice({
       state.modes = state.modes.filter(mode => mode.id !== action.payload.id);
     },
     changeMode: (state, action) => {
-      state.modes = state.modes.map(mode => mode.id === action.payload.id ? action.payload : mode)
+      state.modes = state.modes.map(mode => {
+        if (mode.id === +action.payload.id) {
+          mode.title = action.payload.title;
+          mode.icon = action.payload.icon;
+          return mode;
+        }
+        return mode;        
+      })
     },    
   },
   extraReducers: {
