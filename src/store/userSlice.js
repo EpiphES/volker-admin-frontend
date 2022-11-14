@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import * as api from '../utils/api';
 
-export const fetchUserInfo = createAsyncThunk(
-  'user/fetchUserInfo',
+export const getUserInfo = createAsyncThunk(
+  'user/getUserInfo',
   async (token, {rejectWithValue}) => {
     try {
       const res = await api.getUserInfo(token);
@@ -29,15 +29,15 @@ const userSlice = createSlice({
     }
   },
   extraReducers: {
-    [fetchUserInfo.pending]: (state) => { 
+    [getUserInfo.pending]: (state) => { 
       state.status = 'loading';
       state.error = null;
     },
-    [fetchUserInfo.fulfilled]: (state, action) => {
+    [getUserInfo.fulfilled]: (state, action) => {
       state.status = 'resolved';
       state.user = action.payload;
     },
-    [fetchUserInfo.rejected]: (state, action) => {
+    [getUserInfo.rejected]: (state, action) => {
       state.status = 'rejected';
       state.error = action.payload;
     },
