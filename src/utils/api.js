@@ -24,7 +24,7 @@ function request(url, options) {
 
 
 export function login({ email, password }) {
-  return request(`${PROXY}${BASE_URL}/Login/Login`, {
+  return request(`${PROXY}${BASE_URL}Login/Login`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ export function login({ email, password }) {
 }
 
 export function getUserInfo(token) {
-  return request(`${PROXY}${BASE_URL}/User/GetUserInfo`, {
+  return request(`${PROXY}${BASE_URL}User/GetUserInfo`, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${token}`,
@@ -43,7 +43,7 @@ export function getUserInfo(token) {
 }
 
 export function getAllCities(isPublished) {
-  return request(`${PROXY}${BASE_URL}/City/GetAllCities?isPublished=${isPublished}`, {
+  return request(`${PROXY}${BASE_URL}City/GetAllCities?isPublished=${isPublished}`, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -52,7 +52,7 @@ export function getAllCities(isPublished) {
 }
 
 export function getCityById(id) {
-  return request(`${PROXY}${BASE_URL}/City/GetCityById?id=${id}`, {
+  return request(`${PROXY}${BASE_URL}City/GetCityById?id=${id}`, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -61,7 +61,7 @@ export function getCityById(id) {
 }
 
 export function createCity({cityName, latitude, longitude, description, modes}) {
-  return request(`${PROXY}${BASE_URL}/City/Create`, {
+  return request(`${PROXY}${BASE_URL}City/Create`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ export function createCity({cityName, latitude, longitude, description, modes}) 
 }
 
 export function updateCity({id, cityName, latitude, longitude, description, modes}) {
-  return fetch(`${PROXY}${BASE_URL}/City/Update?id=${id}`, {
+  return fetch(`${PROXY}${BASE_URL}City/Update?id=${id}`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ export function updateCity({id, cityName, latitude, longitude, description, mode
 }
 
 export function deleteCity(id) {
-  return fetch(`${PROXY}${BASE_URL}/City/Delete?id=${id}`, {
+  return fetch(`${PROXY}${BASE_URL}City/Delete?id=${id}`, {
     method: 'DELETE',
     headers: { 
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -94,7 +94,7 @@ export function deleteCity(id) {
 }
 
 export function removeModeFromCity(cityId, modeId) {
-  return fetch(`${PROXY}${BASE_URL}/City/RemoveModeFromCity?cityId=${cityId}&modeId=${modeId}`, {
+  return fetch(`${PROXY}${BASE_URL}City/RemoveModeFromCity?cityId=${cityId}&modeId=${modeId}`, {
     method: 'DELETE',
     headers: { 
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -104,7 +104,7 @@ export function removeModeFromCity(cityId, modeId) {
 }
 
 export function getAllModes() {
-  return request(`${PROXY}${BASE_URL}/MarkerMode/GetAllMarkerModes`, {
+  return request(`${PROXY}${BASE_URL}MarkerMode/GetAllMarkerModes`, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -113,7 +113,7 @@ export function getAllModes() {
 }
 
 export function getModeById(modeId) {
-  return request(`${PROXY}${BASE_URL}/MarkerMode/GetMarkerModeById?modeId=${modeId}`, {
+  return request(`${PROXY}${BASE_URL}MarkerMode/GetMarkerModeById?modeId=${modeId}`, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -122,7 +122,7 @@ export function getModeById(modeId) {
 }
 
 export function createMode({title, icon, markerTypes}) {
-  return request(`${PROXY}${BASE_URL}/MarkerMode/CreateMode`, {
+  return request(`${PROXY}${BASE_URL}MarkerMode/CreateMode`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
@@ -133,7 +133,7 @@ export function createMode({title, icon, markerTypes}) {
 }
 
 export function updateMode({id, title, icon, markerTypes}) {
-  return fetch(`${PROXY}${BASE_URL}/MarkerMode/UpdateMode?id=${id}`, {
+  return fetch(`${PROXY}${BASE_URL}MarkerMode/UpdateMode?id=${id}`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
@@ -145,7 +145,7 @@ export function updateMode({id, title, icon, markerTypes}) {
 }
 
 export function deleteMode(id) {
-  return fetch(`${PROXY}${BASE_URL}/MarkerMode/DeleteMode?id=${id}`, {
+  return fetch(`${PROXY}${BASE_URL}MarkerMode/DeleteMode?id=${id}`, {
     method: 'DELETE',
     headers: { 
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -155,7 +155,7 @@ export function deleteMode(id) {
 }
 
 export function createType({markerModeId, title, iconOnMap, colorOnMap}) {
-  return request(`${PROXY}${BASE_URL}/MarkerMode/CreateType`, {
+  return request(`${PROXY}${BASE_URL}MarkerMode/CreateType`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
@@ -166,7 +166,7 @@ export function createType({markerModeId, title, iconOnMap, colorOnMap}) {
 }
 
 export function updateType({id, title, iconOnMap, colorOnMap}) {
-  return fetch(`${PROXY}${BASE_URL}/MarkerMode/UpdateType?id=${id}`, {
+  return fetch(`${PROXY}${BASE_URL}MarkerMode/UpdateType?id=${id}`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
@@ -178,7 +178,7 @@ export function updateType({id, title, iconOnMap, colorOnMap}) {
 }
 
 export function deleteType(id) {
-  return fetch(`${PROXY}${BASE_URL}/MarkerMode/DeleteType?id=${id}`, {
+  return fetch(`${PROXY}${BASE_URL}MarkerMode/DeleteType?id=${id}`, {
     method: 'DELETE',
     headers: { 
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -192,7 +192,7 @@ export function uploadFile(file) {
   const newFileName = changeFileName(file.name);  
   formData.append('file', file, newFileName);
   formData.append('folder', UPLOAD_FOLDER);
-  return fetch(`${PROXY}${BASE_URL}/File/Upload`, {
+  return fetch(`${PROXY}${BASE_URL}File/Upload`, {
     method: 'POST',
     headers: { 
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -203,7 +203,7 @@ export function uploadFile(file) {
 }
 
 export function deleteFile(fileName) {
-  return fetch(`${PROXY}${BASE_URL}/File/Delete?folder=${UPLOAD_FOLDER}&fileName=${fileName}`, {
+  return fetch(`${PROXY}${BASE_URL}File/Delete?folder=${UPLOAD_FOLDER}&fileName=${fileName}`, {
     method: 'POST',
     headers: { 
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
