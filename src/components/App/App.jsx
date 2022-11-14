@@ -1,35 +1,38 @@
 import './App.css';
 
-import { useState, useEffect, useCallback } from 'react';
-import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import * as api from '../../utils/api.js';
-import { fetchUserInfo, deleteUser } from '../../store/userSlice';
-import { fetchCities, fetchCurrentCity } from '../../store/citySlice';
+import { getUserInfo, setUser, deleteUser } from '../../store/userSlice';
+import { getCities } from '../../store/citySlice';
+import { getModes } from '../../store/modeSlice';
 
 import Login from '../Login/Login';
-import NotFound from '../NotFound/NotFound';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import Main from '../Main/Main';
 import Markers from '../Markers/Markers';
-import Modes from '../Modes/Modes';
+import ModesPage from '../ModesPage/ModesPage';
 import Stories from '../Stories/Stories';
-import Profile from '../ProfilePage/ProfilePage';
+import ProfilePage from '../ProfilePage/ProfilePage';
 
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
-  const {user, status: userStatus} = useSelector(state => state.user);
   const navigate = useNavigate(); 
   const dispatch = useDispatch();
+  const location = useLocation();
   
-  function handleLogin({email, password}) {
+  function handleLogin({email, password, fromPage}) {
     api
       .login({ email, password })
       .then((res) => {
         localStorage.setItem('token', res.Data);
-        dispatch(fetchUserInfo(res.Data));
+        dispatch(getUserInfo(res.Data));
+        setLoggedIn(true);
+        navigate(fromPage);
       })
       .catch((err) => {
         setLoggedIn(false);
@@ -38,9 +41,10 @@ function App() {
   }
 
   function handleLogout() {
-    localStorage.removeItem('token');
-    dispatch(deleteUser());
     navigate('/login');
+    setLoggedIn(false);
+    localStorage.clear();
+    dispatch(deleteUser());    
   }
   
 
@@ -49,35 +53,38 @@ function App() {
     if (!token) {
       return;
     }
-    dispatch(fetchUserInfo(token));    
-  }, [dispatch]);
-
-  useEffect(() => {
-    if(userStatus === 'resolved') {
+    const path = location.pathname;
+    api.getUserInfo(token)
+    .then((res) => {
+      dispatch(setUser(res));
       setLoggedIn(true);
-      navigate('/');
-      if(user.cityId) {
-         dispatch(fetchCurrentCity(user.cityId));
-      }
-    }
-  }, [userStatus, user, dispatch]);
+      navigate(path);
+    })
+    .catch((err) => {
+      setLoggedIn(false);
+      localStorage.clear();
+      dispatch(deleteUser());
+      console.log(err);
+    })     
+  }, []);
 
-  useEffect(() => {
+  useEffect(() => {    
     if(!loggedIn) {
       return
     }
-    dispatch(fetchCities(false));
-  }, [loggedIn, dispatch])
-
-
-
+    dispatch(getCities(false));
+    dispatch(getModes());
+  }, [loggedIn, dispatch]);
 
   return (
     <div className='app d-flex flex-column'>
       <Routes>
         <Route
           path='/login'
-          element={<Login onLogin={handleLogin} />}
+          element={
+          loggedIn ? 
+          <Navigate to='/' replace='true' /> :
+          <Login onLogin={handleLogin} />}
         />
         <Route
           path='/'
@@ -102,7 +109,7 @@ function App() {
 
           <Route
             path='modes/*'
-            element={<Modes />}
+            element={<ModesPage />}
           />
 
           <Route
@@ -112,13 +119,13 @@ function App() {
 
           <Route
             path='profile/*'
-            element={<Profile handleLogout={handleLogout}/>}
+            element={<ProfilePage handleLogout={handleLogout}/>}
             
           />
         </Route>
         <Route
           path='*'
-          element={<NotFound />}
+          element={<NotFoundPage />}
         />
       </Routes>
     </div>

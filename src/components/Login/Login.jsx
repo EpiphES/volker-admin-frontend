@@ -1,10 +1,11 @@
 import './Login.css';
-import { GiWolfHead } from 'react-icons/gi';
-import { FaEye } from 'react-icons/fa';
-import { FaEyeSlash } from 'react-icons/fa';
 
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useFormik } from 'formik';
+
+import { loginFormValidate } from '../../utils/validation';
+import { EMAIL_REGEX } from '../../utils/constants';
 
 import {
   Form,
@@ -13,12 +14,14 @@ import {
   InputGroup, 
 } from 'react-bootstrap';
 
-import { loginFormValidate } from '../../utils/validation';
-
-import { EMAIL_REGEX } from '../../utils/constants';
+import { GiWolfHead } from 'react-icons/gi';
+import { FaEye } from 'react-icons/fa';
+import { FaEyeSlash } from 'react-icons/fa';
 
 function Login({ onLogin }) {
   const [isPasswordVisible, setPasswordVisible] = useState(false);
+  const location = useLocation();
+  const fromPage = location.state?.from?.pathname || '/';
 
   const formik = useFormik({
     initialValues: {
@@ -27,7 +30,7 @@ function Login({ onLogin }) {
     },
     validate: loginFormValidate,
     onSubmit: values => {
-      onLogin({email: values.email, password: values.password});
+      onLogin({email: values.email, password: values.password, fromPage: fromPage});
     },
   });
 
