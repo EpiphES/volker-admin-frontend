@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-
 import { useSelector, useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 
@@ -10,30 +9,24 @@ import { LAT_REGEX, LON_REGEX } from '../../utils/constants';
 
 import { removeModeFromCity } from '../../store/citySlice';
 
-import ModeCard from '../ModeCard/ModeCard';
+import ItemCard from '../ItemCard/ItemCard';
 import ModalWithSelect from '../ModalWithSelect/ModalWithSelect';
 import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup';
-import GoBackButton from '../GoBackButton/GoBackButton';
-import Message from '../Message/Message';
 import AddCard from '../AddCard/AddCard';
 
 function CityForm({name, city, buttonText, onSubmit}) {
   const dispatch = useDispatch();
   const { modes } = useSelector(state => state.mode);
   const { 
-    updateCityStatus, 
-    updateCityError, 
+    updateCityStatus,  
     createCityStatus, 
-    createCityError,
     removeModeFromCityStatus,
-    removeModeFromCityError,
   } = useSelector(state => state.city);
   const [validated, setValidated] = useState(false);
   const [cityModes, setCityModes] = useState([]);  
   const [deletedMode, setDeletedMode] = useState('');
   const [showSelectModal, setShowSelectModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [showMessage, setShowMessage] = useState(false);
   
   
   const formik = useFormik({
@@ -45,7 +38,9 @@ function CityForm({name, city, buttonText, onSubmit}) {
     },
     validate: cityFormValidate,
     onSubmit: values => {
-      removeModes(); 
+      if(name === 'update') {
+        removeModes(); 
+      }      
       onSubmit({
         cityName: values.cityName,
         latitude: values.latitude, 
@@ -53,17 +48,16 @@ function CityForm({name, city, buttonText, onSubmit}) {
         description: values.description, 
         modes: cityModes,
       });
-      setShowMessage(true);
     },
     onReset: () => {
-      setCityModes(city.modes);
+      setCityModes(city?.modes || []);
     }
   });
 
   const cityModeCards = cityModes.map(item => {
     return (
       <Col key={item.id}>        
-        <ModeCard item={item} onClick={handleShowConfirmModal} />
+        <ItemCard item={item} onClick={handleShowConfirmModal} type='mode' deleteOn/>
       </Col>  
     )
   })
@@ -113,8 +107,7 @@ function CityForm({name, city, buttonText, onSubmit}) {
   }, [city]);
 
   return (
-    <>
-      <GoBackButton />      
+    <>      
       <Form 
         name={`city-form-${name}`}
         onSubmit={(e) => {
@@ -180,13 +173,16 @@ function CityForm({name, city, buttonText, onSubmit}) {
             </InputGroup>          
           </Row>
 
-          <h6 className='mb-3'>Pежимы</h6>
-          <Row xs={3} sm={4} md={5} lg={6}className='g-2 h-100 mb-3'>
-            {cityModeCards}
-            <Col> 
-              < AddCard minHeight={'120px'} onClick={handleShowSelectModal} />       
-            </Col>     
-          </Row>
+          {name === 'update' &&
+            <>
+              <h6 className='mb-3'>Pежимы</h6>
+              <Row xs={3} sm={4} md={5} lg={6}className='g-2 h-100 mb-3'>
+                {cityModeCards}
+                <Col> 
+                  < AddCard minHeight={'120px'} onClick={handleShowSelectModal} />       
+                </Col>     
+              </Row>
+            </>}
 
           <Form.Group>
             <Form.Label className='h6 mb-3'>Описание</Form.Label>
@@ -221,16 +217,6 @@ function CityForm({name, city, buttonText, onSubmit}) {
         </fieldset>
       </Form>
 
-      <GoBackButton />
-      
-      {name === 'update' && (updateCityStatus === 'rejected' || removeModeFromCityStatus === 'rejected') && <Message type='error' text={`${updateCityError || ''} ${removeModeFromCityError || ''}`} show={showMessage} setShow={setShowMessage}/>}
-
-      {name === 'update' && updateCityStatus === 'resolved' && removeModeFromCityStatus === 'resolved' && <Message type='success' text='Город обновлен!' show={showMessage} setShow={setShowMessage}/>}
-
-      {name === 'create' && createCityStatus === 'rejected' && <Message type='error' text={createCityError} show={showMessage} setShow={setShowMessage}/>}
-
-      {name === 'create' && createCityStatus === 'resolved' && <Message type='success' text='Город создан!' show={showMessage} setShow={setShowMessage}/>}
-
       <ModalWithSelect 
         items={selectItems}
         show={showSelectModal}
@@ -239,7 +225,7 @@ function CityForm({name, city, buttonText, onSubmit}) {
       />
 
       <ConfirmationPopup 
-        text={`Удалить режим ${deletedMode?.title}?`}
+        text={`Удалить режим "${deletedMode?.title}"?`}
         show={showConfirmModal}
         onClose={handleCloseConfirmModal}
         onConfirm={handleDeleteMode}

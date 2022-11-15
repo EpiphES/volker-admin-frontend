@@ -1,22 +1,10 @@
 import { Routes, Route } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-
-import { createCity, updateCity } from '../../store/citySlice';
 
 import Profile from '../Profile/Profile';
-import CityForm from '../CityForm/CityForm';
+import CreateCity from '../CreateCity/CreateCity';
+import UpdateCity from '../UpdateCity/UpdateCity';
 
 function ProfilePage({ handleLogout }) {
-  const dispatch = useDispatch();
-  const {currentCity} = useSelector(state => state.city);
-
-  function handleCreateCity(values) {
-    dispatch(createCity(values));
-  }
-
-  function handleUpdateCity(values) {
-    dispatch(updateCity({id: currentCity.id, ...values}));
-  }
 
   return (
     <Routes>
@@ -26,24 +14,11 @@ function ProfilePage({ handleLogout }) {
       />
       <Route
         path='/city/create'
-        element={
-          <CityForm 
-            name='create' 
-            buttonText='Создать' 
-            onSubmit={handleCreateCity}
-          />
-        }
+        element={ <CreateCity /> }
       />
       <Route
         path='/city/update'
-        element={
-          <CityForm 
-            name='update' 
-            city={currentCity} 
-            buttonText='Сохранить'
-            onSubmit={handleUpdateCity}
-          />
-        }
+        element={ <UpdateCity /> }
       />
     </Routes>    
   );
