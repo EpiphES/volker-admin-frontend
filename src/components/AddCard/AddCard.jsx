@@ -5,7 +5,7 @@ import { BsPlusCircleDotted } from 'react-icons/bs';
 function AddCard({minHeight, onClick}) {
   return (
     <Card
-      className='h-100 w-100 shadow-sm' 
+      className='h-100 w-100 shadow-sm bg-warning' 
       onClick={onClick}
       border='success'
       style={{minHeight, cursor: 'pointer'}}>                
