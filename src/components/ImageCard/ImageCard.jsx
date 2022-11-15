@@ -8,7 +8,7 @@ function ImageCard({name, onChange, imageLink}) {
       <Card 
         className='shadow-lg p-2' 
         border='success'
-        style={{width: '120px', minHeight: '12 0px', cursor: 'pointer'}}
+        style={{width: '120px', minHeight: '120px', cursor: 'pointer'}}
         >
         { imageLink &&
         <MdEdit className='position-absolute top-0 end-0 p-1 text-primary' size={30} /> }
