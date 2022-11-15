@@ -1,9 +1,13 @@
 import { Routes, Route } from 'react-router-dom';
 
 import ModesGallery from '../ModesGallery/ModesGallery';
-import SingleMode from '../SingleMode/SingleMode';
+import UpdateMode from '../UpdateMode/UpdateMode';
+import CreateMode from '../CreateMode/CreateMode';
 
 const ModesPage = () => {
+  
+
+
   return (
     <Routes>
       <Route
@@ -12,11 +16,11 @@ const ModesPage = () => {
       />
       <Route
         path='create'
-        element={<SingleMode />}
+        element={<CreateMode />}
       />
       <Route
         path=':modeId'
-        element={<SingleMode />}
+        element={<UpdateMode />}
       />
     </Routes>
   );
