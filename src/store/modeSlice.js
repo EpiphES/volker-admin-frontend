@@ -15,7 +15,7 @@ export const getModes = createAsyncThunk(
 );
 
 export const getModeById = createAsyncThunk(
-  'mode/getModeById',
+  'modes/getModeById',
   async (modeId, {rejectWithValue}) => {
     try {
       const res = await api.getModeById(modeId);
