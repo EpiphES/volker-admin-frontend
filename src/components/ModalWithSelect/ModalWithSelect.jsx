@@ -1,10 +1,12 @@
-import { useState } from 'react';
-import { Modal, Form, Button } from 'react-bootstrap';
+import { useState, useEffect } from 'react';
+import { Modal, Form, Button, InputGroup } from 'react-bootstrap';
+import { BsSearch } from 'react-icons/bs';
 
 function ModalWithSelect({items, show, onClose, onSubmit}) {
-  const [selectedItem, setSelectedItem] = useState(null);  
-  
-  const selectOptions = items.map((item) => {
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectItems, setSelectItems] = useState([]);
+  const selectOptions = selectItems.map((item) => {
     return (
       <option key={item.id} value={item.id}>
         {item.title}
@@ -22,17 +24,44 @@ function ModalWithSelect({items, show, onClose, onSubmit}) {
     setSelectedItem(null);
   }
 
+  function handleSearch(e) {
+    setSearchQuery(e.target.value);
+  }
+
+  useEffect(() => {
+    if(searchQuery) {
+      setSelectItems((prevVal) => {
+        return prevVal.filter(item => item.title.toLowerCase().includes(searchQuery.toLowerCase()));
+      });
+    } else { 
+      setSelectItems(items); 
+    }
+  }, [searchQuery, items]);
+
   return (
     <Modal show={show} onHide={onClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Выбор режима</Modal.Title>
+        <Modal.Title className='d-block'>Выбор режима</Modal.Title>        
       </Modal.Header>
       <Modal.Body>
+        <InputGroup className='mb-2'>
+          <InputGroup.Text>
+            <BsSearch />
+          </InputGroup.Text>
+          <Form.Control
+            placeholder='ключевое слово'
+            aria-label='поиск режима'
+            type='text'
+            value={searchQuery}
+            onChange={handleSearch}
+          />
+        </InputGroup>
         <Form onSubmit={handleSubmit}>
           <Form.Select 
             aria-label='выберите режим' 
-            onChange={handleChange}>
-            <option>Выберите режим</option>
+            onChange={handleChange}
+            htmlSize={10}>
+            {/* <option>Выберите режим</option> */}
             {selectOptions}
           </Form.Select>
           <Button 
