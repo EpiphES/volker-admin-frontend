@@ -165,14 +165,14 @@ export function createType({markerModeId, title, iconOnMap, colorOnMap}) {
   });  
 }
 
-export function updateType({id, title, iconOnMap, colorOnMap}) {
+export function updateType({id, markerModeId, title, iconOnMap, colorOnMap}) {
   return fetch(`${PROXY}${BASE_URL}MarkerMode/UpdateType?id=${id}`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
     },
-    body: JSON.stringify({title, iconOnMap, colorOnMap})
+    body: JSON.stringify({markerModeId, title, iconOnMap, colorOnMap})
   })
   .then(checkResponseNoBody); 
 }
