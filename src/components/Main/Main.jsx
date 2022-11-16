@@ -1,4 +1,3 @@
-import './Main.css';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 
@@ -9,7 +8,7 @@ function Main() {
   return (
     <>
       <Header />
-      <main className='main'>
+      <main style={{paddingTop: '60px'}}>
         <Container>
           <Outlet />
         </Container>
