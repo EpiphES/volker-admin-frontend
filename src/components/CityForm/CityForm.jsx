@@ -179,7 +179,7 @@ function CityForm({name, city, buttonText, onSubmit}) {
               <Row xs={3} sm={4} md={5} lg={6}className='g-2 h-100 mb-3'>
                 {cityModeCards}
                 <Col> 
-                  < AddCard minHeight={'120px'} onClick={handleShowSelectModal} />       
+                  < AddCard minHeight={'100px'} onClick={handleShowSelectModal} />       
                 </Col>     
               </Row>
             </>}
