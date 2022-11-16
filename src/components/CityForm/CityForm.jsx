@@ -9,7 +9,7 @@ import { LAT_REGEX, LON_REGEX } from '../../utils/constants';
 
 import { removeModeFromCity } from '../../store/citySlice';
 
-import ItemCard from '../ItemCard/ItemCard';
+import ModeCard from '../ModeCard/ModeCard';
 import ModalWithSelect from '../ModalWithSelect/ModalWithSelect';
 import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup';
 import AddCard from '../AddCard/AddCard';
@@ -24,7 +24,7 @@ function CityForm({name, city, buttonText, onSubmit}) {
   } = useSelector(state => state.city);
   const [validated, setValidated] = useState(false);
   const [cityModes, setCityModes] = useState([]);  
-  const [deletedMode, setDeletedMode] = useState('');
+  const [deletedMode, setDeletedMode] = useState(null);
   const [showSelectModal, setShowSelectModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   
@@ -57,7 +57,7 @@ function CityForm({name, city, buttonText, onSubmit}) {
   const cityModeCards = cityModes.map(item => {
     return (
       <Col key={item.id}>        
-        <ItemCard item={item} onClick={handleShowConfirmModal} type='mode' deleteOn/>
+        <ModeCard item={item} onClick={handleShowConfirmModal} deleteOn/>
       </Col>  
     )
   })
@@ -87,7 +87,7 @@ function CityForm({name, city, buttonText, onSubmit}) {
   
   function handleDeleteMode() {
     setCityModes((prevVal) => prevVal.filter((item) => item.id !== deletedMode.id));
-    setDeletedMode('');
+    setDeletedMode(null);
     setShowConfirmModal(false);    
   }
 
