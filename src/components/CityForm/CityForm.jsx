@@ -115,7 +115,8 @@ function CityForm({name, city, buttonText, onSubmit}) {
           setValidated(true);        
         }}
         noValidate 
-        className='pt-3 text-center mb-3'
+        className='pt-3 text-center mb-3 mx-auto'
+        style={{maxWidth: '800px'}}
         validated={validated}>
         
         <fieldset disabled={(updateCityStatus === 'loading' || createCityStatus === 'loading' || removeModeFromCityStatus === 'loading')}>
@@ -176,7 +177,7 @@ function CityForm({name, city, buttonText, onSubmit}) {
           {name === 'update' &&
             <>
               <h6 className='mb-3'>Pежимы</h6>
-              <Row xs={3} sm={4} md={5} lg={6}className='g-2 h-100 mb-3'>
+              <Row xs={3} sm={4} md={5} className='g-2 h-100 mb-3'>
                 {cityModeCards}
                 <Col> 
                   < AddCard minHeight={'100px'} onClick={handleShowSelectModal} />       
@@ -188,7 +189,7 @@ function CityForm({name, city, buttonText, onSubmit}) {
             <Form.Label className='h6 mb-3'>Описание</Form.Label>
             <Form.Control 
               as='textarea' 
-              rows={3}
+              rows={5}
               name='description'
               placeholder='Напишите что-нибудь'
               onChange={formik.handleChange}
@@ -198,7 +199,6 @@ function CityForm({name, city, buttonText, onSubmit}) {
 
           <Button
             variant='dark'
-            size='lg'
             type='submit'
             aria-label={buttonText}
             className='mt-4 me-3'>
@@ -206,7 +206,6 @@ function CityForm({name, city, buttonText, onSubmit}) {
           </Button>
           <Button
             variant='dark'
-            size='lg'
             type='reset'
             aria-label='отменить изменения'
             className='mt-4'
