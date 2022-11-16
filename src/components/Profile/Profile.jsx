@@ -35,14 +35,14 @@ function Profile({onLogout}) {
 
   return (
     <>
-      <section className='profile pt-3'>
+      <section className='pt-3'>
         <Card 
           border='dark' className='text-center mb-3'>
           <Card.Header className='fw-bold'>Данные пользователя:</Card.Header>
           <Card.Body>
             <ListGroup variant='flush'>
-              <ListGroup.Item>Email: {user.email}</ListGroup.Item>
-              <ListGroup.Item>Город: {user.cityId ? cities.find(city => city.id === user.cityId).cityName : 'Все'}</ListGroup.Item>
+              <ListGroup.Item>Email: {user?.email}</ListGroup.Item>
+              <ListGroup.Item>Город: {user?.cityId ? cities.find(city => city.id === user.cityId).cityName : 'Все'}</ListGroup.Item>
               <ListGroup.Item>Суперадмин: {user?.isSuperAdmin ? 'Да' : 'Нет'}</ListGroup.Item>
             </ListGroup>
           </Card.Body>
