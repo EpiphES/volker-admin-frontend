@@ -63,13 +63,27 @@ function TypeForm({name, type, buttonText, onSubmit, fileLoading}) {
         setValidated(true);        
       }}
       noValidate 
-      className='pt-3 text-center mb-3'
+      className='text-center'
       validated={validated}>
       <fieldset disabled = {(
         updateTypeStatus === 'loading' ||
         createTypeStatus === 'loading' ||
         fileLoading
       )}>
+        <Form.Group className='mb-3'>
+          <Form.Label className='h6'>Выберите цвет</Form.Label>
+          <InputGroup >
+            <Form.Control
+              type='color'
+              name='color'
+              required
+              onChange={formik.handleChange}
+              value={formik.values.color}
+            />
+            <InputGroup.Text>Закрыть</InputGroup.Text>            
+          </InputGroup>          
+        </Form.Group>
+
         <h6 className='mb-3'>Иконка типа</h6>
         <ImageCard
         name='type'
@@ -92,25 +106,13 @@ function TypeForm({name, type, buttonText, onSubmit, fileLoading}) {
             {formik.errors.title}
           </Form.Control.Feedback>
         </Form.Group>
-        <Form.Group className='mb-3'>
-          <Form.Label>Выберите цвет</Form.Label>
-          <InputGroup >
-            <Form.Control
-              type='color'
-              name='color'
-              required
-              onChange={formik.handleChange}
-              value={formik.values.color}
-            />
-            <InputGroup.Text>Закрыть</InputGroup.Text>            
-          </InputGroup>          
-        </Form.Group>
+        
         <Button
           variant='dark'        
           type='submit'
           aria-label={buttonText}
           className='me-2'>
-          {(updateTypeStatus === 'loading' || createTypeStatus === 'loading' || fileLoading ) ? 'Сохранение...' : buttonText}
+          {(updateTypeStatus === 'loading' || createTypeStatus === 'loading' || fileLoading) ? 'Сохранение...' : buttonText}
         </Button>
         <Button
           variant='dark'
