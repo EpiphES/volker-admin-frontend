@@ -5,7 +5,7 @@ import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-
 import { useDispatch } from 'react-redux';
 
 import * as api from '../../utils/api.js';
-import { getUserInfo, setUser, deleteUser } from '../../store/userSlice';
+import { setUser, deleteUser } from '../../store/userSlice';
 import { getCities } from '../../store/citySlice';
 import { getModes } from '../../store/modeSlice';
 
@@ -30,7 +30,10 @@ function App() {
       .login({ email, password })
       .then((res) => {
         localStorage.setItem('token', res.Data);
-        dispatch(getUserInfo(res.Data));
+        return api.getUserInfo(res.Data);        
+      })
+      .then((res) => {
+        dispatch(setUser(res));
         setLoggedIn(true);
         navigate(fromPage);
       })
