@@ -3,9 +3,9 @@ import { GiWolfHead } from 'react-icons/gi';
 
 import { Link, NavLink, useLocation } from 'react-router-dom';
 
-import { Container, Navbar, Nav } from "react-bootstrap"
+import { Container, Navbar, Nav, Button } from "react-bootstrap"
 
-function Header() {
+function Header({onProfileClick}) {
   const location = useLocation();
   return (
     <header>
@@ -28,6 +28,12 @@ function Header() {
             <Nav className='m-auto' activeKey={location.pathname}>
               <Nav.Link
                 as={NavLink}
+                to='/'
+                eventKey='/'>
+                Главная
+              </Nav.Link>
+              <Nav.Link
+                as={NavLink}
                 to='/markers'
                 eventKey='/markers'>
                 Маркеры
@@ -44,16 +50,14 @@ function Header() {
                 eventKey='/stories'>
                 Сторисы
               </Nav.Link>              
-            </Nav>
-            <Nav activeKey={location.pathname}>
-              <Nav.Link
-                as={NavLink}
-                to='/profile'
-                eventKey='/profile'>
-                Профиль
-              </Nav.Link>
             </Nav>            
           </Navbar.Collapse>
+          <Button
+            variant='outline-light'
+            type='button'
+            aria-label='открыть профиль'
+            onClick={onProfileClick}
+          >Профиль</Button>
         </Container>
       </Navbar>
     </header>

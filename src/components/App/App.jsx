@@ -12,11 +12,13 @@ import { getModes } from '../../store/modeSlice';
 import Login from '../Login/Login';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import Layout from '../Layout/Layout';
 import Main from '../Main/Main';
 import Markers from '../Markers/Markers';
 import ModesPage from '../ModesPage/ModesPage';
 import Stories from '../Stories/Stories';
-import ProfilePage from '../ProfilePage/ProfilePage';
+import CreateCity from '../CreateCity/CreateCity';
+import UpdateCity from '../UpdateCity/UpdateCity';
 
 
 function App() {
@@ -93,17 +95,14 @@ function App() {
           path='/'
           element={
             <ProtectedRoute
-              component={Main}
-              loggedIn={loggedIn}>
+              component={Layout}
+              loggedIn={loggedIn}
+              onLogout={handleLogout}>
             </ProtectedRoute>
           }>
           <Route
           index
-          element={
-            <Navigate 
-              to='/markers'
-              replace='true'
-            />}
+          element={<Main />}
           />
           <Route
             path='markers/*'
@@ -121,9 +120,12 @@ function App() {
           />
 
           <Route
-            path='profile/*'
-            element={<ProfilePage handleLogout={handleLogout}/>}
-            
+            path='/city/create'
+            element={ <CreateCity /> }
+          />
+          <Route
+            path='/city/update'
+            element={ <UpdateCity /> }
           />
         </Route>
         <Route
