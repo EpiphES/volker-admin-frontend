@@ -57,22 +57,24 @@ function Profile({onLogout}) {
             {currentCityStatus === 'rejected' && <small className='text-danger'>{currentCityError}</small>}
           </Card.Header>
           <Card.Body>
-            <Form.Select aria-label='выберите город' className='mb-3' onChange={handleSelectCity}>
+            <Form.Select aria-label='выберите город' onChange={handleSelectCity}>
               <option value={currentCity?.id}>{currentCity? currentCity.cityName : 'Выберите город'}</option>
               {citySelect}
             </Form.Select>
-            <Link to='city/create' className='me-2'>
+            <Link to='city/create' className='me-2 mt-3'>
               <Button 
                 variant='secondary' 
-                aria-label='создать город'>
+                aria-label='создать город'
+                className='mt-3'>
                 Создать
               </Button>
             </Link>
-            <Link to={currentCity ? 'city/update' : null} className='me-2'>
+            <Link to={currentCity ? 'city/update' : null} className='me-2 mt-3'>
               <Button
                 variant='success'
                 disabled={!currentCity}
-                aria-label='редактировать город'>
+                aria-label='редактировать город'
+                className='mt-3'>
                 Редактировать
               </Button>
             </Link>
@@ -81,7 +83,8 @@ function Profile({onLogout}) {
               variant='danger' 
               disabled={!currentCity || deleteCityStatus === 'loading'}
               aria-label='удалить город'
-              onClick={handleShowConfirmModal}>
+              onClick={handleShowConfirmModal}
+              className='mt-3'>
               {deleteCityStatus === 'loading' ? 'Удаление...' : 'Удалить'}
             </Button>
           </Card.Body>
