@@ -6,12 +6,21 @@ import { Card, ListGroup, Form, Button } from 'react-bootstrap';
  
 import { getCurrentCity, deleteCity } from '../../store/citySlice';
 import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup';
+import Message from '../Message/Message';
 
 function Profile({onLogout}) {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const dispatch = useDispatch();
   const {user} = useSelector(state => state.user);
-  const {cities, currentCity, currentCityStatus, currentCityError, deleteCityStatus, deleteCityError } = useSelector(state => state.city);
+  const [showDeleteCityMessage, setShowDeleteCityMessage] = useState(false);
+  const {
+    cities, 
+    currentCity, 
+    currentCityStatus, 
+    currentCityError, 
+    deleteCityStatus, 
+    deleteCityError 
+  } = useSelector(state => state.city);
 
   const citySelect = cities.map(city => {
     return (<option key={city.id} value={city.id}>{city.cityName}</option>)
@@ -91,6 +100,7 @@ function Profile({onLogout}) {
         </Card>
         <Button variant='dark' size='lg' className='w-100' onClick={onLogout}>Выйти</Button>      
       </section>
+
       <ConfirmationPopup 
         text={`Удалить ${currentCity?.cityName}?`}
         show={showConfirmModal}
@@ -98,6 +108,11 @@ function Profile({onLogout}) {
         onConfirm={handleDeleteCity}
         onDecline={handleCloseConfirmModal}
       />
+
+      {deleteCityStatus === 'rejected' && <Message type='danger' text={`${deleteCityError}`} show={showDeleteCityMessage} setShow={setShowDeleteCityMessage} />}
+
+      {deleteCityStatus === 'resolved' && <Message type='success' text='Режим удален!' show={showDeleteCityMessage} setShow={setShowDeleteCityMessage} />}
+
     </>
   )
 }
