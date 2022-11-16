@@ -33,7 +33,7 @@ function CreateCity() {
 
       <GoBackButton />
       
-      {createCityStatus === 'rejected' && <Message type='error' text={createCityError} show={showMessage} setShow={setShowMessage}/>}
+      {createCityStatus === 'rejected' && <Message type='danger' text={createCityError} show={showMessage} setShow={setShowMessage}/>}
 
       {createCityStatus === 'resolved' && <Message type='success' text='Город создан!' show={showMessage} setShow={setShowMessage}/>}      
     </>

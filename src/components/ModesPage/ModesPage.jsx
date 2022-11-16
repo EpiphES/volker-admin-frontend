@@ -28,11 +28,11 @@ const ModesPage = () => {
         />
         <Route
           path=':modeId'
-          element={<UpdateMode showDeleteMessage={setShowMessage}/>}
+          element={<UpdateMode showDeleteModeMessage={setShowMessage}/>}
         />
       </Routes>
     
-      {deleteModeStatus === 'rejected' && <Message type='error' text={`${deleteModeError}`} show={showMessage} setShow={setShowMessage} />}
+      {deleteModeStatus === 'rejected' && <Message type='danger' text={`${deleteModeError}`} show={showMessage} setShow={setShowMessage} />}
 
       {deleteModeStatus === 'resolved' && <Message type='success' text='Режим удален!' show={showMessage} setShow={setShowMessage} />}
     </>

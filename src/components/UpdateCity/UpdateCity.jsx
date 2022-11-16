@@ -37,7 +37,7 @@ function UpdateCity() {
 
       <GoBackButton />
       
-      {(updateCityStatus === 'rejected' || removeModeFromCityStatus === 'rejected') && <Message type='error' text={`${updateCityError || ''} ${removeModeFromCityError || ''}`} show={showMessage} setShow={setShowMessage}/>}
+      {(updateCityStatus === 'rejected' || removeModeFromCityStatus === 'rejected') && <Message type='danger' text={`${updateCityError || ''} ${removeModeFromCityError || ''}`} show={showMessage} setShow={setShowMessage}/>}
 
       {updateCityStatus === 'resolved' && removeModeFromCityStatus !== 'rejected' && <Message type='success' text='Город обновлен!' show={showMessage} setShow={setShowMessage}/>}
     </>
