@@ -145,6 +145,8 @@ const modeSlice = createSlice({
     updateTypeError: null,
     createTypeStatus: null,
     createTypeError: null,
+    deleteTypeStatus: null,
+    deleteTypeError: null,
   },
   reducers: {
     setModes: (state, action) => {
@@ -154,7 +156,7 @@ const modeSlice = createSlice({
       state.currentMode = action.payload;
     },
     addMode: (state, action) => {
-      state.modes.push(action.payload);
+      state.modes.unshift(action.payload);
     },
     removeMode: (state, action) => {
       state.modes = state.modes.filter(mode => mode.id !== +action.payload.id);
@@ -269,6 +271,17 @@ const modeSlice = createSlice({
     [updateType.rejected]: (state, action) => {
       state.updateTypeStatus = 'rejected';
       state.updateTypeError = action.payload;
+    },
+    [deleteType.pending]: (state) => { 
+      state.deleteTypeStatus = 'loading';
+      state.deleteTypeError = null;
+    },    
+    [deleteType.fulfilled]: (state) => {
+      state.deleteTypeStatus = 'resolved';
+    },
+    [deleteType.rejected]: (state, action) => {
+      state.deleteTypeStatus = 'rejected';
+      state.deleteTypeError = action.payload;
     },     
   },
 });
