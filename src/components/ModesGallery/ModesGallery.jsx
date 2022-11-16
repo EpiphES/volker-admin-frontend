@@ -1,26 +1,40 @@
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { Row, Col, Alert } from 'react-bootstrap';
+import { useSelector, useDispatch } from 'react-redux';
+import { Row, Col, Alert, Button } from 'react-bootstrap';
+
+import { getModes } from '../../store/modeSlice';
 
 import ModeCard from '../ModeCard/ModeCard';
 import Loader from '../Loader/Loader';
-
-
+import AddCard from '../AddCard/AddCard';
 
 function ModesGallery() {
-  const { modes, getModesStatus, getModesError } = useSelector(state => state.mode);
+  const dispatch = useDispatch();
+  const { 
+    modes, 
+    getModesStatus,
+    getModesError, 
+  } = useSelector(state => state.mode);
   const navigate = useNavigate(); 
   
   const modeCards = modes.map(item => {
     return (
       <Col key={item.id}>        
-        <ModeCard item={item} onClick={handleClick} edit />
+        <ModeCard item={item} onClick={handleCardClick} />
       </Col>  
     )
   })
 
-  function handleClick(modeId) {
+  function handleCardClick(modeId) {
     navigate(`${modeId}`);
+  }
+
+  function handleAddClick() {
+    navigate('create');
+  }
+
+  function handleGetModes() {
+    dispatch(getModes());
   }
 
   return (
@@ -34,10 +48,25 @@ function ModesGallery() {
       <Alert variant='danger'>
         {getModesError}
       </Alert> }
+      { getModesStatus ==='resolved' &&
+      <>
+        <Button
+          variant='warning'
+          type='button'
+          aria-label='обновить'
+          onClick={handleGetModes}
+          className='mb-3 d-block mx-auto'>
+          Обновить
+        </Button>
 
-      <Row xs={3} sm={4} md={5} lg={6} className='g-2 h-100 mb-3'>
-        {modeCards}
-      </Row>
+        <Row xs={3} sm={4} md={5} lg={6} className='g-2 h-100 mb-3'>
+          <Col>
+            <AddCard minHeight='100px' onClick={handleAddClick} type='mode'/>
+          </Col>
+          {modeCards}        
+        </Row>
+      </>
+      }
     </section>
   )
 }
