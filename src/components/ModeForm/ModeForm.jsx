@@ -86,7 +86,7 @@ function ModeForm({name, mode, buttonText, onSubmit, fileLoading}) {
           </Col>     
         
           <Form.Group as={Col} >
-            <Form.Label className='h5 mb-3' htmlFor='title'>Название режима</Form.Label>
+            <Form.Label className='h5 mb-3 d-block text-start' htmlFor='title'>Название режима</Form.Label>
             <Form.Control 
               type='text'
               name='title'
