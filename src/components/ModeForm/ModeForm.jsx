@@ -8,7 +8,7 @@ import { modeFormValidate } from '../../utils/validation';
 
 import ImageCard from '../ImageCard/ImageCard';
 
-function ModeForm({name, mode, buttonText, onSubmit}) {
+function ModeForm({name, mode, buttonText, onSubmit, fileLoading}) {
   const [modeIcon, setModeIcon] = useState('');
   const [markerTypes, setMarkerTypes] = useState([]);
   const [validated, setValidated] = useState(false);
@@ -73,7 +73,8 @@ function ModeForm({name, mode, buttonText, onSubmit}) {
       >
       <fieldset disabled = {(
         updateModeStatus === 'loading' ||
-        createModeStatus === 'loading'
+        createModeStatus === 'loading' ||
+        fileLoading
       )}>
         <Row>
           <Col xs='auto' md={3} className='d-flex justify-content-center'>
@@ -107,7 +108,7 @@ function ModeForm({name, mode, buttonText, onSubmit}) {
           type='submit'
           aria-label={buttonText}
           className='mt-2'>
-          {(updateModeStatus === 'loading' || createModeStatus === 'loading') ? 'Сохранение...' : buttonText}
+          {(updateModeStatus === 'loading' || createModeStatus === 'loading' || fileLoading) ? 'Сохранение...' : buttonText}
         </Button>
 
         <Button
@@ -121,7 +122,6 @@ function ModeForm({name, mode, buttonText, onSubmit}) {
           className='ms-2 mt-2'>
           Очистить изменения
         </Button>
-
       </fieldset>
     </Form>
     

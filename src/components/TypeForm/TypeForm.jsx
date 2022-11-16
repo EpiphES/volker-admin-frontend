@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 
 import { Form, Button, InputGroup } from 'react-bootstrap';
@@ -7,10 +8,15 @@ import { typeFormValidate } from '../../utils/validation';
 
 import ImageCard from '../ImageCard/ImageCard';
 
-function ModeTypeForm({name, type, buttonText, onSubmit}) {
+function TypeForm({name, type, buttonText, onSubmit, fileLoading}) {
   const [validated, setValidated] = useState(false);
   const [typeIcon, setTypeIcon] = useState('');
   const [iconFile, setIconFile] = useState(null);
+
+  const { 
+    updateTypeStatus,  
+    createTypeStatus, 
+  } = useSelector(state => state.mode);
   
   const formik = useFormik({
     initialValues: {
@@ -20,13 +26,13 @@ function ModeTypeForm({name, type, buttonText, onSubmit}) {
     validate: typeFormValidate,
     onSubmit: values => {
       onSubmit({
+        id: type?.id,
         title: values.title,
         iconFile, 
-        color: values.color,        
+        colorOnMap: values.color,
+        prevIcon: type?.iconOnMap,        
       });
     },
-    onReset: () => {      
-    }
   });
 
   function handleIconSelect(event) {
@@ -59,6 +65,11 @@ function ModeTypeForm({name, type, buttonText, onSubmit}) {
       noValidate 
       className='pt-3 text-center mb-3'
       validated={validated}>
+      <fieldset disabled = {(
+        updateTypeStatus === 'loading' ||
+        createTypeStatus === 'loading' ||
+        fileLoading
+      )}>
         <h6 className='mb-3'>Иконка типа</h6>
         <ImageCard
         name='type'
@@ -99,20 +110,21 @@ function ModeTypeForm({name, type, buttonText, onSubmit}) {
           type='submit'
           aria-label={buttonText}
           className='me-2'>
-          {buttonText}
+          {(updateTypeStatus === 'loading' || createTypeStatus === 'loading' || fileLoading ) ? 'Сохранение...' : buttonText}
         </Button>
         <Button
           variant='dark'
           type='reset'
-          aria-label='отменить изменения'
+          aria-label='очистить'
           onClick={() => {
             formik.handleReset();
             handleIconReset();
           }}>
-          Отменить изменения
+          Очистить
         </Button>
+      </fieldset>
     </Form>
   )
 }
 
-export default ModeTypeForm;
+export default TypeForm;
