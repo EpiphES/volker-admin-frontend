@@ -9,7 +9,7 @@ function AddCard({minHeight, onClick}) {
       onClick={onClick}
       border='success'
       style={{minHeight, cursor: 'pointer'}}>                
-      <BsPlusCircleDotted size={50} className='m-auto'/>                             
+      <BsPlusCircleDotted size={60} className='m-auto'/>                             
     </Card>
   )
 }
