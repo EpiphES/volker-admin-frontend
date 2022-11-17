@@ -4,9 +4,9 @@ import { BsPlusCircleDotted } from 'react-icons/bs';
 
 function ImageCard({name, onChange, imageLink}) {
   return (
-    <Form.Label htmlFor={`${name}-icon`}>
+    <Form.Label htmlFor={`${name}-icon`} className='d-block'>
       <Card 
-        className='shadow-lg p-2' 
+        className='shadow-lg p-2 mx-auto' 
         border='success'
         style={{width: '120px', minHeight: '120px', cursor: 'pointer'}}
         >
