@@ -131,13 +131,13 @@ function CityForm({name, city, buttonText, onSubmit}) {
               onChange={formik.handleChange}
               value={formik.values.cityName}
             />
-            <Form.Control.Feedback type="invalid">
+            <Form.Control.Feedback type='invalid'>
               {formik.errors.cityName}
             </Form.Control.Feedback>
           </Form.Group>
 
           <h6 className='mb-3'>Координаты</h6>
-          <Row className="mb-3">
+          <Row className='mb-3'>
             <InputGroup as={Col} hasValidation className='align-items-start'>
               <InputGroup.Text>
                 Lat:
@@ -150,7 +150,7 @@ function CityForm({name, city, buttonText, onSubmit}) {
                 onChange={formik.handleChange}
                 value={formik.values.latitude}
               />
-              <Form.Control.Feedback type="invalid">
+              <Form.Control.Feedback type='invalid'>
                 {formik.errors.latitude}
               </Form.Control.Feedback>
             </InputGroup>         
@@ -168,7 +168,7 @@ function CityForm({name, city, buttonText, onSubmit}) {
               onChange={formik.handleChange}
               value={formik.values.longitude} 
               />
-              <Form.Control.Feedback type="invalid">
+              <Form.Control.Feedback type='invalid'>
                 {formik.errors.longitude}
               </Form.Control.Feedback>
             </InputGroup>          
