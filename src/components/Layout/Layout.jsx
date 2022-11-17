@@ -26,7 +26,12 @@ function Layout({onLogout}) {
         </Container>
       </main>      
       <Footer />
-      <Offcanvas show={showProfile} onHide={handleCloseProfile} scroll={true} backdrop={false}>
+      <Offcanvas 
+        show={showProfile} 
+        onHide={handleCloseProfile} 
+        scroll={true} 
+        backdrop={false}
+        placement='end'>
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Профиль</Offcanvas.Title>
         </Offcanvas.Header>
