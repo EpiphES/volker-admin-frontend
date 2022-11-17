@@ -48,7 +48,7 @@ function Header({onProfileClick}) {
                 as={NavLink}
                 to='/stories'
                 eventKey='/stories'>
-                Сторисы
+                Истории
               </Nav.Link>              
             </Nav>            
           </Navbar.Collapse>
