@@ -10,12 +10,12 @@ import AddCard from '../AddCard/AddCard';
 
 function ModesGallery() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { 
     modes, 
     getModesStatus,
     getModesError, 
-  } = useSelector(state => state.mode);
-  const navigate = useNavigate(); 
+  } = useSelector(state => state.mode); 
   
   const modeCards = modes.map(item => {
     return (
@@ -23,7 +23,7 @@ function ModesGallery() {
         <ModeCard item={item} onClick={handleCardClick} />
       </Col>  
     )
-  })
+  });
 
   function handleCardClick(modeId) {
     navigate(`${modeId}`);
@@ -59,7 +59,7 @@ function ModesGallery() {
           Обновить
         </Button>
 
-        <Row xs={3} sm={4} md={5} lg={6} className='g-2 h-100 mb-3'>
+        <Row xs={3} sm={4} md={5} lg={6} className='g-2 h-100'>
           <Col>
             <AddCard minHeight='100px' onClick={handleAddClick} type='mode'/>
           </Col>

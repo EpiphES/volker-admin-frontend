@@ -23,7 +23,7 @@ function TypesGallery({onUpdate, onDelete, onAddClick}) {
   return (
     <>     
       <h5 className='mb-3 text-center'>Типы</h5>
-      <Row xs={2} sm={3} md={4} lg={5}className='g-2 h-100 mb-3'>
+      <Row xs={2} sm={3} md={4} lg={5}className='g-2 h-100'>
         {typeCards}
         <Col> 
           <AddCard 
