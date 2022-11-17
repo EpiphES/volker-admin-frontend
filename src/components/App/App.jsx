@@ -14,7 +14,7 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import Layout from '../Layout/Layout';
 import Main from '../Main/Main';
-import Markers from '../Markers/Markers';
+import MarkersPage from '../MarkersPage/MarkersPage';
 import ModesPage from '../ModesPage/ModesPage';
 import Stories from '../Stories/Stories';
 import CreateCity from '../CreateCity/CreateCity';
@@ -106,7 +106,7 @@ function App() {
           />
           <Route
             path='markers/*'
-            element={<Markers />}
+            element={<MarkersPage />}
           />
 
           <Route
