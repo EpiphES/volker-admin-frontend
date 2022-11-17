@@ -8,7 +8,7 @@ import CreateMode from '../CreateMode/CreateMode';
 import Message from '../Message/Message';
 
 
-const ModesPage = () => {
+function ModesPage() {
   const [showMessage, setShowMessage] = useState(false);
   const { 
     deleteModeStatus, 
