@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 
-import { Form, Button, Row, Col } from 'react-bootstrap';
+import { Form, Button} from 'react-bootstrap';
 
 import { modeFormValidate } from '../../utils/validation';
 
@@ -75,18 +75,9 @@ function ModeForm({name, mode, buttonText, onSubmit, fileLoading}) {
         updateModeStatus === 'loading' ||
         createModeStatus === 'loading' ||
         fileLoading
-      )}>
-        <Row>
-          <Col xs='auto' md={3} className='d-flex justify-content-center'>
-            <ImageCard 
-              name='mode'
-              onChange={handleIconSelect}
-              imageLink={modeIcon}
-            />
-          </Col>     
-        
-          <Form.Group as={Col} >
-            <Form.Label className='h5 mb-3 d-block text-start' htmlFor='title'>Название режима</Form.Label>
+        )}>
+        <Form.Group className='mb-3'>
+            <Form.Label className='h6 mb-2' htmlFor='title'>Название режима</Form.Label>
             <Form.Control 
               type='text'
               name='title'
@@ -100,14 +91,20 @@ function ModeForm({name, mode, buttonText, onSubmit, fileLoading}) {
             <Form.Control.Feedback type="invalid">
               {formik.errors.title}
             </Form.Control.Feedback>
-          </Form.Group>      
-        </Row>
+          </Form.Group>
 
+        <h6 className='mb-2'>Иконка режима</h6>
+        <ImageCard 
+          name='mode'
+          onChange={handleIconSelect}
+          imageLink={modeIcon}
+        />
+          
         <Button
           variant='dark'        
           type='submit'
           aria-label={buttonText}
-          className='mt-2'>
+          className='mt-3'>
           {(updateModeStatus === 'loading' || createModeStatus === 'loading' || fileLoading) ? 'Сохранение...' : buttonText}
         </Button>
 
@@ -119,7 +116,7 @@ function ModeForm({name, mode, buttonText, onSubmit, fileLoading}) {
             formik.handleReset();
             handleIconReset();
           }}
-          className='ms-2 mt-2'>
+          className='ms-2 mt-3'>
           Очистить изменения
         </Button>
       </fieldset>
