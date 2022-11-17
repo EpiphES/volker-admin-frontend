@@ -61,7 +61,7 @@ function ModesGallery() {
 
         <Row xs={3} sm={4} md={5} lg={6} className='g-2 h-100'>
           <Col>
-            <AddCard minHeight='100px' onClick={handleAddClick} type='mode'/>
+            <AddCard minHeight='100px' onClick={handleAddClick}/>
           </Col>
           {modeCards}        
         </Row>
