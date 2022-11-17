@@ -115,28 +115,28 @@ const markerSlice = createSlice({
   },
   extraReducers: {
     [getMarkers.pending]: (state) => { 
-      state.getModesStatus = 'loading';
-      state.getModesError = null;
+      state.getMarkersStatus = 'loading';
+      state.getMarkersError = null;
     },
     [getMarkers.fulfilled]: (state, action) => {
-      state.getModesStatus = 'resolved';
-      state.modes = action.payload;
+      state.getMarkersStatus = 'resolved';
+      state.markers = action.payload;
     },
     [getMarkers.rejected]: (state, action) => {
-      state.getModesStatus = 'rejected';
-      state.getModesError = action.payload;
+      state.getMarkersStatus = 'rejected';
+      state.getMarkersError = action.payload;
     },
     [getMarkerById.pending]: (state) => { 
-      state.currentModeStatus = 'loading';
-      state.currentModeError = null;
+      state.currentMarkerStatus = 'loading';
+      state.currentMarkerError = null;
     },
     [getMarkerById.fulfilled]: (state, action) => {
-      state.currentModeStatus = 'resolved';
-      state.currentMode = action.payload;
+      state.currentMarkerStatus = 'resolved';
+      state.currentMarker = action.payload;
     },
     [getMarkerById.rejected]: (state, action) => {
-      state.currentModeStatus = 'rejected';
-      state.currentModeError = action.payload;
+      state.currentMarkerStatus = 'rejected';
+      state.currentMarkerError = action.payload;
     },
     [createMarker.pending]: (state) => { 
       state.createMarkerStatus = 'loading';
@@ -162,7 +162,7 @@ const markerSlice = createSlice({
     },    
     [deleteMarker.pending]: (state) => { 
       state.deleteMarkerStatus = 'loading';
-      state.deleteModeError = null;
+      state.deleteMarkerError = null;
     },    
     [deleteMarker.fulfilled]: (state) => {
       state.deleteMarkerStatus = 'resolved';
