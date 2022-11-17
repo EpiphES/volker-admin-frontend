@@ -82,9 +82,11 @@ function UpdateMode({showDeleteModeMessage}) {
       { currentModeStatus === 'loading' && <Loader />}
       { currentModeStatus === 'resolved' &&
       <>
-        <Card 
-          className='shadow-sm mb-3 mt-2 p-3'
-          border='primary'>
+        <Card
+          body
+          className='shadow-sm mb-3 mt-2 mx-auto'
+          border='primary'
+          style={{maxWidth: '800px'}}>
           <ModeForm 
             name='update'
             mode={currentMode}
@@ -94,9 +96,11 @@ function UpdateMode({showDeleteModeMessage}) {
           />
         </Card>
 
-        <Card 
-          className='shadow-sm mb-4 mt-2 p-3'
-          border='primary'> 
+        <Card
+          body 
+          className='shadow-sm mb-4 mt-2 mx-auto'
+          border='primary'
+          style={{maxWidth: '800px'}}> 
           <TypesSection modeId={+modeId}/>
         </Card>
 

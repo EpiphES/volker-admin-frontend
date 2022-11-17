@@ -47,8 +47,10 @@ function CreateMode() {
   return (
     <>
       <GoBackButton />
-      <Card 
-        className='shadow-sm mb-3 mt-2 p-3'
+      <Card
+        body 
+        className='shadow-sm mb-3 mt-2 mx-auto'
+        style={{maxWidth: '800px'}}
         border='primary'>
         <ModeForm 
           name='create'          
