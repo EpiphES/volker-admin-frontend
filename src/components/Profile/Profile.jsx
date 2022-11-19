@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Card, ListGroup, Form, Button } from 'react-bootstrap';
  
 import { getCurrentCity, deleteCity } from '../../store/citySlice';
+
 import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup';
 import Message from '../Message/Message';
 
@@ -60,14 +61,17 @@ function Profile({onLogout}) {
           border='dark' className='text-center mb-5'>
           <Card.Header className='fw-bold'>
             Текущий город:
-            {' '} 
+            {' '}
+            {!currentCity && !currentCityStatus && 'Не выбран'}
             {currentCityStatus === 'loading' && <small className='text-primary'>Идет загрузка...</small>}
             {currentCityStatus === 'resolved' && currentCity?.cityName}
             {currentCityStatus === 'rejected' && <small className='text-danger'>{currentCityError}</small>}
           </Card.Header>
           <Card.Body>
-            <Form.Select aria-label='выберите город' onChange={handleSelectCity}>
-              <option value={currentCity?.id}>{currentCity? currentCity.cityName : 'Выберите город'}</option>
+            <Form.Select 
+              aria-label='выберите город' onChange={handleSelectCity}
+              value={currentCity?.id || ''}>
+              <option disabled value=''>Выберите город</option>
               {citySelect}
             </Form.Select>
             <Link to='city/create' className='me-2 mt-3'>
