@@ -3,7 +3,7 @@ import { Modal, Form, Button, InputGroup } from 'react-bootstrap';
 import { BsSearch } from 'react-icons/bs';
 
 function ModalWithSelect({items, show, onClose, onSubmit}) {
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedId, setSelectedId] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectItems, setSelectItems] = useState([]);
   const selectOptions = selectItems.map((item) => {
@@ -15,13 +15,13 @@ function ModalWithSelect({items, show, onClose, onSubmit}) {
   })
 
   function handleChange(e) {
-    setSelectedItem({id: e.target.value});
+    setSelectedId(e.target.value);
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    onSubmit(selectedItem.id);
-    setSelectedItem(null);
+    onSubmit(selectedId);
+    setSelectedId('');
   }
 
   function handleSearch(e) {
@@ -60,14 +60,15 @@ function ModalWithSelect({items, show, onClose, onSubmit}) {
           <Form.Select 
             aria-label='выберите режим' 
             onChange={handleChange}
-            htmlSize={10}>
-            {/* <option>Выберите режим</option> */}
+            htmlSize={10}
+            defaultValue=''>
+            <option disabled value=''>Выберите режим</option>
             {selectOptions}
           </Form.Select>
           <Button 
             variant="secondary"
             type='submit' 
-            disabled={!selectedItem}
+            disabled={!selectedId}
             className='d-block mt-3 ms-auto'
             >
             Добавить
