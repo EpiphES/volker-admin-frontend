@@ -96,6 +96,9 @@ const citySlice = createSlice({
     setCities: (state, action) => {
       state.cities = action.payload;
     },
+    setCurrentCity: (state, action) => {
+      state.currentCity = action.payload;
+    },
     addCity: (state, action) => {
       state.cities.push(action.payload);
     },
@@ -172,6 +175,6 @@ const citySlice = createSlice({
   },
 });
 
-export const { setCities, addCity, changeCity, removeCity } = citySlice.actions;
+export const { setCities, setCurrentCity, addCity, changeCity, removeCity } = citySlice.actions;
 
 export default citySlice.reducer;
