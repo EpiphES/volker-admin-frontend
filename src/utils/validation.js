@@ -28,11 +28,15 @@ const cityFormValidate = values => {
     errors.cityName = 'Поле должно быть заполнено';
   }
 
-  if (!latRegex.test(values.latitude)) {
+  if(values.latitude === '') {
+    errors.latitude = 'Введите координаты';
+  } else if (!latRegex.test(values.latitude)) {
     errors.latitude = 'Некорректное значение';
   }
-  
-  if (!lonRegex.test(values.longitude)) {
+
+  if(values.longitude === '') {
+    errors.longitude = 'Введите координаты';
+  } else if (!lonRegex.test(values.longitude)) {
     errors.longitude = 'Некорректное значение';
   } 
 
@@ -61,11 +65,42 @@ const cityFormValidate = values => {
   }
 
   return errors;
- }
+};
+
+const markerFormValidate = values => {  
+  const errors = {};
+
+  if (!values.title) {
+    errors.title = 'Поле должно быть заполнено';
+  }
+
+  if(!values.cityId) {
+    errors.cityId = 'Необходимо выбрать город';
+  }
+
+  if(!values.latitude) {
+    errors.latitude = 'Введите координаты';
+  } else if (!latRegex.test(values.latitude)) {
+    errors.latitude = 'Некорректное значение';
+  }
+
+  if(!values.longitude) {
+    errors.longitude = 'Введите координаты';
+  } else if (!lonRegex.test(values.longitude)) {
+    errors.longitude = 'Некорректное значение';
+  }
+
+  if(!values.modeType) {
+    errors.modeType = 'Необходимо выбрать режим';
+  }
+
+  return errors;
+ };
 
 export {
   loginFormValidate,
   cityFormValidate,
   modeFormValidate,
   typeFormValidate,
+  markerFormValidate
 }
