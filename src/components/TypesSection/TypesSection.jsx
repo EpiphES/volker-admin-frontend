@@ -127,10 +127,13 @@ function TypesSection({modeId}) {
   return (
     <>
       <section>
+        <h5 className='mb-3 text-center'>Типы</h5>
         <TypesGallery
+          markerTypes={currentMode.markerTypes}
           onUpdate={handleOpenUpdateModal}
           onDelete={handleShowConfirmModal}
           onAddClick={handleOpenCreateModal}
+          place='mode'
         />
       </section>
 
