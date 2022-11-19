@@ -282,7 +282,7 @@ const modeSlice = createSlice({
     [deleteType.rejected]: (state, action) => {
       state.deleteTypeStatus = 'rejected';
       state.deleteTypeError = action.payload;
-    },     
+    },
   },
 });
 export const { setModes, setCurrentMode, addMode, changeMode, removeMode, addType, changeType, removeType } = modeSlice.actions;
