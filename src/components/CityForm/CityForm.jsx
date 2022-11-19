@@ -25,15 +25,15 @@ function CityForm({name, city, buttonText, onSubmit}) {
   const [validated, setValidated] = useState(false);
   const [cityModes, setCityModes] = useState([]);  
   const [deletedMode, setDeletedMode] = useState(null);
-  const [showSelectModal, setShowSelectModal] = useState(false);
+  const [showModeSelectModal, setShowModeSelectModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   
   
   const formik = useFormik({
     initialValues: {
       cityName: city?.cityName || '',
-      latitude: city?.latitude || 0,
-      longitude: city?.longitude || 0,
+      latitude: city?.latitude || '',
+      longitude: city?.longitude || '',
       description: city?.description || '',
     },
     validate: cityFormValidate,
@@ -66,11 +66,11 @@ function CityForm({name, city, buttonText, onSubmit}) {
     return !cityModes.some(item => item.id === mode.id) 
   });
 
-  function handleCloseSelectModal() {
-    setShowSelectModal(false);
+  function handleCloseModeSelectModal() {
+    setShowModeSelectModal(false);
   };
-  function handleShowSelectModal() {
-    setShowSelectModal(true);
+  function handleShowModeSelectModal() {
+    setShowModeSelectModal(true);
   }  
   function handleCloseConfirmModal() {
     setShowConfirmModal(false);
@@ -121,11 +121,12 @@ function CityForm({name, city, buttonText, onSubmit}) {
         
         <fieldset disabled={(updateCityStatus === 'loading' || createCityStatus === 'loading' || removeModeFromCityStatus === 'loading')}>
           <Form.Group className='mb-3' >
-            <Form.Label className='h6 mb-3'>Название города</Form.Label>
+            <Form.Label className='h6 mb-3' htmlFor={`cityName-city-${name}`}>Название города</Form.Label>
             <Form.Control 
               type='text'
               name='cityName' 
               placeholder='Введите название'
+              id={`cityName-city-${name}`}
               required 
               autoFocus
               onChange={formik.handleChange}
@@ -146,6 +147,7 @@ function CityForm({name, city, buttonText, onSubmit}) {
                 type='text'
                 name='latitude' 
                 placeholder='Широта'
+                required
                 pattern={LAT_REGEX}
                 onChange={formik.handleChange}
                 value={formik.values.latitude}
@@ -153,9 +155,8 @@ function CityForm({name, city, buttonText, onSubmit}) {
               <Form.Control.Feedback type='invalid'>
                 {formik.errors.latitude}
               </Form.Control.Feedback>
-            </InputGroup>         
+            </InputGroup>
 
-            
             <InputGroup as={Col} hasValidation className='align-items-start'>
               <InputGroup.Text>
                 Lon:
@@ -164,6 +165,7 @@ function CityForm({name, city, buttonText, onSubmit}) {
               type='text'
               name='longitude' 
               placeholder='Долгота'
+              required
               pattern={LON_REGEX}
               onChange={formik.handleChange}
               value={formik.values.longitude} 
@@ -180,17 +182,18 @@ function CityForm({name, city, buttonText, onSubmit}) {
               <Row xs={3} sm={4} md={5} className='g-2 h-100 mb-3'>
                 {cityModeCards}
                 <Col> 
-                  < AddCard minHeight={'100px'} onClick={handleShowSelectModal} />       
+                  < AddCard minHeight={'100px'} onClick={handleShowModeSelectModal} />       
                 </Col>     
               </Row>
             </>}
 
           <Form.Group>
-            <Form.Label className='h6 mb-3'>Описание</Form.Label>
+            <Form.Label className='h6 mb-3' htmlFor={`description-city-${name}`}>Описание</Form.Label>
             <Form.Control 
               as='textarea' 
               rows={5}
               name='description'
+              id={`description-city-${name}`}
               placeholder='Напишите что-нибудь'
               onChange={formik.handleChange}
               value={formik.values.description}
@@ -218,8 +221,8 @@ function CityForm({name, city, buttonText, onSubmit}) {
 
       <ModalWithSelect 
         items={selectItems}
-        show={showSelectModal}
-        onClose={handleCloseSelectModal}
+        show={showModeSelectModal}
+        onClose={handleCloseModeSelectModal}
         onSubmit={handleAddMode}
       />
 
