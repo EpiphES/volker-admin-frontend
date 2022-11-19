@@ -1,5 +1,3 @@
-import './App.css';
-
 import { useState, useEffect } from 'react';
 import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -82,7 +80,8 @@ function App() {
   }, [loggedIn, dispatch]);
 
   return (
-    <div className='app d-flex flex-column'>
+    <div className='d-flex flex-column'
+    style={{minHeight: '100vh'}}>
       <Routes>
         <Route
           path='/login'
