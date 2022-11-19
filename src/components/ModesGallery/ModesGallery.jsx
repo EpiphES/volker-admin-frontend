@@ -7,6 +7,7 @@ import { getModes } from '../../store/modeSlice';
 import ModeCard from '../ModeCard/ModeCard';
 import Loader from '../Loader/Loader';
 import AddCard from '../AddCard/AddCard';
+import BtnScrollUp from '../BtnScrollUp/BtnScrollUp';
 
 function ModesGallery() {
   const dispatch = useDispatch();
@@ -65,6 +66,8 @@ function ModesGallery() {
           </Col>
           {modeCards}        
         </Row>
+
+        <BtnScrollUp />
       </>
       }
     </section>
