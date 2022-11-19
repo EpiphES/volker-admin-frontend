@@ -60,7 +60,6 @@ function ModeForm({name, mode, buttonText, onSubmit, fileLoading}) {
   }, [iconFile, mode]);
 
   return (
-    <>
     <Form 
       name={`mode-form-${name}`}
       onSubmit={(e) => {
@@ -71,27 +70,27 @@ function ModeForm({name, mode, buttonText, onSubmit, fileLoading}) {
       validated={validated}
       className='text-center'
       >
-      <fieldset disabled = {(
+      <fieldset disabled={(
         updateModeStatus === 'loading' ||
         createModeStatus === 'loading' ||
         fileLoading
         )}>
         <Form.Group className='mb-3'>
-            <Form.Label className='h6 mb-2' htmlFor='title'>Название режима</Form.Label>
-            <Form.Control 
-              type='text'
-              name='title'
-              id='title' 
-              placeholder='Введите название'
-              required 
-              autoFocus
-              onChange={formik.handleChange}
-              value={formik.values.title}
-            />
-            <Form.Control.Feedback type="invalid">
-              {formik.errors.title}
-            </Form.Control.Feedback>
-          </Form.Group>
+          <Form.Label className='h6 mb-2' htmlFor={`title-mode-${name}`}>Название режима</Form.Label>
+          <Form.Control 
+            type='text'
+            name='title'
+            id={`title-mode-${name}`} 
+            placeholder='Введите название'
+            required 
+            autoFocus
+            onChange={formik.handleChange}
+            value={formik.values.title}
+          />
+          <Form.Control.Feedback type="invalid">
+            {formik.errors.title}
+          </Form.Control.Feedback>
+        </Form.Group>
 
         <h6 className='mb-2'>Иконка режима</h6>
         <ImageCard 
@@ -121,8 +120,6 @@ function ModeForm({name, mode, buttonText, onSubmit, fileLoading}) {
         </Button>
       </fieldset>
     </Form>
-    
-    </>
   )
 }
 
