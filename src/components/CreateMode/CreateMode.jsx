@@ -9,6 +9,7 @@ import { BASE_URL } from '../../utils/constants';
 
 import GoBackButton from '../GoBackButton/GoBackButton';
 import ModeForm from '../ModeForm/ModeForm';
+import Message from '../Message/Message';
 
 function CreateMode() {
   const dispatch = useDispatch();
@@ -60,6 +61,12 @@ function CreateMode() {
         >
         </ModeForm>
       </Card>
+
+      {createModeStatus === 'rejected' && <Message type='danger' text={`${createModeError}`} show={showCreateModeMessage} setShow={setShowCreateModeMessage} />}
+
+      {createModeStatus === 'resolved' && <Message type='success' text='Режим обновлен!' show={showCreateModeMessage} setShow={setShowCreateModeMessage} />}
+
+      {uploadFileError && <Message type='danger' text={`${uploadFileError}`} show={showUploadFileError} setShow={setShowUploadFileError} />} 
     </>
   )
 }
