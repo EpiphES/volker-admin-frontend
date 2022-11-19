@@ -30,7 +30,6 @@ function Layout({onLogout}) {
         show={showProfile} 
         onHide={handleCloseProfile} 
         scroll={true} 
-        backdrop={false}
         placement='end'>
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Профиль</Offcanvas.Title>
