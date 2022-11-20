@@ -35,10 +35,6 @@ function MarkersGallery() {
   return (
     <>
       <section className='mt-3'>
-        { !currentCity && 
-          <Alert variant='primary'>
-            Выберите город в разделе "Профиль"
-          </Alert> }
         { getMarkersStatus ==='loading' && <Loader /> }
         { getMarkersStatus ==='resolved' && markers.length === 0 && 
         <Alert variant='primary'>
@@ -48,7 +44,7 @@ function MarkersGallery() {
           <Alert variant='danger'>
             {getMarkersError}
           </Alert> }
-        { getMarkersStatus ==='resolved' && currentCity &&
+        { (getMarkersStatus ==='resolved' || !currentCity) && 
         <Row xs={2} sm={3} md={4} lg={5} className='g-2 h-100 mb-3'>
           <Col>
             <AddCard minHeight='150px' onClick={handleAddClick} type='mode'/>
