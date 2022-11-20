@@ -34,7 +34,7 @@ function UpdateMode({showDeleteModeMessage}) {
     updateModeError, 
   } = useSelector(state => state.mode); 
 
-  function handleUpdateMode({title, iconFile }) {
+  function handleUpdateMode({title, iconFile}) {
     if(iconFile) {
       setUploadFileError(null);
       setFileLoading(true);
@@ -95,7 +95,7 @@ function UpdateMode({showDeleteModeMessage}) {
             fileLoading={fileLoading}
           />
         </Card>
-
+ 
         <Card
           body 
           className='shadow-sm mb-4 mt-2 mx-auto'
