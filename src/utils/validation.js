@@ -74,10 +74,6 @@ const markerFormValidate = values => {
     errors.title = 'Поле должно быть заполнено';
   }
 
-  if(!values.cityId) {
-    errors.cityId = 'Необходимо выбрать город';
-  }
-
   if(!values.latitude) {
     errors.latitude = 'Введите координаты';
   } else if (!latRegex.test(values.latitude)) {
