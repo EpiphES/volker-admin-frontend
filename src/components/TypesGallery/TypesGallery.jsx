@@ -1,4 +1,3 @@
-import { useSelector } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
 
 import TypeCard from '../TypeCard/TypeCard';
