@@ -21,7 +21,7 @@ function TypeCard({item, onUpdate, onDelete, place}) {
         <Card.Text as='h6' className='mt-auto w-100' style={{textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden'}}>
           <small >{item.title}</small>
         </Card.Text>
-        { place === 'marker' && <MdDelete className='position-absolute top-0 end-0 p-1' size={30} />}
+        { place === 'marker' && <MdDelete className='position-absolute top-0 end-0 p-1' size={40} />}
         { place === 'mode' &&
           <Dropdown>
             <Dropdown.Toggle variant="success">
