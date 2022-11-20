@@ -6,7 +6,7 @@ import { Form, Button, InputGroup } from 'react-bootstrap';
 
 import { typeFormValidate } from '../../utils/validation';
 
-import ImageCard from '../ImageCard/ImageCard';
+import FileInputCard from '../FileInputCard/FileInputCard';
 import FormInput from '../FormInput/FormInput';
 
 function TypeForm({name, type, buttonText, onSubmit, fileLoading}) {
@@ -86,7 +86,7 @@ function TypeForm({name, type, buttonText, onSubmit, fileLoading}) {
         </Form.Group>
 
         <h6 className='mb-3'>Иконка типа</h6>
-        <ImageCard
+        <FileInputCard
         name='type'
           onChange={handleIconSelect}
           imageLink={typeIcon} 

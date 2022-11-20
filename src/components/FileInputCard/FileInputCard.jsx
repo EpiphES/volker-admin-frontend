@@ -2,7 +2,7 @@ import { Card, Form } from 'react-bootstrap';
 import { MdEdit } from 'react-icons/md';
 import { BsPlusCircleDotted } from 'react-icons/bs';
 
-function ImageCard({name, onChange, imageLink}) {
+function FileInputCard({name, onChange, imageLink}) {
   return (
     <Form.Label htmlFor={`${name}-icon`} className='d-block'>
       <Card 
@@ -27,4 +27,4 @@ function ImageCard({name, onChange, imageLink}) {
   )
 }
 
-export default ImageCard;
+export default FileInputCard;

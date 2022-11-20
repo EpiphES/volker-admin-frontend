@@ -6,7 +6,7 @@ import { Form, Button} from 'react-bootstrap';
 
 import { modeFormValidate } from '../../utils/validation';
 
-import ImageCard from '../ImageCard/ImageCard';
+import FileInputCard from '../FileInputCard/FileInputCard';
 import FormInput from '../FormInput/FormInput';
 
 function ModeForm({name, mode, buttonText, onSubmit, fileLoading}) {
@@ -83,7 +83,7 @@ function ModeForm({name, mode, buttonText, onSubmit, fileLoading}) {
         />
         
         <h6 className='mb-2'>Иконка режима</h6>
-        <ImageCard 
+        <FileInputCard 
           name='mode'
           onChange={handleIconSelect}
           imageLink={modeIcon}
