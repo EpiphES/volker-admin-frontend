@@ -90,7 +90,7 @@ function Login({ onLogin }) {
               </FloatingLabel>
               
               <InputGroup.Text onClick={togglePasswordVisibility} className='login__input-toggler' >
-                 { isPasswordVisible ? < FaEyeSlash /> : < FaEye /> }             
+                 { isPasswordVisible ? < FaEyeSlash size={20}/> : < FaEye size={20}/> }             
               </InputGroup.Text>
               
               
