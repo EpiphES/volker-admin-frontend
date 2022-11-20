@@ -25,7 +25,7 @@ function TypesGallery({markerTypes, onUpdate, onDelete, onAddClick, place}) {
         {typeCards}
         <Col> 
           <AddCard 
-            minHeight={'100px'} 
+            minHeight={'120px'} 
             onClick={onAddClick}/>
         </Col>     
       </Row>      
