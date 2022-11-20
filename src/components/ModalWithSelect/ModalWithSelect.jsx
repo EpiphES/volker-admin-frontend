@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Modal, Form, Button, InputGroup } from 'react-bootstrap';
 import { BsSearch } from 'react-icons/bs';
 
-function ModalWithSelect({items, show, onClose, onSubmit}) {
+function ModalWithSelect({items, show, onClose, onSubmit, withSearch, text}) {
   const [selectedId, setSelectedId] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectItems, setSelectItems] = useState([]);
@@ -41,9 +41,10 @@ function ModalWithSelect({items, show, onClose, onSubmit}) {
   return (
     <Modal show={show} onHide={onClose}>
       <Modal.Header closeButton>
-        <Modal.Title className='d-block'>Выбор режима</Modal.Title>        
+        <Modal.Title className='d-block'>{`Выбор ${text}а`}</Modal.Title>        
       </Modal.Header>
       <Modal.Body>
+        { withSearch &&
         <InputGroup className='mb-2'>
           <InputGroup.Text>
             <BsSearch />
@@ -55,14 +56,14 @@ function ModalWithSelect({items, show, onClose, onSubmit}) {
             value={searchQuery}
             onChange={handleSearch}
           />
-        </InputGroup>
+        </InputGroup> }
         <Form onSubmit={handleSubmit}>
           <Form.Select 
             aria-label='выберите режим' 
             onChange={handleChange}
             htmlSize={10}
             defaultValue=''>
-            <option disabled value=''>Выберите режим</option>
+            <option disabled value=''>{`Выберите ${text}`}</option>
             {selectOptions}
           </Form.Select>
           <Button 
