@@ -1,3 +1,4 @@
+import './MarkerCard.css';
 import { Card } from 'react-bootstrap';
 
 function MarkerCard({item, onClick}) {
@@ -14,7 +15,7 @@ function MarkerCard({item, onClick}) {
         style={{height: '150px', objectFit: 'cover'}} 
       />
       <Card.Body className='p-2'>                     
-        <Card.Text style={{fontSize: '12px', lineHeight: 1.2}} className='mb-1' >
+        <Card.Text className='mb-1 marker-card__title' >
           <strong>{item.title}</strong>
         </Card.Text>
         <Card.Text style={{fontSize: '12px', lineHeight: 1.2}} className='mb-1 text-secondary' >
