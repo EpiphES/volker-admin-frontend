@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 
 import { Form, Button, Card } from 'react-bootstrap';
 
-import { getCurrentCity, setCurrentCity } from '../../store/citySlice';
+import { getCurrentCity } from '../../store/citySlice';
 import { getModeById, setCurrentMode } from '../../store/modeSlice';
 
 import { markerFormValidate } from '../../utils/validation';
@@ -47,7 +47,7 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
   const formik = useFormik({
     initialValues: {
       title: marker?.title || '',
-      cityId: currentCity?.id || '',
+      cityId: marker?.cityId || '',
       latitude: marker?.latitude || '',
       longitude: marker?.longitude || '',
       description: marker?.description || '',
@@ -66,8 +66,11 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
       phones: marker?.phones.join(', ') || '', 
       isConfirmed: marker?.isConfirmed || false,
     },
-    // validate: markerFormValidate,
+    validate: markerFormValidate,
     onSubmit: values => {
+      if(selectedTypes.length === 0) {
+        return;
+      }
       console.log(values);
     //   onSubmit({
     //     title: values.title,
@@ -78,11 +81,12 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
     },
     onReset: () => {
       if(marker) {
-        dispatch(getCurrentCity(marker.cityId));
         dispatch(getModeById(marker.modeType));
-        setSelectedTypes(marker.markerTypes)
+        setSelectedTypes(marker.markerTypes);
+        if(marker.cityId) {
+          dispatch(getCurrentCity(marker.cityId));
+        }
       } else {
-        dispatch(setCurrentCity(null));
         dispatch(setCurrentMode(null));
         setSelectedTypes([]);
       }
@@ -93,16 +97,15 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
     return (<option key={city.id} value={city.id}>{city.cityName}</option>)
   });
 
-  const modeSelect = (currentCity?.modes || modes).map((mode) => {
+  const modeSelect = (formik.values.cityId ? currentCity.modes : modes).map((mode) => {
     return (<option key={mode.id} value={mode.id}>{mode.title}</option>)
   })
 
   function handleSelectCity(e) {
-    if(!e.target.value) {
-      dispatch(setCurrentCity(null));
-      return;
+    if(e.target.value) {
+      dispatch(getCurrentCity(e.target.value)); 
     }
-    dispatch(getCurrentCity(e.target.value));    
+       
   }
 
   function handleChangeMode(e) {
@@ -111,8 +114,7 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
       dispatch(setCurrentMode(null));
       return;
     } 
-    dispatch(getModeById(+e.target.value));
-      
+    dispatch(getModeById(+e.target.value));      
   }
 
   function toggleCityFilter() {
@@ -150,12 +152,12 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
   }, [cities, cityFilter, formik.values.modeType]);
 
   useEffect(() => {
-    if(currentCity && currentMode && !currentCity.modes.some(item => item.id === currentMode.id)) {
+    if(formik.values.cityId && currentCity &&currentMode && !currentCity?.modes.some(item => item.id === currentMode.id)) {
       dispatch(setCurrentMode(null));
       formik.values.modeType = '';
       setSelectedTypes([]);
     }
-  }, [currentCity, currentMode, dispatch]);
+  }, [currentCity, currentMode, dispatch, formik.values.cityId]);
 
   useEffect(() => {
     if(marker) {
@@ -227,9 +229,8 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
               }}
               name='cityId'
               id={`cityId-marker-${name}`}
-              required
               value={formik.values.cityId}>
-              <option value=''>Выберите город</option>
+              <option value=''>Доступно во всех городах с данным режимом</option>
               {citySelect}
             </Form.Select>
             <Form.Control.Feedback type='invalid'>
@@ -307,6 +308,9 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
               onAddClick={handleShowTypeSelectModal}
               place='marker'
             />
+
+            {validated && selectedTypes.length === 0  && 
+            <small className='text-danger'>Необходимо выбрать тип</small>}
           </Card>
 
           <FormInput
