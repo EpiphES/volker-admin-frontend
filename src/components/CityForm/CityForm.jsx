@@ -13,6 +13,8 @@ import ModeCard from '../ModeCard/ModeCard';
 import ModalWithSelect from '../ModalWithSelect/ModalWithSelect';
 import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup';
 import AddCard from '../AddCard/AddCard';
+import FormInput from '../FormInput/FormInput';
+import Coordinates from '../Сoordinates/Coordinates';
 
 function CityForm({name, city, buttonText, onSubmit}) {
   const dispatch = useDispatch();
@@ -23,7 +25,8 @@ function CityForm({name, city, buttonText, onSubmit}) {
     removeModeFromCityStatus,
   } = useSelector(state => state.city);
   const [validated, setValidated] = useState(false);
-  const [cityModes, setCityModes] = useState([]);  
+  const [cityModes, setCityModes] = useState([]);
+  const [filteredModes, setFilteredModes] = useState([]);  
   const [deletedMode, setDeletedMode] = useState(null);
   const [showModeSelectModal, setShowModeSelectModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -61,10 +64,6 @@ function CityForm({name, city, buttonText, onSubmit}) {
       </Col>  
     )
   })
-
-  const selectItems = modes.filter((mode) => {
-    return !cityModes.some(item => item.id === mode.id) 
-  });
 
   function handleCloseModeSelectModal() {
     setShowModeSelectModal(false);
@@ -106,6 +105,13 @@ function CityForm({name, city, buttonText, onSubmit}) {
     }
   }, [city]);
 
+  useEffect(() => {
+    const modeItems = modes.filter((mode) => {
+      return !cityModes.some(item => item.id === mode.id) 
+    });
+    setFilteredModes(modeItems);
+  },[cityModes, modes]);
+
   return (
     <>      
       <Form 
@@ -120,86 +126,50 @@ function CityForm({name, city, buttonText, onSubmit}) {
         validated={validated}>
         
         <fieldset disabled={(updateCityStatus === 'loading' || createCityStatus === 'loading' || removeModeFromCityStatus === 'loading')}>
-          <Form.Group className='mb-3' >
-            <Form.Label className='h6 mb-3' htmlFor={`cityName-city-${name}`}>Название города</Form.Label>
-            <Form.Control 
-              type='text'
-              name='cityName' 
-              placeholder='Введите название'
-              id={`cityName-city-${name}`}
-              required 
-              autoFocus
-              onChange={formik.handleChange}
-              value={formik.values.cityName}
-            />
-            <Form.Control.Feedback type='invalid'>
-              {formik.errors.cityName}
-            </Form.Control.Feedback>
-          </Form.Group>
 
-          <h6 className='mb-3'>Координаты</h6>
-          <Row className='mb-3'>
-            <InputGroup as={Col} hasValidation className='align-items-start'>
-              <InputGroup.Text>
-                Lat:
-              </InputGroup.Text>
-              <Form.Control 
-                type='text'
-                name='latitude' 
-                placeholder='Широта'
-                required
-                pattern={LAT_REGEX}
-                onChange={formik.handleChange}
-                value={formik.values.latitude}
-              />
-              <Form.Control.Feedback type='invalid'>
-                {formik.errors.latitude}
-              </Form.Control.Feedback>
-            </InputGroup>
+          <FormInput
+            title='Название города'
+            type='text'
+            name='cityName' 
+            placeholder='Введите название'
+            id={`cityName-city-${name}`}
+            required 
+            autoFocus
+            onChange={formik.handleChange}
+            value={formik.values.cityName}
+            error={formik.errors.cityName}
+          />
 
-            <InputGroup as={Col} hasValidation className='align-items-start'>
-              <InputGroup.Text>
-                Lon:
-              </InputGroup.Text>
-              <Form.Control 
-              type='text'
-              name='longitude' 
-              placeholder='Долгота'
-              required
-              pattern={LON_REGEX}
-              onChange={formik.handleChange}
-              value={formik.values.longitude} 
-              />
-              <Form.Control.Feedback type='invalid'>
-                {formik.errors.longitude}
-              </Form.Control.Feedback>
-            </InputGroup>          
-          </Row>
+          <Coordinates
+            onChange={formik.handleChange}
+            latitudeValue={formik.values.latitude}
+            latitudeError={formik.errors.latitude}
+            longitudeValue={formik.values.longitude}
+            longitudeError={formik.errors.longitude}
+          />
 
           {name === 'update' &&
-            <>
-              <h6 className='mb-3'>Pежимы</h6>
-              <Row xs={3} sm={4} md={5} className='g-2 h-100 mb-3'>
-                {cityModeCards}
-                <Col> 
-                  < AddCard minHeight={'100px'} onClick={handleShowModeSelectModal} />       
-                </Col>     
-              </Row>
-            </>}
+          <>
+            <h6 className='mb-3'>Pежимы</h6>
+            <Row xs={3} sm={4} md={5} className='g-2 h-100 mb-3'>
+              {cityModeCards}
+              <Col> 
+                < AddCard minHeight={'100px'} onClick={handleShowModeSelectModal} />       
+              </Col>     
+            </Row>
+          </>}
 
-          <Form.Group>
-            <Form.Label className='h6 mb-3' htmlFor={`description-city-${name}`}>Описание</Form.Label>
-            <Form.Control 
-              as='textarea' 
-              rows={5}
-              name='description'
-              id={`description-city-${name}`}
-              placeholder='Напишите что-нибудь'
-              onChange={formik.handleChange}
-              value={formik.values.description}
-            />
-          </Form.Group>
-
+          <FormInput
+            title='Описание'
+            as='textarea' 
+            rows={5}
+            name='description'
+            id={`description-city-${name}`}
+            placeholder='Напишите что-нибудь'
+            onChange={formik.handleChange}
+            value={formik.values.description}
+          />
+          
           <Button
             variant='dark'
             type='submit'
@@ -207,6 +177,7 @@ function CityForm({name, city, buttonText, onSubmit}) {
             className='mt-4 me-3'>
             {(updateCityStatus === 'loading' || createCityStatus === 'loading' || removeModeFromCityStatus === 'loading') ? 'Сохранение...' : buttonText}
           </Button>
+          
           <Button
             variant='dark'
             type='reset'
@@ -220,10 +191,12 @@ function CityForm({name, city, buttonText, onSubmit}) {
       </Form>
 
       <ModalWithSelect 
-        items={selectItems}
+        items={filteredModes}
         show={showModeSelectModal}
         onClose={handleCloseModeSelectModal}
         onSubmit={handleAddMode}
+        withSearch
+        text='режим'
       />
 
       <ConfirmationPopup 

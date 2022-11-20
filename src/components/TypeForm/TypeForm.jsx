@@ -7,6 +7,7 @@ import { Form, Button, InputGroup } from 'react-bootstrap';
 import { typeFormValidate } from '../../utils/validation';
 
 import ImageCard from '../ImageCard/ImageCard';
+import FormInput from '../FormInput/FormInput';
 
 function TypeForm({name, type, buttonText, onSubmit, fileLoading}) {
   const [validated, setValidated] = useState(false);
@@ -89,24 +90,20 @@ function TypeForm({name, type, buttonText, onSubmit, fileLoading}) {
         name='type'
           onChange={handleIconSelect}
           imageLink={typeIcon} 
-        />               
-        
-        <Form.Group className='mb-3'>
-          <Form.Label className='h6 mb-3'>Название типа</Form.Label>
-          <Form.Control 
-            type='text'
-            name='title' 
-            placeholder='Введите название'
-            required 
-            autoFocus
-            onChange={formik.handleChange}
-            value={formik.values.title}
-          />
-          <Form.Control.Feedback type="invalid">
-            {formik.errors.title}
-          </Form.Control.Feedback>
-        </Form.Group>
-        
+        />
+
+        <FormInput
+          title='Название типа'
+          type='text'
+          name='title' 
+          placeholder='Введите название'
+          required 
+          autoFocus
+          onChange={formik.handleChange}
+          value={formik.values.title}
+          error={formik.errors.title}
+        />             
+      
         <Button
           variant='dark'        
           type='submit'

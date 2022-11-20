@@ -7,10 +7,10 @@ import { Form, Button} from 'react-bootstrap';
 import { modeFormValidate } from '../../utils/validation';
 
 import ImageCard from '../ImageCard/ImageCard';
+import FormInput from '../FormInput/FormInput';
 
 function ModeForm({name, mode, buttonText, onSubmit, fileLoading}) {
   const [modeIcon, setModeIcon] = useState('');
-  const [markerTypes, setMarkerTypes] = useState([]);
   const [validated, setValidated] = useState(false);
   const [iconFile, setIconFile] = useState(null);
 
@@ -28,7 +28,6 @@ function ModeForm({name, mode, buttonText, onSubmit, fileLoading}) {
       onSubmit({
         title: values.title,
         iconFile, 
-        markerTypes,
       });      
     },
   });
@@ -40,12 +39,6 @@ function ModeForm({name, mode, buttonText, onSubmit, fileLoading}) {
   function handleIconReset() {
     setIconFile(null);
   }
-
-  useEffect(() => {
-    if(mode) {
-      setMarkerTypes(mode.markerTypes);
-    }
-  }, [mode]);
 
   useEffect(() => {
     if (!iconFile) {
@@ -75,23 +68,20 @@ function ModeForm({name, mode, buttonText, onSubmit, fileLoading}) {
         createModeStatus === 'loading' ||
         fileLoading
         )}>
-        <Form.Group className='mb-3'>
-          <Form.Label className='h6 mb-2' htmlFor={`title-mode-${name}`}>Название режима</Form.Label>
-          <Form.Control 
-            type='text'
-            name='title'
-            id={`title-mode-${name}`} 
-            placeholder='Введите название'
-            required 
-            autoFocus
-            onChange={formik.handleChange}
-            value={formik.values.title}
-          />
-          <Form.Control.Feedback type="invalid">
-            {formik.errors.title}
-          </Form.Control.Feedback>
-        </Form.Group>
 
+        <FormInput
+          title='Название режима'
+          type='text'
+          name='title'
+          id={`title-mode-${name}`} 
+          placeholder='Введите название'
+          required 
+          autoFocus
+          onChange={formik.handleChange}
+          value={formik.values.title}
+          error={formik.errors.title}
+        />
+        
         <h6 className='mb-2'>Иконка режима</h6>
         <ImageCard 
           name='mode'
