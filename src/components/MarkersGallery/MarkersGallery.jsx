@@ -16,7 +16,6 @@ function MarkersGallery() {
   } = useSelector(state => state.marker);
   const {currentCity} = useSelector(state => state.city);
   
-
   const markerCards = markers.map(item => {
     return (
       <Col key={item.id}>        
