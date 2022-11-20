@@ -14,7 +14,7 @@ function TypesGallery({markerTypes, onUpdate, onDelete, onAddClick, place}) {
           onUpdate={onUpdate}
           onDelete={onDelete}
           place={place}
-          />      
+        />
       </Col>  
     )
   });    

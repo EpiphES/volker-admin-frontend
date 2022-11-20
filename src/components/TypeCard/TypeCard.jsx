@@ -4,8 +4,15 @@ import { MdDelete } from 'react-icons/md';
 function TypeCard({item, onUpdate, onDelete, place}) {
   return (
     <Card      
-      className='shadow-sm w-100 h-100 ' 
-      border='success'>
+      className='shadow-sm w-100 h-100' 
+      border='success' 
+      style={place === 'marker' ? {cursor: 'pointer'} : {}}
+      onClick={() => {
+        if(place === 'marker') {
+          return onDelete(item.id);
+        }
+      }}
+    >
 
       <Card.Header style={{backgroundColor: item.colorOnMap}} />
 
@@ -25,8 +32,7 @@ function TypeCard({item, onUpdate, onDelete, place}) {
               <Dropdown.Item onClick={() => onUpdate(item.id)}>Редактировать</Dropdown.Item>
               <Dropdown.Item onClick={() => onDelete(item.id)}>Удалить</Dropdown.Item>
             </Dropdown.Menu>
-          </Dropdown>
-        } 
+          </Dropdown> }
       </Card.Body>        
     </Card>
   )
