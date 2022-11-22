@@ -64,7 +64,7 @@ function CreateMode() {
 
       {createModeStatus === 'rejected' && <Message type='danger' text={`${createModeError}`} show={showCreateModeMessage} setShow={setShowCreateModeMessage} />}
 
-      {createModeStatus === 'resolved' && <Message type='success' text='Режим обновлен!' show={showCreateModeMessage} setShow={setShowCreateModeMessage} />}
+      {createModeStatus === 'resolved' && <Message type='success' text='Режим создан!' show={showCreateModeMessage} setShow={setShowCreateModeMessage} />}
 
       {uploadFileError && <Message type='danger' text={`${uploadFileError}`} show={showUploadFileError} setShow={setShowUploadFileError} />} 
     </>
