@@ -24,8 +24,11 @@ function App() {
   const navigate = useNavigate(); 
   const dispatch = useDispatch();
   const location = useLocation();
+  const [isLoading, setIsLoading] = useState(false);
+  const [loginError, setLoginError] = useState(null);
   
   function handleLogin({email, password, fromPage}) {
+    setIsLoading(true);
     api
       .login({ email, password })
       .then((res) => {
@@ -39,8 +42,9 @@ function App() {
       })
       .catch((err) => {
         setLoggedIn(false);
-        console.log(err);
-      });
+        setLoginError(err);
+      })
+      .finally(() => setIsLoading(false));
   }
 
   function handleLogout() {
@@ -88,7 +92,9 @@ function App() {
           element={
           loggedIn ? 
           <Navigate to='/' replace='true' /> :
-          <Login onLogin={handleLogin} />}
+          <Login 
+            onLogin={handleLogin}
+            isLoading={isLoading}/>}
         />
         <Route
           path='/'

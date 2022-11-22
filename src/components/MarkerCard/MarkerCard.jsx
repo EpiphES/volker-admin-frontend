@@ -2,7 +2,7 @@ import './MarkerCard.css';
 import { Card } from 'react-bootstrap';
 
 function MarkerCard({item, onClick}) {
-  const markerTypesString = item.markerTypes.map(i => i.title).join(', ');
+  const markerTypesString = (item.markerTypes || item.markerToTypes).map(i => i.title).join(', ');
   return (
     <Card      
       className='shadow-sm w-100 h-100 ' 
@@ -10,7 +10,7 @@ function MarkerCard({item, onClick}) {
       onClick={() => onClick(item.id)}
       style={{cursor: 'pointer'}}>
       <Card.Img 
-        src={item.images[0]} 
+        src={item.images[0] || ''} 
         variant='top'
         style={{height: '150px', objectFit: 'cover'}} 
       />

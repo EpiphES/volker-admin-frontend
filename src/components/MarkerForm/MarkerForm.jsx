@@ -7,13 +7,16 @@ import { Form, Button, Card } from 'react-bootstrap';
 import { getCurrentCity } from '../../store/citySlice';
 import { getModeById, setCurrentMode } from '../../store/modeSlice';
 
+import * as api from '../../utils/api';
+import { BASE_URL } from '../../utils/constants';
 import { markerFormValidate } from '../../utils/validation';
+import { getFileNameFromUrl } from '../../utils/utils';
 
 import TypesGallery from '../TypesGallery/TypesGallery';
 import ModalWithSelect from '../ModalWithSelect/ModalWithSelect';
-import BtnScrollUp from '../BtnScrollUp/BtnScrollUp';
 import Coordinates from '../Сoordinates/Coordinates';
 import FormInput from '../FormInput/FormInput';
+import ImageGallery from '../ImageGallery/ImageGallery';
 
 function MarkerForm({name, marker, buttonText, onSubmit}) {
   const [validated, setValidated] = useState(false);
@@ -23,7 +26,7 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [filteredTypes, setFilteredTypes] = useState([]);
   const [showTypeSelectModal, setShowTypeSelectModal] = useState(false);
-  const [images, setimages] = useState([]);
+  const [images, setImages] = useState([]);
 
   const {
     updateMarkerStatus,  
@@ -47,7 +50,7 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
   const formik = useFormik({
     initialValues: {
       title: marker?.title || '',
-      cityId: marker?.cityId || '',
+      cityId: marker? (marker?.cityId || '') : currentCity ? currentCity.id : '',
       latitude: marker?.latitude || '',
       longitude: marker?.longitude || '',
       description: marker?.description || '',
@@ -65,19 +68,20 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
       societyFacebookUrl: marker?.societyFacebookUrl || '',
       phones: marker?.phones.join(', ') || '', 
       isConfirmed: marker?.isConfirmed || false,
+      isPublished: marker?.isPublished || true,
     },
     validate: markerFormValidate,
     onSubmit: values => {
       if(selectedTypes.length === 0) {
         return;
       }
-      console.log(values);
-    //   onSubmit({
-    //     title: values.title,
-    //     cityId: values.cityId,
-    //     latitude: values.latitude, 
-    //     longitude: values.longitude,
-    //   });      
+      values.cityId = values.cityId ? +values.cityId : null;
+      
+      values.modeType = +values.modeType;
+      values.phones = values.phones.split(/,\s*/);
+      values.markerTypes = selectedTypes;
+      values.images = images;
+      onSubmit(values);      
     },
     onReset: () => {
       if(marker) {
@@ -97,15 +101,14 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
     return (<option key={city.id} value={city.id}>{city.cityName}</option>)
   });
 
-  const modeSelect = (formik.values.cityId ? currentCity.modes : modes).map((mode) => {
+  const modeSelect = (formik.values.cityId && currentCity ? currentCity.modes : modes).map((mode) => {
     return (<option key={mode.id} value={mode.id}>{mode.title}</option>)
   })
 
   function handleSelectCity(e) {
     if(e.target.value) {
       dispatch(getCurrentCity(e.target.value)); 
-    }
-       
+    }       
   }
 
   function handleChangeMode(e) {
@@ -140,6 +143,27 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
     })
   }
 
+  function handleLoadImage(e) {
+    console.log(e.target.files);
+    if(e.target.files.length > 0) {
+      api.uploadFile(e.target.files[0])
+      .then((res) => {
+        const iconUrl = BASE_URL + res;
+        setImages((prevVal) => [iconUrl, ...prevVal]);
+      })
+       .catch((err) => console.log(err))
+    }
+  }
+
+  function handleDeleteImage(url) {
+    const fileName = getFileNameFromUrl(url);
+    api.deleteFile(fileName)
+    .then(() => {
+      setImages((prevVal) => prevVal.filter(item => item !== url));
+    })
+    .catch((err) => console.log(err))
+  }
+
   useEffect(() => {
     if(formik.values.modeType && cityFilter) {
       const filteredCitiesArr = cities.filter((city) => {
@@ -163,8 +187,10 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
     if(marker) {
       dispatch(getModeById(marker.modeType));
       setSelectedTypes(marker.markerTypes);
+      setImages(marker.images);
+      console.log(marker);
     }
-  }, [dispatch, marker]);
+  }, [marker, dispatch]);
 
   useEffect(() => {
     if(currentMode) {
@@ -175,6 +201,17 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
 
   return (
     <>
+      <Card
+        body
+        className='shadow-sm mb-3 mt-2 mx-auto'
+        border='primary'>
+        <h6 className='mb-3 text-center'>Изображения</h6>
+        <ImageGallery 
+          images={images}
+          onAddClick={handleLoadImage}
+          onDelete={handleDeleteImage}/>
+      </Card>
+
       <Form 
         name={`mode-form-${name}`}
         onSubmit={(e) => {
@@ -182,7 +219,7 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
           setValidated(true);        
         }}
         noValidate
-        className='pt-3 text-center mb-3 mx-auto'
+        className='text-center mb-4 mx-auto'
         style={{maxWidth: '800px'}}
         validated={validated}
         >
@@ -455,7 +492,8 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
         </fieldset>
       </Form>
 
-      <BtnScrollUp />
+      { images.length > 0  && 
+      <small className='text-danger d-block text-center mb-2' >Перед удалением маркера желательно удалить все изображения</small> }      
 
       <ModalWithSelect 
         items={filteredTypes}
