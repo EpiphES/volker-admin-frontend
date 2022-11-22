@@ -4,7 +4,7 @@ import { MdDelete } from 'react-icons/md';
 function ModeCard({item, onClick, deleteOn}) {
   return (
     <Card      
-      className='shadow-sm w-100 h-100 ' 
+      className='shadow-sm w-100 h-100' 
       border='success'
       onClick={() => onClick(item.id)}
       style={{cursor: 'pointer'}}>
