@@ -83,11 +83,13 @@ function ModeForm({name, mode, buttonText, onSubmit, fileLoading}) {
         />
         
         <h6 className='mb-2'>Иконка режима</h6>
-        <FileInputCard 
-          name='mode'
-          onChange={handleIconSelect}
-          imageLink={modeIcon}
-        />
+        <div style={{width: '120px'}} className='mx-auto'>
+          <FileInputCard 
+            name='mode'
+            onChange={handleIconSelect}
+            imageLink={modeIcon}
+          />
+        </div>
           
         <Button
           variant='dark'        
