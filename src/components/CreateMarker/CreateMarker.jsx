@@ -13,10 +13,11 @@ function CreateMarker() {
   const {  
     createMarkerStatus, 
     createMarkerError,  
-  } = useSelector(state => state.mode);
+  } = useSelector(state => state.marker);
 
-  function handleCreateMarker() {
-    dispatch(createMarker());
+  function handleCreateMarker(values) {
+    dispatch(createMarker(values));
+    setShowCreateMarkerMessage(true);
   }
 
   return (
@@ -30,7 +31,7 @@ function CreateMarker() {
 
     {createMarkerStatus === 'rejected' && <Message type='danger' text={`${createMarkerError}`} show={showCreateMarkerMessage} setShow={setShowCreateMarkerMessage} />}
 
-    {createMarkerStatus === 'resolved' && <Message type='success' text='Маркер обновлен!' show={showCreateMarkerMessage} setShow={setShowCreateMarkerMessage} />}
+    {createMarkerStatus === 'resolved' && <Message type='success' text='Маркер создан!' show={showCreateMarkerMessage} setShow={setShowCreateMarkerMessage} />}
   </>
   )
 }
