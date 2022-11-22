@@ -86,11 +86,13 @@ function TypeForm({name, type, buttonText, onSubmit, fileLoading}) {
         </Form.Group>
 
         <h6 className='mb-3'>Иконка типа</h6>
-        <FileInputCard
-        name='type'
-          onChange={handleIconSelect}
-          imageLink={typeIcon} 
-        />
+        <div style={{width: '120px'}} className='mx-auto h-100'>
+          <FileInputCard
+          name='type'
+            onChange={handleIconSelect}
+            imageLink={typeIcon} 
+          />
+        </div>
 
         <FormInput
           title='Название типа'

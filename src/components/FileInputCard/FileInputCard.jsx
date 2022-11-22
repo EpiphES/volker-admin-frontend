@@ -4,11 +4,11 @@ import { BsPlusCircleDotted } from 'react-icons/bs';
 
 function FileInputCard({name, onChange, imageLink}) {
   return (
-    <Form.Label htmlFor={`${name}-icon`} className='d-block'>
+    <Form.Label htmlFor={`${name}-icon`} className='d-block mb-0'>
       <Card 
-        className='shadow-lg p-2 mx-auto' 
+        className='shadow-sm p-2 w-100 h-100'
         border='success'
-        style={{width: '120px', minHeight: '120px', cursor: 'pointer'}}
+        style={{cursor:'pointer', minHeight: '120px'}}
         >
         { imageLink &&
         <MdEdit className='position-absolute top-0 end-0 p-1 text-primary' size={30} /> }
