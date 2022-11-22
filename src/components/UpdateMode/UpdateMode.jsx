@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Alert, Card, Button } from 'react-bootstrap';
 
-import { getModeById, updateMode, deleteMode} from '../../store/modeSlice';
+import { getModeById, updateMode, deleteMode, setCurrentMode} from '../../store/modeSlice';
 
 import * as api from '../../utils/api';
 import { BASE_URL } from '../../utils/constants';
@@ -73,7 +73,8 @@ function UpdateMode({showDeleteModeMessage}) {
   } 
 
   useEffect(() => {
-    dispatch(getModeById(modeId));    
+    dispatch(getModeById(modeId));
+    return () => dispatch(setCurrentMode(null));    
   }, [dispatch, modeId]);  
 
   return (    
