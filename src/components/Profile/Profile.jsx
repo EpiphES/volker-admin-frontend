@@ -28,7 +28,9 @@ function Profile({onLogout}) {
   });  
 
   function handleSelectCity(e) {
-    dispatch(getCurrentCity(e.target.value)); 
+    if(e.target.value) {
+      dispatch(getCurrentCity(e.target.value));
+    } 
   }
 
   function handleCloseConfirmModal() {
@@ -70,7 +72,8 @@ function Profile({onLogout}) {
           <Card.Body>
             <Form.Select 
               aria-label='выберите город' onChange={handleSelectCity}
-              value={currentCity?.id || ''}>
+              defaultValue={''}
+            >
               <option disabled value=''>Выберите город</option>
               {citySelect}
             </Form.Select>
