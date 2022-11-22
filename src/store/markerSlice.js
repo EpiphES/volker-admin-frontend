@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import * as api from '../utils/api';
-import { getFileNameFromUrl } from "../utils/utils";
 
 export const getMarkers = createAsyncThunk(
   'markers/getMarkers',
@@ -32,7 +31,6 @@ export const createMarker = createAsyncThunk(
     try {
       const res = await api.createMarker(values);
       dispatch(addMarker(res));
-      return res;
     } catch (err) {
       return rejectWithValue(err);
     }
@@ -43,13 +41,8 @@ export const updateMarker = createAsyncThunk(
   'markers/updateMarker',
   async (values, {rejectWithValue, dispatch}) => {
     try {
-      await api.updateMarker({id: values.id, title: values.title, icon: values.icon});
-      dispatch(changeMarker({id: values.id, title: values.title, icon: values.icon}));
-      if(values.prevIcon) {
-        const prevIconFileName = getFileNameFromUrl(values.prevIcon);
-        await api.deleteFile(prevIconFileName);
-      }
-      return values;
+      await api.updateMarker(values);
+      dispatch(changeMarker(values));
     } catch (err) {
       return rejectWithValue(err);
     }
@@ -58,12 +51,10 @@ export const updateMarker = createAsyncThunk(
 
 export const deleteMarker = createAsyncThunk(
   'markers/deleteMarker',
-  async (values, {rejectWithValue, dispatch}) => {
+  async (id, {rejectWithValue, dispatch}) => {
     try {
-      await api.deleteMarker(values.id);
-      dispatch(removeMarker({id: values.id}));
-      const prevIconFileName = getFileNameFromUrl(values.prevIcon);
-      await api.deleteFile(prevIconFileName);
+      await api.deleteMarker(id);
+      dispatch(removeMarker({id}));
     } catch (err) {
       return rejectWithValue(err);
     }
@@ -103,9 +94,7 @@ const markerSlice = createSlice({
     changeMarker: (state, action) => {
       state.markers = state.markers.map((marker) => {
         if (marker.id === +action.payload.id) {
-          marker.title = action.payload.title;
-          marker.icon = action.payload.icon;
-          return marker;
+          return action.payload;
         }
         return marker;        
       })
