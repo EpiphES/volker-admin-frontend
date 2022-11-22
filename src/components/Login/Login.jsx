@@ -18,7 +18,7 @@ import { GiWolfHead } from 'react-icons/gi';
 import { FaEye } from 'react-icons/fa';
 import { FaEyeSlash } from 'react-icons/fa';
 
-function Login({ onLogin }) {
+function Login({onLogin, isLoading}) {
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const location = useLocation();
   const fromPage = location.state?.from?.pathname || '/';
@@ -48,7 +48,7 @@ function Login({ onLogin }) {
           Добро пожаловать!
         </h1>
         <Form className='w-100' onSubmit={formik.handleSubmit} noValidate name='login-form'>
-          <fieldset>
+          <fieldset disabled={isLoading}>
             <FloatingLabel
               controlId='floatingInput'
               label='Email'
@@ -67,7 +67,7 @@ function Login({ onLogin }) {
               /> 
               <Form.Control.Feedback type="invalid">
                 {formik.errors.email}
-              </Form.Control.Feedback>                                       
+              </Form.Control.Feedback>                         
             </FloatingLabel>
                       
             <InputGroup className='mb-5' >
@@ -89,23 +89,18 @@ function Login({ onLogin }) {
                 </Form.Control.Feedback>                
               </FloatingLabel>
               
-              <InputGroup.Text onClick={togglePasswordVisibility} className='login__input-toggler' >
+              <InputGroup.Text onClick={togglePasswordVisibility} className='login__input-toggler'>
                  { isPasswordVisible ? < FaEyeSlash size={20}/> : < FaEye size={20}/> }             
-              </InputGroup.Text>
-              
-              
+              </InputGroup.Text>              
             </InputGroup>
-            <Form.Control.Feedback type="invalid">
-                {formik.errors.password}
-            </Form.Control.Feedback>
+            
             <Button
               className='w-100'
               variant='primary'
               size='lg'
               type='submit'
-              aria-label='Войти'
-              >
-              Войти
+              aria-label='Войти'>
+              {isLoading? 'Загрузка...' : 'Войти'}
             </Button>
           </fieldset>
         </Form>
