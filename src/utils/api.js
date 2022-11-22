@@ -127,26 +127,26 @@ export function getModeById(modeId) {
   .then(checkResponse);
 }
 
-export function createMode({title, icon, markerTypes}) {
+export function createMode(values) {
   return fetch(`${PROXY}${BASE_URL}MarkerMode/CreateMode`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
     },
-    body: JSON.stringify({title, icon, markerTypes})
+    body: JSON.stringify(values)
   })
   .then(checkResponse);  
 }
 
-export function updateMode({id, title, icon, markerTypes}) {
+export function updateMode({id, ...values}) {
   return fetch(`${PROXY}${BASE_URL}MarkerMode/UpdateMode?id=${id}`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
     },
-    body: JSON.stringify({title, icon, markerTypes})
+    body: JSON.stringify(values)
   })
   .then(checkEmptyResponse); 
 }
@@ -161,26 +161,26 @@ export function deleteMode(id) {
   .then(checkEmptyResponse);  
 }
 
-export function createType({markerModeId, title, iconOnMap, colorOnMap}) {
+export function createType(values) {
   return fetch(`${PROXY}${BASE_URL}MarkerMode/CreateType`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
     },
-    body: JSON.stringify({markerModeId, title, iconOnMap, colorOnMap})
+    body: JSON.stringify(values)
   })
   .then(checkResponse);
 }
 
-export function updateType({id, markerModeId, title, iconOnMap, colorOnMap}) {
+export function updateType({id, ...values}) {
   return fetch(`${PROXY}${BASE_URL}MarkerMode/UpdateType?id=${id}`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
     },
-    body: JSON.stringify({markerModeId, title, iconOnMap, colorOnMap})
+    body: JSON.stringify(values)
   })
   .then(checkEmptyResponse); 
 }
@@ -240,48 +240,26 @@ export function getMarkerById(id) {
   .then(checkResponse);
 }
 
-export function createMarker({}) {
+export function createMarker(values) {
   return fetch(`${PROXY}${BASE_URL}Marker/Create`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
     },
-    body: JSON.stringify({
-      title: 'string',
-        images: ['string'],
-        cityId: 0,
-        longitude: 0,
-        latitude: 0,
-        isMainPlace: true,
-        // modeType,
-        // markerTypes,
-        description: 'string',
-        // timeline,
-        createAuthor: 'string',
-        address: 'string',
-        createDate: 'string',
-        webCameraUrl: 'string',
-        actionUrl: 'string',
-        actionName: 'string',
-        societyWebUrl: 'string',
-        societyInstagramUrl: 'string',
-        societyVkUrl: 'string',
-        societyFacebookUrl: 'string',
-        phones: ['string'],
-    })
+    body: JSON.stringify(values),
   })
   .then(checkResponse);  
 }
 
-export function updateMarker({id}) {
-  return fetch(`${PROXY}${BASE_URL}Marker​/Update?id=${id}`, {
+export function updateMarker({id, ...values}) {
+  return fetch(`${PROXY}${BASE_URL}Marker/Update?id=${id}`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
     },
-    body: JSON.stringify({})
+    body: JSON.stringify(values)
   })
   .then(checkEmptyResponse); 
 }

@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import * as api from '../utils/api';
-import { getFileNameFromUrl } from "../utils/utils";
+import { getFileNameFromUrl } from '../utils/utils';
 
 export const getModes = createAsyncThunk(
   'modes/getModes',
@@ -41,12 +41,12 @@ export const createMode = createAsyncThunk(
 
 export const updateMode = createAsyncThunk(
   'modes/updateMode',
-  async (values, {rejectWithValue, dispatch}) => {
+  async ({prevIcon, ...values}, {rejectWithValue, dispatch}) => {
     try {
-      await api.updateMode({id: values.id, title: values.title, icon: values.icon});
-      dispatch(changeMode({id: values.id, title: values.title, icon: values.icon}));
-      if(values.prevIcon) {
-        const prevIconFileName = getFileNameFromUrl(values.prevIcon);
+      await api.updateMode(values);
+      dispatch(changeMode(values));
+      if(prevIcon) {
+        const prevIconFileName = getFileNameFromUrl(prevIcon);
         await api.deleteFile(prevIconFileName);
       }
       return values;
@@ -85,24 +85,12 @@ export const createType = createAsyncThunk(
 
 export const updateType = createAsyncThunk(
   'modes/updateType',
-  async (values, {rejectWithValue, dispatch}) => {
+  async ({prevIcon, ...values}, {rejectWithValue, dispatch}) => {
     try {
-      await api.updateType({
-        id: values.id,
-        markerModeId: values.markerModeId,
-        title: values.title,
-        colorOnMap: values.colorOnMap,
-        iconOnMap: values.iconOnMap,
-      });
-      dispatch(changeType({
-        id: values.id,
-        markerModeId: values.markerModeId,
-        title: values.title,
-        colorOnMap: values.colorOnMap,
-        iconOnMap: values.iconOnMap,
-      }));       
-      if(values.prevIcon) {
-        const prevIconFileName = getFileNameFromUrl(values.prevIcon);
+      await api.updateType(values);
+      dispatch(changeType(values));       
+      if(prevIcon) {
+        const prevIconFileName = getFileNameFromUrl(prevIcon);
         await api.deleteFile(prevIconFileName);
       };
       return values;
