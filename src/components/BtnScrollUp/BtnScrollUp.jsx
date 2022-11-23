@@ -15,7 +15,8 @@ function BtnScrollUp() {
       className='position-fixed  bottom-0 opacity-75 mb-4 ms-2'
       type='button'
       aria-label='перейти на верх страницы'
-      onClick={handleScroll}>
+      onClick={handleScroll}
+      style={{zIndex: '10'}}>
       <BsArrowUpCircle size={35}/>
     </Button>
   )
