@@ -9,6 +9,7 @@ import { getModes } from '../../store/modeSlice';
 
 import Login from '../Login/Login';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import Loader from '../Loader/Loader.jsx';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import Layout from '../Layout/Layout';
 import Main from '../Main/Main';
@@ -17,6 +18,7 @@ import ModesPage from '../ModesPage/ModesPage';
 import Stories from '../Stories/Stories';
 import CreateCity from '../CreateCity/CreateCity';
 import UpdateCity from '../UpdateCity/UpdateCity';
+import Message from '../Message/Message.jsx';
 
 
 function App() {
@@ -24,11 +26,14 @@ function App() {
   const navigate = useNavigate(); 
   const dispatch = useDispatch();
   const location = useLocation();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoginLoading, setIsLoginLoading] = useState(false);
+  const [isTokenCheckLoading, setIsTokenCheckLoading] = useState(false);
+
   const [loginError, setLoginError] = useState(null);
+  const [showLoginError, setShowLoginError] = useState(false);
   
   function handleLogin({email, password, fromPage}) {
-    setIsLoading(true);
+    setIsLoginLoading(true);
     api
       .login({ email, password })
       .then((res) => {
@@ -43,8 +48,9 @@ function App() {
       .catch((err) => {
         setLoggedIn(false);
         setLoginError(err);
+        setShowLoginError(true);
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => setIsLoginLoading(false));
   }
 
   function handleLogout() {
@@ -61,6 +67,7 @@ function App() {
       return;
     }
     const path = location.pathname;
+    setIsTokenCheckLoading(true);
     api.getUserInfo(token)
     .then((res) => {
       dispatch(setUser(res));
@@ -72,7 +79,8 @@ function App() {
       localStorage.clear();
       dispatch(deleteUser());
       console.log(err);
-    })     
+    })
+    .finally(() => setIsTokenCheckLoading(false))     
   }, []);
 
   useEffect(() => {    
@@ -92,9 +100,11 @@ function App() {
           element={
           loggedIn ? 
           <Navigate to='/' replace='true' /> :
+          isTokenCheckLoading ? 
+          <Loader /> :
           <Login 
             onLogin={handleLogin}
-            isLoading={isLoading}/>}
+            isLoading={isLoginLoading}/>}
         />
         <Route
           path='/'
@@ -138,6 +148,9 @@ function App() {
           element={<NotFoundPage />}
         />
       </Routes>
+
+      {loginError && <Message type='danger' 
+      title='Ошибка авторизации' text={`${loginError}`} show={showLoginError} setShow={setShowLoginError} />}
     </div>
   );
 }
