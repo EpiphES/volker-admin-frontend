@@ -34,25 +34,29 @@ function MarkersGallery() {
 
   return (
     <>
-      <section className='mt-3'>
-        { getMarkersStatus ==='loading' && <Loader /> }
-        { getMarkersStatus ==='resolved' && markers.length === 0 && 
-        <Alert variant='primary'>
-          В текущем городе еще нет ни одного маркера.
+      { getMarkersStatus === 'loading' && <Loader /> }
+      { !currentCity && 
+      <Alert variant='primary'>
+        Город не выбран.
+      </Alert> }
+      { getMarkersStatus ==='resolved' && markers.length === 0 && 
+      <Alert variant='primary'>
+        В текущем городе еще нет ни одного маркера.
+      </Alert> }
+      { getMarkersStatus === 'rejected' && 
+        <Alert variant='danger'>
+          {getMarkersError}
         </Alert> }
-        { getMarkersStatus === 'rejected' && 
-          <Alert variant='danger'>
-            {getMarkersError}
-          </Alert> }
-        { (getMarkersStatus ==='resolved' || !currentCity) && 
-        <Row xs={2} sm={3} md={4} lg={5} className='g-2 h-100 mb-3'>
-          <Col>
-            <AddCard minHeight='150px' onClick={handleAddClick} type='mode'/>
-          </Col>
-          {markerCards}        
-        </Row> }            
-      </section>
-      <BtnScrollUp />    
+      { (getMarkersStatus ==='resolved' || !currentCity) &&
+        <section>
+          <Row xs={2} sm={3} md={4} lg={5} className='g-2 h-100 mb-3'>
+            <Col>
+              <AddCard minHeight='150px' onClick={handleAddClick} type='mode'/>
+            </Col>
+            {markerCards}      
+          </Row> 
+          <BtnScrollUp />
+        </section> }         
     </>
   )
 }

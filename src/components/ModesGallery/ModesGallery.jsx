@@ -39,7 +39,7 @@ function ModesGallery() {
   }
 
   return (
-    <section className='mt-3'>
+    <>
       { getModesStatus ==='loading' && <Loader /> }
       { getModesStatus ==='resolved' && modes.length === 0 && 
       <Alert variant='primary'>
@@ -50,7 +50,7 @@ function ModesGallery() {
         {getModesError}
       </Alert> }
       { getModesStatus ==='resolved' &&
-      <>
+      <section>
         <Button
           variant='warning'
           type='button'
@@ -68,9 +68,9 @@ function ModesGallery() {
         </Row>
 
         <BtnScrollUp />
-      </>
+      </section>
       }
-    </section>
+    </>
   )
 }
 
