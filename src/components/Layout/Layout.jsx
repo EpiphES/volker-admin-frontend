@@ -21,7 +21,7 @@ function Layout({onLogout}) {
     <>
       <Header onProfileClick={handleShowProfile}/>
       <main style={{paddingTop: '60px'}}>
-        <Container>
+        <Container className='mt-3'>
           <Outlet />
         </Container>
       </main>      
