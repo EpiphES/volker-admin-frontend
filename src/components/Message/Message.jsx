@@ -2,14 +2,14 @@ import { MdError, MdDone } from 'react-icons/md';
 
 import { Toast, ToastContainer } from 'react-bootstrap';
 
-function Message({type, text, show, setShow}) {
+function Message({type, title, text, show, setShow}) {
   
   return (
     <ToastContainer  position='middle-center' className='position-fixed'>
       <Toast 
         onClose={() => setShow(false)} 
         show={show} 
-        delay={3000} 
+        delay={5000} 
         autohide 
         bg={type}>        
         <Toast.Header className='d-flex justify-content-between'>
@@ -17,6 +17,8 @@ function Message({type, text, show, setShow}) {
           { type === 'success' && <MdDone className='text-success' size={20} /> }
         </Toast.Header>
         <Toast.Body className='text-light'>
+          {title}
+          <br/>
           {text}
         </Toast.Body>
       </Toast>          
