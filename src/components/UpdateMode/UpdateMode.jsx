@@ -6,9 +6,6 @@ import { Alert, Card, Button } from 'react-bootstrap';
 
 import { getModeById, updateMode, deleteMode, setCurrentMode} from '../../store/modeSlice';
 
-import * as api from '../../utils/api';
-import { BASE_URL } from '../../utils/constants';
-
 import GoBackButton from "../GoBackButton/GoBackButton";
 import ModeForm from "../ModeForm/ModeForm";
 import TypesSection from "../TypesSection/TypesSection";
@@ -22,9 +19,6 @@ function UpdateMode({showDeleteModeMessage}) {
   const {modeId} = useParams();
   const [showConfirmModal, setShowConfirmModal] = useState(false);  
   const [showUpdateModeMessage, setShowUpdateModeMessage] = useState(false);
-  const [showUploadFileError, setShowUploadFileError] = useState(false);
-  const [uploadFileError, setUploadFileError] = useState(null);
-  const [fileLoading, setFileLoading] = useState(false);
 
   const { 
     currentMode, 
@@ -34,23 +28,21 @@ function UpdateMode({showDeleteModeMessage}) {
     updateModeError, 
   } = useSelector(state => state.mode); 
 
-  function handleUpdateMode({title, iconFile}) {
-    if(iconFile) {
-      setUploadFileError(null);
-      setFileLoading(true);
-      api.uploadFile(iconFile)
-      .then((res) => {
-        const iconUrl = BASE_URL + res;
-        dispatch(updateMode({id: modeId, title, icon: iconUrl, prevIcon: currentMode.icon}));
-        setShowUpdateModeMessage(true);
-      })
-      .catch((err) => {
-        setUploadFileError(err);
-        setShowUploadFileError(true);
-      })
-      .finally(() => setFileLoading(false));
+  function handleUpdateMode({iconUrl, ...values}) {
+    if(iconUrl) {
+      dispatch(updateMode({
+        id: modeId, 
+        title: values.title, 
+        icon: iconUrl, 
+        prevIcon: currentMode.icon
+      }));      
+      setShowUpdateModeMessage(true);
     } else {
-      dispatch(updateMode({id: modeId, title, icon: currentMode.icon}));
+      dispatch(updateMode({
+        id: modeId, 
+        title: values.title, 
+        icon: currentMode.icon
+      }));
       setShowUpdateModeMessage(true);
     }       
   }
@@ -92,8 +84,7 @@ function UpdateMode({showDeleteModeMessage}) {
             name='update'
             mode={currentMode}
             buttonText='Обновить режим'
-            onSubmit={handleUpdateMode}
-            fileLoading={fileLoading}
+            submitHandler={handleUpdateMode}
           />
         </Card>
  
@@ -137,8 +128,6 @@ function UpdateMode({showDeleteModeMessage}) {
       {updateModeStatus === 'rejected' && <Message type='danger' text={`${updateModeError}`} show={showUpdateModeMessage} setShow={setShowUpdateModeMessage} />}
 
       {updateModeStatus === 'resolved' && <Message type='success' text='Режим обновлен!' show={showUpdateModeMessage} setShow={setShowUpdateModeMessage} />}
-
-      {uploadFileError && <Message type='danger' text={`${uploadFileError}`} show={showUploadFileError} setShow={setShowUploadFileError} />}                
     </>
   )
 }

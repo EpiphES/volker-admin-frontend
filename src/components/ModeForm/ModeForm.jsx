@@ -4,15 +4,21 @@ import { useFormik } from 'formik';
 
 import { Form, Button} from 'react-bootstrap';
 
+import * as api from '../../utils/api';
+import { BASE_URL } from '../../utils/constants';
 import { modeFormValidate } from '../../utils/validation';
 
 import FileInputCard from '../FileInputCard/FileInputCard';
 import FormInput from '../FormInput/FormInput';
+import Message from '../Message/Message';
 
-function ModeForm({name, mode, buttonText, onSubmit, fileLoading}) {
+function ModeForm({name, mode, buttonText, submitHandler}) {
   const [modeIcon, setModeIcon] = useState('');
   const [validated, setValidated] = useState(false);
   const [iconFile, setIconFile] = useState(null);
+  const [showUploadFileError, setShowUploadFileError] = useState(false);
+  const [uploadFileError, setUploadFileError] = useState(null);
+  const [fileLoading, setFileLoading] = useState(false);
 
   const { 
     updateModeStatus,  
@@ -24,12 +30,7 @@ function ModeForm({name, mode, buttonText, onSubmit, fileLoading}) {
       title: mode?.title || '',
     },
     validate: modeFormValidate,
-    onSubmit: values => {
-      onSubmit({
-        title: values.title,
-        iconFile, 
-      });      
-    },
+    onSubmit: handleSubmit,
   });
 
   function handleIconSelect(event) {
@@ -38,6 +39,25 @@ function ModeForm({name, mode, buttonText, onSubmit, fileLoading}) {
   
   function handleIconReset() {
     setIconFile(null);
+  }
+
+  function handleSubmit(values) {
+    if(iconFile) {
+      setUploadFileError(null);
+      setFileLoading(true);
+      api.uploadFile(iconFile)
+      .then((res) => {
+        const iconUrl = BASE_URL + res;
+        submitHandler({iconUrl, ...values});
+      })
+      .catch((err) => {
+        setUploadFileError(err);
+        setShowUploadFileError(true);
+      })
+      .finally(() => setFileLoading(false));
+    } else {
+      submitHandler(values);
+    }
   }
 
   useEffect(() => {
@@ -53,65 +73,70 @@ function ModeForm({name, mode, buttonText, onSubmit, fileLoading}) {
   }, [iconFile, mode]);
 
   return (
-    <Form 
-      name={`mode-form-${name}`}
-      onSubmit={(e) => {
-        formik.handleSubmit(e);
-        setValidated(true);        
-      }}
-      noValidate
-      validated={validated}
-      className='text-center'
-      >
-      <fieldset disabled={(
-        updateModeStatus === 'loading' ||
-        createModeStatus === 'loading' ||
-        fileLoading
-        )}>
+    <>
+      <Form 
+        name={`mode-form-${name}`}
+        onSubmit={(e) => {
+          formik.handleSubmit(e);
+          setValidated(true);        
+        }}
+        noValidate
+        validated={validated}
+        className='text-center'
+        >
+        <fieldset disabled={(
+          updateModeStatus === 'loading' ||
+          createModeStatus === 'loading' ||
+          fileLoading
+          )}>
 
-        <FormInput
-          title='Название режима'
-          type='text'
-          name='title'
-          id={`title-mode-${name}`} 
-          placeholder='Введите название'
-          required 
-          autoFocus
-          onChange={formik.handleChange}
-          value={formik.values.title}
-          error={formik.errors.title}
-        />
-        
-        <h6 className='mb-2'>Иконка режима</h6>
-        <div style={{width: '120px'}} className='mx-auto'>
-          <FileInputCard 
-            name='mode'
-            onChange={handleIconSelect}
-            imageLink={modeIcon}
+          <FormInput
+            title='Название режима'
+            type='text'
+            name='title'
+            id={`title-mode-${name}`} 
+            placeholder='Введите название'
+            required 
+            autoFocus
+            onChange={formik.handleChange}
+            value={formik.values.title}
+            error={formik.errors.title}
           />
-        </div>
           
-        <Button
-          variant='dark'        
-          type='submit'
-          aria-label={buttonText}
-          className='mt-3'>
-          {(updateModeStatus === 'loading' || createModeStatus === 'loading' || fileLoading) ? 'Сохранение...' : buttonText}
-        </Button>
+          <h6 className='mb-2'>Иконка режима</h6>
+          <div style={{width: '120px'}} className='mx-auto'>
+            <FileInputCard 
+              name='mode'
+              onChange={handleIconSelect}
+              imageLink={modeIcon}
+            />
+          </div>
+            
+          <Button
+            variant='dark'        
+            type='submit'
+            aria-label={buttonText}
+            className='mt-3'>
+            {(updateModeStatus === 'loading' || createModeStatus === 'loading' || fileLoading) ? 'Сохранение...' : buttonText}
+          </Button>
 
-        <Button
-          variant='dark'
-          type='reset'
-          aria-label='очистить изменения'
-          onClick={() => {
-            formik.handleReset();
-            handleIconReset();
-          }}
-          className='ms-2 mt-3'>
-          Очистить изменения
-        </Button>
-      </fieldset>
-    </Form>
+          <Button
+            variant='dark'
+            type='reset'
+            aria-label='очистить изменения'
+            onClick={() => {
+              formik.handleReset();
+              handleIconReset();
+            }}
+            className='ms-2 mt-3'>
+            Очистить изменения
+          </Button>
+        </fieldset>
+      </Form>
+
+      {uploadFileError && <Message type='danger' 
+      title='Не получилось загрузить файл :(' text={`${uploadFileError}`} show={showUploadFileError} setShow={setShowUploadFileError} />}
+    </>
   )
 }
 
