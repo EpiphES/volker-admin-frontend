@@ -75,13 +75,30 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
       if(selectedTypes.length === 0) {
         return;
       }
-      values.cityId = values.cityId ? +values.cityId : null;
-      
-      values.modeType = +values.modeType;
-      values.phones = values.phones.split(/,\s*/);
-      values.markerTypes = selectedTypes;
-      values.images = images;
-      onSubmit(values);      
+      onSubmit({
+        title: values.title,
+        cityId: values.cityId ? +values.cityId : null,
+        latitude: values.latitude,
+        longitude: values.longitude,
+        description: values.description,
+        isMainPlace: values.isMainPlace,
+        modeType:  +values.modeType,
+        markerTypes: selectedTypes,
+        address: values.address,
+        createAuthor: values.createAuthor,
+        createDate: values.createDate,
+        actionUrl: values.actionUrl,
+        actionName: values.actionName,
+        webCameraUrl: values.webCameraUrl,
+        societyWebUrl: values.societyWebUrl,
+        societyInstagramUrl: values.societyInstagramUrl,
+        societyVkUrl: values.societyVkUrl,
+        societyFacebookUrl: values.societyFacebookUrl,
+        phones: values.phones.split(/,\s*/), 
+        isConfirmed: values.isConfirmed,
+        isPublished: values.isPublished,
+        images: images,
+      });      
     },
     onReset: () => {
       if(marker) {
@@ -144,7 +161,6 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
   }
 
   function handleLoadImage(e) {
-    console.log(e.target.files);
     if(e.target.files.length > 0) {
       api.uploadFile(e.target.files[0])
       .then((res) => {
