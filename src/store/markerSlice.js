@@ -30,7 +30,7 @@ export const createMarker = createAsyncThunk(
   async (values, {rejectWithValue, dispatch}) => {
     try {
       const res = await api.createMarker(values);
-      dispatch(addMarker(res));
+      dispatch(addMarker({id: res.id, ...values}));
     } catch (err) {
       return rejectWithValue(err);
     }
@@ -93,13 +93,12 @@ const markerSlice = createSlice({
     },
     changeMarker: (state, action) => {
       state.markers = state.markers.map((marker) => {
-        if (marker.id === +action.payload.id) {
+        if (marker.id === action.payload.id) {
           return action.payload;
         }
         return marker;        
       })
-      state.currentMarker.title = action.payload.title;
-      state.currentMarker.icon = action.payload.icon;
+      state.currentMarker = action.payload;
     },
   },
   extraReducers: {
