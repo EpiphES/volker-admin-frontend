@@ -13,7 +13,7 @@ function MarkersPage() {
   const dispatch = useDispatch();
   const [showMessage, setShowMessage] = useState(false);
   const { 
-    deleteMarkerStatus, 
+    deleteMarkerStatus,  
     deleteMarkerError, 
   } = useSelector(state => state.marker);
 
