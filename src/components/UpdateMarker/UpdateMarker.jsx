@@ -38,7 +38,7 @@ function UpdateMarker({showDeleteMarkerMessage}) {
   }
 
   function handleUpdateMarker(values) {
-    dispatch(updateMarker({id: markerId, ...values}));
+    dispatch(updateMarker({id: +markerId, ...values}));
     setShowUpdateMarkerMessage(true);
   }
 
