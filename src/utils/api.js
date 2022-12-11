@@ -273,3 +273,137 @@ export function deleteMarker(id) {
   })
   .then(checkEmptyResponse);
 }
+
+export function getStoriesBlockById(id) {
+  return fetch(`${PROXY}${BASE_URL}Stories/GetStoryBlockById?id=${id}`, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  })
+  .then(checkResponse);
+}
+
+export function getStoriesGroupById(id) {
+  return fetch(`${PROXY}${BASE_URL}Stories/GetStoriesByGroupId?id=${id}`, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  })
+  .then(checkResponse);
+}
+
+export function getAllStoriesBlocksByCityId(cityId) {
+  return fetch(`${PROXY}${BASE_URL}Stories/GetAllStoriesBlockByCityId?cityId=${cityId}`, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  })
+  .then(checkResponse);
+}
+
+export function createStoriesBlock(values) {
+  return fetch(`${PROXY}${BASE_URL}Stories/CreateStoriesBlock`, {
+    method: 'POST',
+    headers: { 
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    },
+    body: JSON.stringify(values),
+  })
+  .then(checkResponse);  
+}
+
+export function createStoriesGroup(values) {
+  return fetch(`${PROXY}${BASE_URL}Stories/CreateStoriesGroup`, {
+    method: 'POST',
+    headers: { 
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    },
+    body: JSON.stringify(values),
+  })
+  .then(checkResponse);  
+}
+
+export function createStoriesItem(values) {
+  return fetch(`${PROXY}${BASE_URL}Stories/CreateStoryItem`, {
+    method: 'POST',
+    headers: { 
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    },
+    body: JSON.stringify(values),
+  })
+  .then(checkResponse);  
+}
+
+export function updateStoriesBlock({Id, ...values}) {
+  return fetch(`${PROXY}${BASE_URL}Stories/UpdateStoriesBlock?Id=${Id}`, {
+    method: 'POST',
+    headers: { 
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    },
+    body: JSON.stringify(values)
+  })
+  .then(checkEmptyResponse); 
+}
+
+export function updateStoriesGroup({Id, ...values}) {
+  return fetch(`${PROXY}${BASE_URL}Stories/UpdateStoriesGroup?Id=${Id}`, {
+    method: 'POST',
+    headers: { 
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    },
+    body: JSON.stringify(values)
+  })
+  .then(checkEmptyResponse); 
+}
+
+export function updateStoriesItem({Id, ...values}) {
+  return fetch(`${PROXY}${BASE_URL}Stories/UpdateStoryItem?Id=${Id}`, {
+    method: 'POST',
+    headers: { 
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    },
+    body: JSON.stringify(values)
+  })
+  .then(checkEmptyResponse); 
+}
+
+export function deleteStoriesBlock(id) {
+  return fetch(`${PROXY}${BASE_URL}Stories/DeleteStoriesBlock?id=${id}`, {
+    method: 'DELETE',
+    headers: { 
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    }
+  })
+  .then(checkEmptyResponse);
+}
+
+export function deleteStoriesGroup(id) {
+  return fetch(`${PROXY}${BASE_URL}Stories/DeleteStoriesGroup?id=${id}`, {
+    method: 'DELETE',
+    headers: { 
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    }
+  })
+  .then(checkEmptyResponse);
+}
+
+export function deleteStoriesItem(id) {
+  return fetch(`${PROXY}${BASE_URL}Stories/DeleteStoriesItem?id=${id}`, {
+    method: 'DELETE',
+    headers: { 
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    }
+  })
+  .then(checkEmptyResponse);
+}
+
+
