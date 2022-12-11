@@ -17,6 +17,7 @@ import ModalWithSelect from '../ModalWithSelect/ModalWithSelect';
 import Coordinates from '../Сoordinates/Coordinates';
 import FormInput from '../FormInput/FormInput';
 import ImageGallery from '../ImageGallery/ImageGallery';
+import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup';
 
 function MarkerForm({name, marker, buttonText, onSubmit}) {
   const [validated, setValidated] = useState(false);
@@ -27,6 +28,9 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
   const [filteredTypes, setFilteredTypes] = useState([]);
   const [showTypeSelectModal, setShowTypeSelectModal] = useState(false);
   const [images, setImages] = useState([]);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [deletedImages, setDeletedImages] = useState([]);
+  const [deletedImage, setDeletedImage] = useState(''); 
 
   const {
     updateMarkerStatus,  
@@ -74,6 +78,9 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
     onSubmit: values => {
       if(selectedTypes.length === 0) {
         return;
+      }
+      if(deletedImages.length > 0) {
+        deleteImages(deletedImages);
       }
       onSubmit({
         title: values.title,
@@ -155,7 +162,7 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
   }
 
   function handleDeleteType(id) {
-    setSelectedTypes(prevVal => {
+    setSelectedTypes((prevVal) => {
       return prevVal.filter(item => item.id !== +id)
     })
   }
@@ -171,13 +178,37 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
     }
   }
 
+  function handleCloseConfirmModal() {
+    setShowConfirmModal(false);
+    setDeletedImage('');
+  }
+  function handleShowConfirmModal(url) {
+    setShowConfirmModal(true);
+    setDeletedImage(url);
+  };
+  
+  function confirmDeletion() {
+    setDeletedImages((prevVal) => [deletedImage, ...prevVal]);
+    setImages((prevVal) => prevVal.filter(item => item !== deletedImage));
+    handleCloseConfirmModal();
+  }
+
   function handleDeleteImage(url) {
     const fileName = getFileNameFromUrl(url);
     api.deleteFile(fileName)
     .then(() => {
       setImages((prevVal) => prevVal.filter(item => item !== url));
     })
-    .catch((err) => console.log(err))
+    .catch((err) => {
+      console.log(err);
+      setImages((prevVal) => [url, ...prevVal]);
+    })
+  }
+
+  function deleteImages(array) {
+    array.forEach((item) => {
+      handleDeleteImage(item);
+    })
   }
 
   useEffect(() => {
@@ -225,7 +256,7 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
         <ImageGallery 
           images={images}
           onAddClick={handleLoadImage}
-          onDelete={handleDeleteImage}/>
+          onDelete={handleShowConfirmModal}/>
       </Card>
 
       <Form 
@@ -517,6 +548,14 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
         onClose={handleCloseTypeSelectModal}
         onSubmit={handleAddType}
         text='тип'
+      />
+
+      <ConfirmationPopup 
+        text={`Удалить изображение?`}
+        show={showConfirmModal}
+        onClose={handleCloseConfirmModal}
+        onConfirm={confirmDeletion}
+        onDecline={handleCloseConfirmModal}
       />
     </>
   )
