@@ -150,7 +150,7 @@ function App() {
       </Routes>
 
       {loginError && <Message type='danger' 
-      title='Ошибка авторизации' text={`${loginError}`} show={showLoginError} setShow={setShowLoginError} />}
+      title='Ошибка при попытке авторизации' text={`${loginError}`} show={showLoginError} setShow={setShowLoginError} />}
     </div>
   );
 }
