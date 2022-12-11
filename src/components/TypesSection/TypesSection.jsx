@@ -56,6 +56,7 @@ function TypesSection({modeId}) {
 
   function handleCloseConfirmModal() {
     setShowConfirmModal(false);
+    setDeletedType('');
   }
   function handleShowConfirmModal(id) {
     setShowConfirmModal(true);
@@ -120,7 +121,7 @@ function TypesSection({modeId}) {
   
   function handleDeleteType() {
     dispatch(deleteType({id: deletedType.id, prevIcon: deletedType.iconOnMap}));
-    setShowConfirmModal(false);
+    handleCloseConfirmModal();  
     setShowDeleteTypeMessage(true);
   } 
 
