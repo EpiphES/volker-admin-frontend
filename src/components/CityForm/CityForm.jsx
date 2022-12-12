@@ -2,10 +2,9 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 
-import { Form, Row, Col, Button, InputGroup } from 'react-bootstrap';
+import { Form, Row, Col, Button } from 'react-bootstrap';
 
 import { cityFormValidate } from '../../utils/validation';
-import { LAT_REGEX, LON_REGEX } from '../../utils/constants';
 
 import { removeModeFromCity } from '../../store/citySlice';
 
@@ -148,7 +147,6 @@ function CityForm({name, city, buttonText, onSubmit}) {
             longitudeError={formik.errors.longitude}
           />
 
-          {name === 'update' &&
           <>
             <h6 className='mb-3'>Pежимы</h6>
             <Row xs={3} sm={4} md={5} className='g-2 h-100 mb-3'>
@@ -157,7 +155,7 @@ function CityForm({name, city, buttonText, onSubmit}) {
                 < AddCard minHeight={'100px'} onClick={handleShowModeSelectModal} />       
               </Col>     
             </Row>
-          </>}
+          </>
 
           <FormInput
             title='Описание'
