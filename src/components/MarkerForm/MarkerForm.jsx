@@ -29,7 +29,6 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
   const [showTypeSelectModal, setShowTypeSelectModal] = useState(false);
   const [images, setImages] = useState([]);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [deletedImages, setDeletedImages] = useState([]);
   const [deletedImage, setDeletedImage] = useState(''); 
 
   const {
@@ -78,9 +77,6 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
     onSubmit: values => {
       if(selectedTypes.length === 0) {
         return;
-      }
-      if(deletedImages.length > 0) {
-        deleteImages(deletedImages);
       }
       onSubmit({
         title: values.title,
@@ -187,28 +183,16 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
     setDeletedImage(url);
   };
   
-  function confirmDeletion() {
-    setDeletedImages((prevVal) => [deletedImage, ...prevVal]);
-    setImages((prevVal) => prevVal.filter(item => item !== deletedImage));
-    handleCloseConfirmModal();
-  }
-
-  function handleDeleteImage(url) {
-    const fileName = getFileNameFromUrl(url);
+  function handleDeleteImage() {
+    const fileName = getFileNameFromUrl(deletedImage);
     api.deleteFile(fileName)
     .then(() => {
-      setImages((prevVal) => prevVal.filter(item => item !== url));
+      setImages((prevVal) => prevVal.filter(item => item !== deletedImage));
     })
     .catch((err) => {
       console.log(err);
-      setImages((prevVal) => [url, ...prevVal]);
     })
-  }
-
-  function deleteImages(array) {
-    array.forEach((item) => {
-      handleDeleteImage(item);
-    })
+    .finally(() => handleCloseConfirmModal());
   }
 
   useEffect(() => {
@@ -539,7 +523,7 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
         </fieldset>
       </Form>
 
-      { images.length > 0  && 
+      { name === 'update' && images.length > 0  && 
       <small className='text-danger d-block text-center mb-2' >Перед удалением маркера желательно удалить все изображения</small> }      
 
       <ModalWithSelect 
@@ -554,7 +538,7 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
         text={`Удалить изображение?`}
         show={showConfirmModal}
         onClose={handleCloseConfirmModal}
-        onConfirm={confirmDeletion}
+        onConfirm={handleDeleteImage}
         onDecline={handleCloseConfirmModal}
       />
     </>
