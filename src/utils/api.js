@@ -108,7 +108,7 @@ export function removeModeFromCity(cityId, modeId) {
 }
 
 export function getAllModes() {
-  return fetch(`${PROXY}${BASE_URL}MarkerMode/GetAllMarkerModes`, {
+  return fetch(`${PROXY}${BASE_URL}Mode/GetAllMarkerModes`, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -118,7 +118,7 @@ export function getAllModes() {
 }
 
 export function getModeById(modeId) {
-  return fetch(`${PROXY}${BASE_URL}MarkerMode/GetMarkerModeById?modeId=${modeId}`, {
+  return fetch(`${PROXY}${BASE_URL}Mode/GetMarkerModeById?modeId=${modeId}`, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -128,7 +128,7 @@ export function getModeById(modeId) {
 }
 
 export function createMode(values) {
-  return fetch(`${PROXY}${BASE_URL}MarkerMode/CreateMode`, {
+  return fetch(`${PROXY}${BASE_URL}Mode/CreateMode`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
@@ -140,7 +140,7 @@ export function createMode(values) {
 }
 
 export function updateMode({id, ...values}) {
-  return fetch(`${PROXY}${BASE_URL}MarkerMode/UpdateMode?id=${id}`, {
+  return fetch(`${PROXY}${BASE_URL}Mode/UpdateMode?id=${id}`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
@@ -152,7 +152,7 @@ export function updateMode({id, ...values}) {
 }
 
 export function deleteMode(id) {
-  return fetch(`${PROXY}${BASE_URL}MarkerMode/DeleteMode?id=${id}`, {
+  return fetch(`${PROXY}${BASE_URL}Mode/DeleteMode?id=${id}`, {
     method: 'DELETE',
     headers: { 
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -162,7 +162,7 @@ export function deleteMode(id) {
 }
 
 export function createType(values) {
-  return fetch(`${PROXY}${BASE_URL}MarkerMode/CreateType`, {
+  return fetch(`${PROXY}${BASE_URL}Mode/CreateType`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
@@ -174,7 +174,7 @@ export function createType(values) {
 }
 
 export function updateType({id, ...values}) {
-  return fetch(`${PROXY}${BASE_URL}MarkerMode/UpdateType?id=${id}`, {
+  return fetch(`${PROXY}${BASE_URL}Mode/UpdateType?id=${id}`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
@@ -186,7 +186,7 @@ export function updateType({id, ...values}) {
 }
 
 export function deleteType(id) {
-  return fetch(`${PROXY}${BASE_URL}MarkerMode/DeleteType?id=${id}`, {
+  return fetch(`${PROXY}${BASE_URL}Mode/DeleteType?id=${id}`, {
     method: 'DELETE',
     headers: { 
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
