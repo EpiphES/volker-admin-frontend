@@ -101,12 +101,15 @@ const citySlice = createSlice({
     },
     addCity: (state, action) => {
       state.cities.push(action.payload);
+      state.currentCity = action.payload;
     },
     removeCity: (state, action) => {
       state.cities = state.cities.filter(city => city.id !== action.payload.id);
+      state.currentCity = null;
     },
     changeCity: (state, action) => {
-      state.cities = state.cities.map(city => city.id === action.payload.id ? action.payload : city )
+      state.cities = state.cities.map(city => city.id === action.payload.id ? action.payload : city);
+      state.currentCity = action.payload;
     },
   },
   extraReducers: {
