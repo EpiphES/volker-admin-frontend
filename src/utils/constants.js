@@ -1,5 +1,6 @@
 const BASE_URL = 'http://volker.stairenx.com:81/';
-const PROXY = 'http://cors-anywhere.herokuapp.com/';
+// const PROXY = 'http://cors-anywhere.herokuapp.com/';
+const PROXY = '';
 const UPLOAD_FOLDER = 'images';
 
 const credentials = {
