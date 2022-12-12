@@ -1,8 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { Row, Col, Alert, Button } from 'react-bootstrap';
-
-import { getModes } from '../../store/modeSlice';
+import { useSelector } from 'react-redux';
+import { Row, Col, Alert } from 'react-bootstrap';
 
 import ModeCard from '../ModeCard/ModeCard';
 import Loader from '../Loader/Loader';
@@ -10,7 +8,6 @@ import AddCard from '../AddCard/AddCard';
 import BtnScrollUp from '../BtnScrollUp/BtnScrollUp';
 
 function ModesGallery() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { 
     modes, 
@@ -34,10 +31,6 @@ function ModesGallery() {
     navigate('create');
   }
 
-  function handleGetModes() {
-    dispatch(getModes());
-  }
-
   return (
     <>
       { getModesStatus ==='loading' && <Loader /> }
@@ -51,14 +44,6 @@ function ModesGallery() {
       </Alert> }
       { getModesStatus ==='resolved' &&
       <section>
-        <Button
-          variant='warning'
-          type='button'
-          aria-label='обновить'
-          onClick={handleGetModes}
-          className='mb-3 d-block mx-auto'>
-          Обновить
-        </Button>
 
         <Row xs={3} sm={4} md={5} lg={6} className='g-2 h-100'>
           <Col>
