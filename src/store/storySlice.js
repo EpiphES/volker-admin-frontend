@@ -76,12 +76,12 @@ export const deleteStoriesBlock = createAsyncThunk(
   }
 );
 
-export const createType = createAsyncThunk(
-  'stories/createType',
+export const createStoriesGroup = createAsyncThunk(
+  'stories/createStoriesGroup',
   async (values, {rejectWithValue, dispatch}) => {
     try {      
-      const res = await api.createType(values);
-      dispatch(addType(res));
+      const res = await api.createStoriesGroup(values);
+      dispatch(addStoriesGroup(res));
       return res;
     } catch (err) {
       return rejectWithValue(err);
@@ -89,16 +89,12 @@ export const createType = createAsyncThunk(
   }
 );
 
-export const updateType = createAsyncThunk(
-  'stories/updateType',
-  async ({prevIcon, ...values}, {rejectWithValue, dispatch}) => {
+export const updateStoriesGroup = createAsyncThunk(
+  'stories/updateStoriesGroup',
+  async ({values}, {rejectWithValue, dispatch}) => {
     try {
-      await api.updateType(values);
-      dispatch(changeType(values));       
-      if(prevIcon) {
-        const prevIconFileName = getFileNameFromUrl(prevIcon);
-        await api.deleteFile(prevIconFileName);
-      };
+      await api.updateStoriesGroup(values);
+      dispatch(changeStoriesGroup(values));       
       return values;
     } catch (err) {
       return rejectWithValue(err);
@@ -106,14 +102,50 @@ export const updateType = createAsyncThunk(
   }
 );
 
-export const deleteType = createAsyncThunk(
-  'stories/deleteTypee',
+export const deleteStoriesGroup = createAsyncThunk(
+  'stories/deleteStoriesGroupe',
   async (values, {rejectWithValue, dispatch}) => {
     try {
-      await api.deleteType(values.id);
-      dispatch(removeType({id: values.id}));
-      const prevIconFileName = getFileNameFromUrl(values.prevIcon);
-      await api.deleteFile(prevIconFileName);
+      await api.deleteStoriesGroup(values.id);
+      dispatch(removeStoriesGroup({id: values.id}));
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const createStoriesItem = createAsyncThunk(
+  'stories/createStoriesItem',
+  async (values, {rejectWithValue, dispatch}) => {
+    try {
+      const res = await api.createStoriesItem(values);
+      dispatch(addStoriesItem(res));
+      return res;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const updateStoriesItem = createAsyncThunk(
+  'stories/updateStoriesItem',
+  async ({values}, {rejectWithValue, dispatch}) => {
+    try {
+      await api.updateStoriesItem(values);
+      dispatch(changeStoriesItem(values));
+      return values;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const deleteStoriesItem = createAsyncThunk(
+  'stories/deleteStoriesItem',
+  async (values, {rejectWithValue, dispatch}) => {
+    try {
+      await api.deleteStoriesItem(values.id);
+      dispatch(removeStoriesItem({id: values.id}));
     } catch (err) {
       return rejectWithValue(err);
     }
@@ -138,12 +170,12 @@ const storySlice = createSlice({
     updateStoriesBlockError: null,    
     deleteStoriesBlockStatus: null,
     deleteStoriesBlockError: null,
-    createTypeStatus: null,
-    createTypeError: null,
-    updateTypeStatus: null,
-    updateTypeError: null,    
-    deleteTypeStatus: null,
-    deleteTypeError: null,
+    createStoriesGroupStatus: null,
+    createStoriesGroupError: null,
+    updateStoriesGroupStatus: null,
+    updateStoriesGroupError: null,    
+    deleteStoriesGroupStatus: null,
+    deleteStoriesGroupError: null,
   },
   reducers: {
     setStoriesBlocks: (state, action) => {
@@ -153,40 +185,36 @@ const storySlice = createSlice({
       state.currentStoriesBlock = action.payload;
     },
     addStoriesBlock: (state, action) => {
-      state.storiesBlocks.pull(action.payload);
+      state.storiesBlocks.push(action.payload);
     },
     removeStoriesBlock: (state, action) => {
-      state.storiesBlocks = state.storiesBlocks.filter(storiesBlock =>storiesBlock.id !== +action.payload.id);
+      state.storiesBlocks = state.storiesBlocks.filter(item =>item.id !== +action.payload.id);
       state.currentStoriesBlock = null;
     },
     changeStoriesBlock: (state, action) => {
-      state.storiesBlocks = state.storiesBlocks.map((storiesBlock) => {
-        if (storiesBlock.id === +action.payload.id) {
-          storiesBlock.title = action.payload.title;
-          storiesBlock.icon = action.payload.icon;
-          return storiesBlock;
-        }
-        return storiesBlock;        
-      })
-      state.currentStoriesBlock.title = action.payload.title;
-      state.currentStoriesBlock.icon = action.payload.icon;
+      state.storiesBlocks = state.storiesBlocks.map((item) => item.id === action.payload.id ? action.payload : item);
+      state.currentStoriesBlock = action.payload;       
     },
-    addType: (state, action) => {
-      state.currentStoriesBlock.markerTypes.push(action.payload);
+    addStoriesGroup: (state, action) => {
+      state.currentStoriesBlock.storiesGroups.push(action.payload);
+      state.currentStoriesGroup = action.payload;
     },
-    changeType: (state, action) => {
-      state.currentStoriesBlock.markerTypes = state.currentStoriesBlock.markerTypes.map((type) => {
-        if(type.id === action.payload.id) {
-          type.title = action.payload.title;
-          type.iconOnMap = action.payload.iconOnMap;
-          type.colorOnMap = action.payload.colorOnMap;
-          return type;
-        }
-        return type
-      })
+    changeStoriesGroup: (state, action) => {
+      state.currentStoriesBlock.storiesGroups = state.currentStoriesBlock.storiesGroups.map((item) => item.id === action.payload.id ? action.payload : item);
+      state.currentStoriesGroup = action.payload;
     },
-    removeType: (state, action) => {
-      state.currentStoriesBlock.markerTypes = state.currentStoriesBlock.markerTypes.filter(type => type.id !== action.payload.id)
+    removeStoriesGroup: (state, action) => {
+      state.currentStoriesBlock.storiesGroups = state.currentStoriesBlock.storiesGroups.filter(item => item.id !== action.payload.id);
+      state.currentStoriesGroup = null;
+    },
+    addStoriesItem: (state, action) => {
+      state.currentStoriesGroup.storyItems.push(action.payload);
+    },
+    changeStoriesItem: (state, action) => {
+      state.currentStoriesGroup.storyItems = state.currentStoriesGroup.storyItems.map((item) => item.id === action.payload.id ? action.payload : item);
+    },
+    removeStoriesItem: (state, action) => {
+      state.currentStoriesGroup.storyItems = state.currentStoriesGroup.storyItems.filter(item => item.id !== action.payload.id);
     }
   },
   extraReducers: {
@@ -259,41 +287,74 @@ const storySlice = createSlice({
       state.deleteStoriesBlockStatus = 'rejected';
       state.deleteStoriesBlockError = action.payload;
     },
-    [createType.pending]: (state) => { 
-      state.createTypeStatus = 'loading';
-      state.createTypeError = null;
+    [createStoriesGroup.pending]: (state) => { 
+      state.createStoriesGroupStatus = 'loading';
+      state.createStoriesGroupError = null;
     },
-    [createType.fulfilled]: (state) => {
-      state.createTypeStatus = 'resolved';
+    [createStoriesGroup.fulfilled]: (state) => {
+      state.createStoriesGroupStatus = 'resolved';
     },
-    [createType.rejected]: (state, action) => {
-      state.createTypeStatus = 'rejected';
-      state.createTypeError = action.payload;
+    [createStoriesGroup.rejected]: (state, action) => {
+      state.createStoriesGroupStatus = 'rejected';
+      state.createStoriesGroupError = action.payload;
     },
-    [updateType.pending]: (state) => { 
-      state.updateTypeStatus = 'loading';
-      state.updateTypeError = null;
+    [updateStoriesGroup.pending]: (state) => { 
+      state.updateStoriesGroupStatus = 'loading';
+      state.updateStoriesGroupError = null;
     },
-    [updateType.fulfilled]: (state) => {
-      state.updateTypeStatus = 'resolved';
+    [updateStoriesGroup.fulfilled]: (state) => {
+      state.updateStoriesGroupStatus = 'resolved';
     },
-    [updateType.rejected]: (state, action) => {
-      state.updateTypeStatus = 'rejected';
-      state.updateTypeError = action.payload;
+    [updateStoriesGroup.rejected]: (state, action) => {
+      state.updateStoriesGroupStatus = 'rejected';
+      state.updateStoriesGroupError = action.payload;
     },
-    [deleteType.pending]: (state) => { 
-      state.deleteTypeStatus = 'loading';
-      state.deleteTypeError = null;
+    [deleteStoriesGroup.pending]: (state) => { 
+      state.deleteStoriesGroupStatus = 'loading';
+      state.deleteStoriesGroupError = null;
     },    
-    [deleteType.fulfilled]: (state) => {
-      state.deleteTypeStatus = 'resolved';
+    [deleteStoriesGroup.fulfilled]: (state) => {
+      state.deleteStoriesGroupStatus = 'resolved';
     },
-    [deleteType.rejected]: (state, action) => {
-      state.deleteTypeStatus = 'rejected';
-      state.deleteTypeError = action.payload;
+    [deleteStoriesGroup.rejected]: (state, action) => {
+      state.deleteStoriesGroupStatus = 'rejected';
+      state.deleteStoriesGroupError = action.payload;
+    },
+    [createStoriesItem.pending]: (state) => { 
+      state.createStoriesItemStatus = 'loading';
+      state.createStoriesItemError = null;
+    },
+    [createStoriesItem.fulfilled]: (state) => {
+      state.createStoriesItemStatus = 'resolved';
+    },
+    [createStoriesItem.rejected]: (state, action) => {
+      state.createStoriesItemStatus = 'rejected';
+      state.createStoriesItemError = action.payload;
+    },
+    [updateStoriesItem.pending]: (state) => { 
+      state.updateStoriesItemStatus = 'loading';
+      state.updateStoriesItemError = null;
+    },
+    [updateStoriesItem.fulfilled]: (state) => {
+      state.updateStoriesItemStatus = 'resolved';
+    },
+    [updateStoriesItem.rejected]: (state, action) => {
+      state.updateStoriesItemStatus = 'rejected';
+      state.updateStoriesItemError = action.payload;
+    },
+    [deleteStoriesItem.pending]: (state) => { 
+      state.deleteStoriesItemStatus = 'loading';
+      state.deleteStoriesItemError = null;
+    },    
+    [deleteStoriesItem.fulfilled]: (state) => {
+      state.deleteStoriesItemStatus = 'resolved';
+    },
+    [deleteStoriesItem.rejected]: (state, action) => {
+      state.deleteStoriesItemStatus = 'rejected';
+      state.deleteStoriesItemError = action.payload;
     },
   },
 });
-export const { setStoriesBlocks, setCurrentStoriesBlock, addStoriesBlock, changeStoriesBlock, removeStoriesBlock, addType, changeType, removeType } = storySlice.actions;
+export const { setStoriesBlocks, setCurrentStoriesBlock, addStoriesBlock, changeStoriesBlock, removeStoriesBlock, addStoriesGroup, changeStoriesGroup, removeStoriesGroup, addStoriesItem, changeStoriesItem, removeStoriesItem } = storySlice.actions;
 
 export default storySlice.reducer;
