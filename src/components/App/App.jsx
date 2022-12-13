@@ -15,7 +15,7 @@ import Layout from '../Layout/Layout';
 import Main from '../Main/Main';
 import MarkersPage from '../MarkersPage/MarkersPage';
 import ModesPage from '../ModesPage/ModesPage';
-import Stories from '../Stories/Stories';
+import StoriesPage from '../StoriesPage/StoriesPage';
 import CreateCity from '../CreateCity/CreateCity';
 import UpdateCity from '../UpdateCity/UpdateCity';
 import Message from '../Message/Message.jsx';
@@ -131,7 +131,7 @@ function App() {
 
           <Route
             path='stories/*'
-            element={<Stories />}
+            element={<StoriesPage />}
           />
 
           <Route
