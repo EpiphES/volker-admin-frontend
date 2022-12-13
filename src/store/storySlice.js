@@ -1,12 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import * as api from '../utils/api';
-import { getFileNameFromUrl } from '../utils/utils';
 
 export const getStoriesBlocks = createAsyncThunk(
   'stories/getStoriesBlocks',
-  async (_, {rejectWithValue}) => {
+  async (cityId, {rejectWithValue}) => {
     try {
-      const res = await api.getAllStoriesBlocksByCityId();
+      const res = await api.getAllStoriesBlocksByCityId(cityId);
       return res;
     } catch (err) {
       return rejectWithValue(err);
