@@ -12,7 +12,7 @@ function BtnScrollUp() {
   return (
     <Button             
       variant='secondary'
-      className='position-fixed  bottom-0 opacity-75 mb-4 ms-2'
+      className='position-fixed end-0 bottom-0 opacity-75 mb-4 me-2'
       type='button'
       aria-label='перейти на верх страницы'
       onClick={handleScroll}
