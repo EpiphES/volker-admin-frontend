@@ -51,7 +51,7 @@ function MarkersGallery() {
         <section>
           <Row xs={2} sm={3} md={4} lg={5} className='g-2 h-100 mb-3'>
             <Col>
-              <AddCard minHeight='150px' onClick={handleAddClick} type='mode'/>
+              <AddCard minHeight='150px' onClick={handleAddClick} />
             </Col>
             {markerCards}      
           </Row> 
