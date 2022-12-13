@@ -5,7 +5,7 @@ function MarkerCard({item, onClick}) {
   const markerTypesString = (item.markerTypes || item.markerToTypes).map(i => i.title).join(', ');
   return (
     <Card      
-      className='shadow-sm w-100 h-100 ' 
+      className='shadow-sm w-100 h-100' 
       border='success'
       onClick={() => onClick(item.id)}
       style={{cursor: 'pointer'}}>
