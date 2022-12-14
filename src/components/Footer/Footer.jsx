@@ -2,7 +2,7 @@ import { Container } from 'react-bootstrap';
 
 const Footer = () => {
   return (
-    <footer className='mt-auto pt-5'>
+    <footer className='mt-auto pt-5 mb-2'>
       <Container className='d-flex'>
         <h6 className='mx-auto'>
           {'Copyright © '}
