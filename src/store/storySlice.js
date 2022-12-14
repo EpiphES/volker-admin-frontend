@@ -52,7 +52,7 @@ export const createStoriesBlock = createAsyncThunk(
 
 export const updateStoriesBlock = createAsyncThunk(
   'stories/updateStoriesBlock',
-  async ({values}, {rejectWithValue, dispatch}) => {
+  async (values, {rejectWithValue, dispatch}) => {
     try {
       await api.updateStoriesBlock(values);
       dispatch(changeStoriesBlock(values));
@@ -65,10 +65,10 @@ export const updateStoriesBlock = createAsyncThunk(
 
 export const deleteStoriesBlock = createAsyncThunk(
   'stories/deleteStoriesBlock',
-  async (values, {rejectWithValue, dispatch}) => {
+  async (id, {rejectWithValue, dispatch}) => {
     try {
-      await api.deleteStoriesBlock(values.id);
-      dispatch(removeStoriesBlock({id: values.id}));
+      await api.deleteStoriesBlock(id);
+      dispatch(removeStoriesBlock({id}));
     } catch (err) {
       return rejectWithValue(err);
     }
@@ -181,7 +181,7 @@ const storySlice = createSlice({
       state.storiesBlocks = action.payload;
     },
     setCurrentStoriesBlock: (state, action) => {
-      state.currentStoriesBlock = action.payload;
+      state.currentStoriesBlock = action.payload ? state.storiesBlocks.find((item) => item.id === action.payload.id) : null;
     },
     addStoriesBlock: (state, action) => {
       state.storiesBlocks.push(action.payload);
