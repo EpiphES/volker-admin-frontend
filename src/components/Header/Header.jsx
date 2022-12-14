@@ -28,12 +28,6 @@ function Header({onProfileClick}) {
             <Nav className='m-auto' activeKey={location.pathname}>
               <Nav.Link
                 as={NavLink}
-                to='/'
-                eventKey='/'>
-                Главная
-              </Nav.Link>
-              <Nav.Link
-                as={NavLink}
                 to='/markers'
                 eventKey='/markers'>
                 Маркеры
