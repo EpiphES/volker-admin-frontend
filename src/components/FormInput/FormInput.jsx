@@ -8,7 +8,7 @@ function FormInput({title, error, ...props}) {
         {...props}
       />
       { error &&
-        <Form.Control.Feedback type="invalid">
+        <Form.Control.Feedback type='invalid'>
           {error}
         </Form.Control.Feedback> }
     </Form.Group>
