@@ -53,7 +53,7 @@ const cityFormValidate = values => {
   return errors;
  };
 
- const typeFormValidate = values => {
+const typeFormValidate = values => {
   const errors = {};
 
   if (!values.title) {
@@ -91,12 +91,31 @@ const markerFormValidate = values => {
   }
 
   return errors;
- };
+};
+
+const storiesBlockFormValidate = values => {
+  const errors = {};
+
+  if (!values.title) {
+    errors.title = 'Поле должно быть заполнено';
+  }
+  
+  if(values.cityId === '') {
+    errors.cityId = 'Необходимо выбрать город';
+  }
+
+  if(!Number.isInteger(values.position)) {
+    errors.position = 'Введите целое число'
+  }
+
+  return errors;
+};
 
 export {
   loginFormValidate,
   cityFormValidate,
   modeFormValidate,
   typeFormValidate,
-  markerFormValidate
+  markerFormValidate,
+  storiesBlockFormValidate
 }
