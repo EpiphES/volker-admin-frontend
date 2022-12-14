@@ -219,7 +219,6 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
       dispatch(getModeById(marker.modeType));
       setSelectedTypes(marker.markerTypes);
       setImages(marker.images);
-      console.log(marker);
     }
   }, [marker, dispatch]);
 
