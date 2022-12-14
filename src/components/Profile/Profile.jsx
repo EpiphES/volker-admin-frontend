@@ -72,7 +72,7 @@ function Profile({onLogout}) {
           <Card.Body>
             <Form.Select 
               aria-label='выберите город' onChange={handleSelectCity}
-              defaultValue={''}
+              value={currentCity?.id || ''}
             >
               <option disabled value=''>Выберите город</option>
               {citySelect}
