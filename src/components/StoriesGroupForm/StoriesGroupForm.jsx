@@ -36,8 +36,7 @@ function StoriesGroupForm({name, group, buttonText, submitHandler}) {
     },
     validate: storiesGroupFormValidate,
     onSubmit: values => {
-      console.log(values);
-      // handleSubmit(values);      
+      handleSubmit(values);      
     },
   });
 
@@ -186,4 +185,4 @@ function StoriesGroupForm({name, group, buttonText, submitHandler}) {
   )
 }
 
-export default StoriesGroupForm
+export default StoriesGroupForm;
