@@ -117,6 +117,10 @@ const storiesGroupFormValidate = values => {
   if (!values.title) {
     errors.title = 'Поле должно быть заполнено';
   }
+
+  if(values.storiesBlockId === '') {
+    errors.storiesBlockId = 'Необходимо выбрать блок';
+  }
   
   if(!Number.isInteger(values.position)) {
     errors.position = 'Введите целое число'
