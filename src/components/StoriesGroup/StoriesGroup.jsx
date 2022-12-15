@@ -13,9 +13,9 @@ function StoriesGroup({item, onClick}) {
         src={item.image}
         style={{minHeight: '150px', objectFit: 'cover'}} 
       />
-      <Card.ImgOverlay className='text-end d-flex'>
+      <Card.ImgOverlay className='text-center d-flex justify-content-center'>
         <MdEdit className='position-absolute top-0 end-0 p-1 text-dark' size={30} />
-        <Card.Title as='h6' className='text-light mt-auto'>
+        <Card.Title as='h6' className='text-light mt-auto bg-dark bg-opacity-50'>
           {item.title}
         </Card.Title>        
       </Card.ImgOverlay>
