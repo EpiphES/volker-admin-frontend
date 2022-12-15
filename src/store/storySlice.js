@@ -103,10 +103,10 @@ export const updateStoriesGroup = createAsyncThunk(
 
 export const deleteStoriesGroup = createAsyncThunk(
   'stories/deleteStoriesGroupe',
-  async (values, {rejectWithValue, dispatch}) => {
+  async (id, {rejectWithValue, dispatch}) => {
     try {
-      await api.deleteStoriesGroup(values.id);
-      dispatch(removeStoriesGroup({id: values.id}));
+      await api.deleteStoriesGroup(id);
+      dispatch(removeStoriesGroup({id}));
     } catch (err) {
       return rejectWithValue(err);
     }
@@ -182,6 +182,9 @@ const storySlice = createSlice({
     },
     setCurrentStoriesBlock: (state, action) => {
       state.currentStoriesBlock = action.payload ? state.storiesBlocks.find((item) => item.id === action.payload.id) : null;
+    },
+    setCurrentStoriesGroup: (state, action) => {
+      state.currentStoriesGroup = action.payload;
     },
     addStoriesBlock: (state, action) => {
       state.storiesBlocks.push(action.payload);
@@ -354,6 +357,6 @@ const storySlice = createSlice({
     },
   },
 });
-export const { setStoriesBlocks, setCurrentStoriesBlock, addStoriesBlock, changeStoriesBlock, removeStoriesBlock, addStoriesGroup, changeStoriesGroup, removeStoriesGroup, addStoriesItem, changeStoriesItem, removeStoriesItem } = storySlice.actions;
+export const { setStoriesBlocks, setCurrentStoriesBlock, setCurrentStoriesGroup, addStoriesBlock, changeStoriesBlock, removeStoriesBlock, addStoriesGroup, changeStoriesGroup, removeStoriesGroup, addStoriesItem, changeStoriesItem, removeStoriesItem } = storySlice.actions;
 
 export default storySlice.reducer;
