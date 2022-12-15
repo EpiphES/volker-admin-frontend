@@ -1,5 +1,8 @@
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { Card, Button, Row, Col } from 'react-bootstrap';
+
+import { setCurrentStoriesBlock } from '../../store/storySlice';
 
 import { MdEdit, MdDelete } from 'react-icons/md';
 
@@ -7,6 +10,7 @@ import AddCard from '../AddCard/AddCard';
 import StoriesGroup from '../StoriesGroup/StoriesGroup';
 
 function StoriesBlock({item, onUpdate, onDelete}) {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const storiesGroupCards = item.storiesGroups.map(group => {
@@ -18,10 +22,12 @@ function StoriesBlock({item, onUpdate, onDelete}) {
   });
 
   function handleCardClick(storiesId) {
-    navigate(`${storiesId}`);
+    dispatch(setCurrentStoriesBlock({id: item.id})); 
+    navigate(`${storiesId}`);       
   }
 
   function handleAddClick() {
+    dispatch(setCurrentStoriesBlock({id: item.id}));
     navigate('create');
   }
 
