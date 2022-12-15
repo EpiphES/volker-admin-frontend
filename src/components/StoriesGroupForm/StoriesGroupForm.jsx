@@ -1,15 +1,24 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 
 import { Form, Button } from 'react-bootstrap';
 
+import * as api from '../../utils/api';
+import { BASE_URL } from '../../utils/constants';
 import { storiesGroupFormValidate } from '../../utils/validation';
 
 import FormInput from '../FormInput/FormInput';
+import FileInputCard from '../FileInputCard/FileInputCard';
+import Message from '../Message/Message';
 
-function StoriesGroupForm({name, group, buttonText, onSubmit}) {
+function StoriesGroupForm({name, group, buttonText, submitHandler}) {
   const [validated, setValidated] = useState(false);
+  const [groupImage, setGroupImage] = useState('');
+  const [imageFile, setImageFile] = useState(null);
+  const [showUploadFileError, setShowUploadFileError] = useState(false);
+  const [uploadFileError, setUploadFileError] = useState(null);
+  const [fileLoading, setFileLoading] = useState(false);
 
   const {
     storiesBlocks,
@@ -23,19 +32,57 @@ function StoriesGroupForm({name, group, buttonText, onSubmit}) {
       title: group?.title || '',
       storiesBlockId: group ? group.storiesBlockId : currentStoriesBlock.id,
       position: group?.position || 0,
-      image: group?.image || '',
       storyItems: group?.storyItems || [],
     },
     validate: storiesGroupFormValidate,
     onSubmit: values => {
       console.log(values);
-      // onSubmit(values);      
+      // handleSubmit(values);      
     },
   });
 
   const blockSelect = storiesBlocks.map((item) => {
     return (<option key={item.id} value={item.id}>{item.title}</option>)
   });
+
+  function handleImageSelect(event) {
+    setImageFile(event.target.files[0]);
+  }
+
+  function handleImageReset() {
+    setImageFile(null);
+  }
+
+  function handleSubmit(values) {
+    if(imageFile) {
+      setUploadFileError(null);
+      setFileLoading(true);
+      api.uploadFile(imageFile)
+      .then((res) => {
+        const imageUrl = BASE_URL + res;
+        submitHandler({imageUrl, ...values});
+      })
+      .catch((err) => {
+        setUploadFileError(err);
+        setShowUploadFileError(true);
+      })
+      .finally(() => setFileLoading(false));
+    } else {
+      submitHandler(values);
+    }
+  }
+
+  useEffect(() => {
+    if (!imageFile) {
+      group ?
+      setGroupImage(group.image) 
+      : setGroupImage('');
+      return
+    }
+    const objectUrl = URL.createObjectURL(imageFile);
+    setGroupImage(objectUrl);
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [imageFile, group]);
 
   return (
     <>
@@ -51,7 +98,9 @@ function StoriesGroupForm({name, group, buttonText, onSubmit}) {
         validated={validated}
         >
         <fieldset disabled={(
-          updateStoriesGroupStatus === 'loading' || createStoriesGroupStatus === 'loading'
+          updateStoriesGroupStatus === 'loading' || 
+          createStoriesGroupStatus === 'loading' || 
+          fileLoading
         )}>
           <FormInput
             title='Название группы'
@@ -65,6 +114,14 @@ function StoriesGroupForm({name, group, buttonText, onSubmit}) {
             value={formik.values.title}
             error={formik.errors.title}
           />
+
+          <div style={{width: '120px'}} className='mx-auto h-100 mb-3'>
+            <FileInputCard
+              name='type'
+              onChange={handleImageSelect}
+              imageLink={groupImage}  
+            />
+          </div>
 
           <Form.Group className='mb-3'>
             <Form.Label className='h6 mb-3' htmlFor={`storiesBlockId-group-${name}`}>
@@ -90,7 +147,7 @@ function StoriesGroupForm({name, group, buttonText, onSubmit}) {
           </Form.Group>
 
           <FormInput
-            title='Позиция блока'
+            title='Позиция в блоке'
             type='number'
             name='position'
             id={`position-group-${name}`} 
@@ -102,15 +159,29 @@ function StoriesGroupForm({name, group, buttonText, onSubmit}) {
           />
 
           <Button
-            variant='secondary'
+            variant='dark'
             type='submit'
             aria-label={buttonText}
-            className='mt-4'>
+            className='mt-3'>
             {(updateStoriesGroupStatus === 'loading' || createStoriesGroupStatus === 'loading') ? 'Сохранение...' : buttonText}
           </Button>
-        </fieldset>
 
+          <Button
+            variant='dark'
+            type='reset'
+            aria-label='очистить изменения'
+            onClick={() => {
+              formik.handleReset();
+              handleImageReset();
+            }}
+            className='ms-2 mt-3'>
+            Очистить изменения
+          </Button>
+        </fieldset>
       </Form>
+
+      {uploadFileError && <Message type='danger' 
+      title='Не получилось загрузить файл :(' text={`${uploadFileError}`} show={showUploadFileError} setShow={setShowUploadFileError} />}
     </>
   )
 }
