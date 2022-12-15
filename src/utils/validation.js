@@ -111,11 +111,26 @@ const storiesBlockFormValidate = values => {
   return errors;
 };
 
+const storiesGroupFormValidate = values => {
+  const errors = {};
+
+  if (!values.title) {
+    errors.title = 'Поле должно быть заполнено';
+  }
+  
+  if(!Number.isInteger(values.position)) {
+    errors.position = 'Введите целое число'
+  }
+
+  return errors;
+};
+
 export {
   loginFormValidate,
   cityFormValidate,
   modeFormValidate,
   typeFormValidate,
   markerFormValidate,
-  storiesBlockFormValidate
+  storiesBlockFormValidate, 
+  storiesGroupFormValidate
 }
