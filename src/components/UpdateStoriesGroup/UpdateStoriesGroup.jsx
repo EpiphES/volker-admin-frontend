@@ -16,6 +16,7 @@ function UpdateStoriesGroup() {
   const dispatch = useDispatch();
   const {storiesId} = useParams();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showUpdateGroupMessage, setShowUpdateGroupMessage] = useState(false);
 
   const { 
     currentStoriesGroup, 
@@ -25,8 +26,23 @@ function UpdateStoriesGroup() {
     updateStoriesGroupError, 
   } = useSelector(state => state.story);
 
-  function handleUpdateGroup(values) {
-    dispatch(updateStoriesGroup({Id: currentStoriesGroup.id, ...values}));
+  function handleUpdateGroup({imageUrl, ...values}) {
+    if(imageUrl) {
+      dispatch(updateStoriesGroup({
+        Id: currentStoriesGroup.id,
+        image: imageUrl,
+        prevImage: currentStoriesGroup.image,  
+        ...values
+      }));    
+      setShowUpdateGroupMessage(true);
+    } else {
+      dispatch(updateStoriesGroup({
+        Id: currentStoriesGroup.id,  
+        image: currentStoriesGroup.image,
+        ...values
+      }));
+      setShowUpdateGroupMessage(true);
+    }   
   }
 
   function handleCloseConfirmModal() {
@@ -60,7 +76,7 @@ function UpdateStoriesGroup() {
             name='update'
             group={currentStoriesGroup}
             buttonText='Обновить группу'
-            onSubmit={handleUpdateGroup}
+            submitHandler={handleUpdateGroup}
           />
         </Card>
         
