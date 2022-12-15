@@ -11,9 +11,11 @@ import Loader from "../Loader/Loader";
 import StoriesGroupForm from '../StoriesGroupForm/StoriesGroupForm';
 import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup';
 import StoriesSlider from '../StorySlider/StorySlider';
+import Message from '../Message/Message';
 
-function UpdateStoriesGroup() {
+function UpdateStoriesGroup({showDeleteGroupMessage}) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {storiesId} = useParams();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showUpdateGroupMessage, setShowUpdateGroupMessage] = useState(false);
@@ -53,7 +55,14 @@ function UpdateStoriesGroup() {
   }
 
   function handleDeleteGroup() {
-    dispatch(deleteStoriesGroup(currentStoriesGroup.id))
+    if(currentStoriesGroup.storyItems.length === 0)
+    dispatch(deleteStoriesGroup({
+      id: currentStoriesGroup.id,
+      prevImage: currentStoriesGroup.image
+    }));
+    handleCloseConfirmModal();
+    navigate('/stories');
+    showDeleteGroupMessage(true);
   }
 
   useEffect(() => {
@@ -111,9 +120,9 @@ function UpdateStoriesGroup() {
         onDecline={handleCloseConfirmModal}
       />
 
-      {/* {updateModeStatus === 'rejected' && <Message type='danger' text={`${updateModeError}`} show={showUpdateModeMessage} setShow={setShowUpdateModeMessage} />}
+      {updateStoriesGroupStatus === 'rejected' && <Message type='danger' text={`${updateStoriesGroupError}`} show={showUpdateGroupMessage} setShow={setShowUpdateGroupMessage} />}
 
-      {updateModeStatus === 'resolved' && <Message type='success' text='Режим обновлен!' show={showUpdateModeMessage} setShow={setShowUpdateModeMessage} />} */}
+      {updateStoriesGroupStatus === 'resolved' && <Message type='success' text='Группа обновлена!' show={showUpdateGroupMessage} setShow={setShowUpdateGroupMessage} />}
     </>
   )
 }
