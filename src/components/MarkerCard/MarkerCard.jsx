@@ -12,7 +12,7 @@ function MarkerCard({item, onClick}) {
       <Card.Img 
         src={item.images[0]} 
         variant='top'
-        style={{height: '150px', objectFit: 'cover'}} 
+        style={{height: '150px', objectFit: 'contain'}} 
       />
       <Card.Body className='p-2'>                     
         <Card.Text className='mb-1 marker-card__title' >
