@@ -33,7 +33,7 @@ function StoriesGallery() {
   
   const {currentCity} = useSelector(state => state.city);
 
-  const storiesBlockCards = storiesBlocks.map(item => {
+  const storiesBlockCards = storiesBlocks.map((item) => {
     return (
       <StoriesBlock 
         key={item.id} 
@@ -119,7 +119,7 @@ function StoriesGallery() {
 
         <Modal show={showUpdateModal} onHide={handleCloseUpdateModal}>
         <Modal.Header closeButton className='py-2 '>
-          <Modal.Title as='h5'>{`Редактировать блок "${currentStoriesBlock?.title}"`}</Modal.Title>
+          <Modal.Title as='h5'>{`Редактировать блок`}</Modal.Title>
         </Modal.Header>
         <Modal.Body >
           <StoriesBlockForm 
