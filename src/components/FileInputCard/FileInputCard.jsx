@@ -11,9 +11,9 @@ function FileInputCard({name, onChange, imageLink}) {
         style={{cursor:'pointer', minHeight: '120px'}}
         >
         { imageLink &&
-        <MdEdit className='position-absolute top-0 end-0 p-1 text-primary' size={30} /> }
+        <MdEdit className='position-absolute top-0 end-0 p-1 text-dark' size={30} /> }
         { imageLink ? 
-          <Card.Img src={imageLink} />
+          <Card.Img src={imageLink} className='m-auto'/>
           : <BsPlusCircleDotted size={50} className='m-auto'/>
         }
       </Card>
