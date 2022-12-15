@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import * as api from '../utils/api';
+import { getFileNameFromUrl } from '../utils/utils';
 
 export const getStoriesBlocks = createAsyncThunk(
   'stories/getStoriesBlocks',
@@ -90,10 +91,14 @@ export const createStoriesGroup = createAsyncThunk(
 
 export const updateStoriesGroup = createAsyncThunk(
   'stories/updateStoriesGroup',
-  async ({values}, {rejectWithValue, dispatch}) => {
+  async ({prevImage, ...values}, {rejectWithValue, dispatch}) => {
     try {
       await api.updateStoriesGroup(values);
-      dispatch(changeStoriesGroup(values));       
+      dispatch(changeStoriesGroup(values));
+      if(prevImage) {
+        const prevImageFileName = getFileNameFromUrl(prevImage);
+        await api.deleteFile(prevImageFileName);
+      }       
       return values;
     } catch (err) {
       return rejectWithValue(err);
@@ -103,10 +108,12 @@ export const updateStoriesGroup = createAsyncThunk(
 
 export const deleteStoriesGroup = createAsyncThunk(
   'stories/deleteStoriesGroupe',
-  async (id, {rejectWithValue, dispatch}) => {
+  async (values, {rejectWithValue, dispatch}) => {
     try {
-      await api.deleteStoriesGroup(id);
-      dispatch(removeStoriesGroup({id}));
+      await api.deleteStoriesGroup(values.id);
+      dispatch(removeStoriesGroup({id: values.id}));
+      const prevImageFileName = getFileNameFromUrl(values.prevImage);
+      await api.deleteFile(prevImageFileName);
     } catch (err) {
       return rejectWithValue(err);
     }
@@ -198,6 +205,12 @@ const storySlice = createSlice({
       state.currentStoriesBlock = action.payload;       
     },
     addStoriesGroup: (state, action) => {
+      state.storiesBlocks.map((item) => {
+        if(item.id === action.payload.storiesBlockId) {
+          item.storiesGroups.push(action.payload);
+        }
+        return item;  
+      });
       state.currentStoriesBlock.storiesGroups.push(action.payload);
       state.currentStoriesGroup = action.payload;
     },
