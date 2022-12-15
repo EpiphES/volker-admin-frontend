@@ -100,7 +100,7 @@ const citySlice = createSlice({
       state.currentCity = action.payload;
     },
     addCity: (state, action) => {
-      state.cities.push(action.payload);
+      state.cities.unshift(action.payload);
       state.currentCity = action.payload;
     },
     removeCity: (state, action) => {
