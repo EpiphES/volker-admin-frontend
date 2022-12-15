@@ -28,7 +28,7 @@ function ModesPage() {
         />
         <Route
           path=':modeId'
-          element={<UpdateMode showDeleteModeMessage={setShowMessage}/>}
+          element={<UpdateMode showDeleteModeMessage={setShowMessage} />}
         />
       </Routes>
     
