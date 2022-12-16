@@ -182,6 +182,13 @@ const storySlice = createSlice({
     updateStoriesGroupError: null,    
     deleteStoriesGroupStatus: null,
     deleteStoriesGroupError: null,
+    currentStoriesItem: null,
+    createStoriesItemStatus: null,
+    createStoriesItemError: null,
+    updateStoriesItemStatus: null,
+    updateStoriesItemError: null,    
+    deleteStoriesItemStatus: null,
+    deleteStoriesItemError: null,
   },
   reducers: {
     setStoriesBlocks: (state, action) => {
@@ -192,6 +199,9 @@ const storySlice = createSlice({
     },
     setCurrentStoriesGroup: (state, action) => {
       state.currentStoriesGroup = action.payload;
+    },
+    setCurrentStoriesItem:(state, action) => {
+      state.currentStoriesItem = action.payload;
     },
     addStoriesBlock: (state, action) => {
       state.storiesBlocks.push(action.payload);
@@ -370,6 +380,6 @@ const storySlice = createSlice({
     },
   },
 });
-export const { setStoriesBlocks, setCurrentStoriesBlock, setCurrentStoriesGroup, addStoriesBlock, changeStoriesBlock, removeStoriesBlock, addStoriesGroup, changeStoriesGroup, removeStoriesGroup, addStoriesItem, changeStoriesItem, removeStoriesItem } = storySlice.actions;
+export const { setStoriesBlocks, setCurrentStoriesBlock, setCurrentStoriesGroup, addStoriesBlock, changeStoriesBlock, removeStoriesBlock, addStoriesGroup, changeStoriesGroup, removeStoriesGroup, setCurrentStoriesItem, addStoriesItem, changeStoriesItem, removeStoriesItem } = storySlice.actions;
 
 export default storySlice.reducer;
