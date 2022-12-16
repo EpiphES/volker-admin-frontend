@@ -34,13 +34,12 @@ export function login({ email, password }) {
 }
 
 export function getUserInfo(token) {
-  return fetch(`${PROXY}${BASE_URL}User/GetUserInfo`, {
+  return request(`${PROXY}${BASE_URL}User/GetUserInfo`, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${token}`,
     }
-  })
-  .then(checkResponse);
+  });
 }
 
 export function getAllCities(isPublished) {
@@ -64,15 +63,14 @@ export function getCityById(id) {
 }
 
 export function createCity({cityName, latitude, longitude, description, modes}) {
-  return fetch(`${PROXY}${BASE_URL}City/Create`, {
+  return request(`${PROXY}${BASE_URL}City/Create`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
     },
     body: JSON.stringify({cityName, latitude, longitude, description, modes})
-  })
-  .then(checkResponse);  
+  })  
 }
 
 export function updateCity({id, cityName, latitude, longitude, description, modes}) {
@@ -128,15 +126,14 @@ export function getModeById(modeId) {
 }
 
 export function createMode(values) {
-  return fetch(`${PROXY}${BASE_URL}Mode/CreateMode`, {
+  return request(`${PROXY}${BASE_URL}Mode/CreateMode`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
     },
     body: JSON.stringify(values)
-  })
-  .then(checkResponse);  
+  });
 }
 
 export function updateMode({id, ...values}) {
@@ -162,15 +159,14 @@ export function deleteMode(id) {
 }
 
 export function createType(values) {
-  return fetch(`${PROXY}${BASE_URL}Mode/CreateType`, {
+  return request(`${PROXY}${BASE_URL}Mode/CreateType`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
     },
     body: JSON.stringify(values)
-  })
-  .then(checkResponse);
+  });
 }
 
 export function updateType({id, ...values}) {
@@ -241,15 +237,14 @@ export function getMarkerById(id) {
 }
 
 export function createMarker(values) {
-  return fetch(`${PROXY}${BASE_URL}Marker/Create`, {
+  return request(`${PROXY}${BASE_URL}Marker/Create`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
     },
     body: JSON.stringify(values),
-  })
-  .then(checkResponse);  
+  }); 
 }
 
 export function updateMarker({id, ...values}) {
@@ -305,39 +300,36 @@ export function getAllStoriesBlocksByCityId(cityId) {
 }
 
 export function createStoriesBlock(values) {
-  return fetch(`${PROXY}${BASE_URL}Stories/CreateStoriesBlock`, {
+  return request(`${PROXY}${BASE_URL}Stories/CreateStoriesBlock`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
     },
     body: JSON.stringify(values),
-  })
-  .then(checkResponse);  
+  });
 }
 
 export function createStoriesGroup(values) {
-  return fetch(`${PROXY}${BASE_URL}Stories/CreateStoriesGroup`, {
+  return request(`${PROXY}${BASE_URL}Stories/CreateStoriesGroup`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
     },
     body: JSON.stringify(values),
-  })
-  .then(checkResponse);  
+  });  
 }
 
 export function createStoriesItem(values) {
-  return fetch(`${PROXY}${BASE_URL}Stories/CreateStoryItem`, {
+  return request(`${PROXY}${BASE_URL}Stories/CreateStoryItem`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
     },
     body: JSON.stringify(values),
-  })
-  .then(checkResponse);  
+  });  
 }
 
 export function updateStoriesBlock({Id, ...values}) {
