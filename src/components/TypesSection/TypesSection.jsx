@@ -182,8 +182,7 @@ function TypesSection({modeId}) {
       {updateTypeStatus === 'rejected' && 
       <Message type='danger' text={`${updateTypeError}`} show={showUpdateTypeMessage} setShow={setShowUpdateTypeMessage} />}
 
-      {
-      updateTypeStatus === 'resolved' && 
+      {updateTypeStatus === 'resolved' && 
       <Message type='success' text='Тип обновлен!' show={showUpdateTypeMessage} setShow={setShowUpdateTypeMessage} />}
 
       {deleteTypeStatus === 'rejected' && <Message type='danger' text={`${deleteTypeError}`} show={showDeleteTypeMessage} setShow={setShowDeleteTypeMessage} />}
