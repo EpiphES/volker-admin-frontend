@@ -10,7 +10,7 @@ import GoBackButton from "../GoBackButton/GoBackButton";
 import Loader from "../Loader/Loader";
 import StoriesGroupForm from '../StoriesGroupForm/StoriesGroupForm';
 import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup';
-import StoriesSlider from '../StorySlider/StorySlider';
+import StoriesItemsSection from '../StoriesItemsSection/StoriesItemsSection';
 import Message from '../Message/Message';
 
 function UpdateStoriesGroup({showDeleteGroupMessage}) {
@@ -88,8 +88,14 @@ function UpdateStoriesGroup({showDeleteGroupMessage}) {
             submitHandler={handleUpdateGroup}
           />
         </Card>
-        
-        <StoriesSlider />       
+
+        <Card
+          body
+          className='shadow-sm mb-3 mt-2 mx-auto'
+          border='primary'
+          style={{maxWidth: '800px'}}>
+          <StoriesItemsSection /> 
+        </Card>      
 
         <Button
           variant='danger'
