@@ -129,6 +129,16 @@ const storiesGroupFormValidate = values => {
   return errors;
 };
 
+const storiesItemFormValidate = values => {
+  const errors = {};
+  
+  if(!Number.isInteger(values.position)) {
+    errors.position = 'Введите целое число'
+  }
+
+  return errors;
+};
+
 export {
   loginFormValidate,
   cityFormValidate,
@@ -136,5 +146,6 @@ export {
   typeFormValidate,
   markerFormValidate,
   storiesBlockFormValidate, 
-  storiesGroupFormValidate
+  storiesGroupFormValidate,
+  storiesItemFormValidate,
 }
