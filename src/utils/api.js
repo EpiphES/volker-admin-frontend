@@ -1,4 +1,4 @@
-import { BASE_URL, PROXY, UPLOAD_FOLDER } from "./constants";
+import { BASE_URL, UPLOAD_FOLDER } from "./constants";
 import { changeFileName } from "./utils";
 
 function checkResponse(res) {
@@ -24,7 +24,7 @@ function request(url, options) {
 
 
 export function login({ email, password }) {
-  return request(`${PROXY}${BASE_URL}Login/Login`, {
+  return request(`${BASE_URL}Login/Login`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ export function login({ email, password }) {
 }
 
 export function getUserInfo(token) {
-  return request(`${PROXY}${BASE_URL}User/GetUserInfo`, {
+  return request(`${BASE_URL}User/GetUserInfo`, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${token}`,
@@ -43,7 +43,7 @@ export function getUserInfo(token) {
 }
 
 export function getAllCities(isPublished) {
-  return fetch(`${PROXY}${BASE_URL}City/GetAllCities?isPublished=${isPublished}`, {
+  return fetch(`${BASE_URL}City/GetAllCities?isPublished=${isPublished}`, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -53,7 +53,7 @@ export function getAllCities(isPublished) {
 }
 
 export function getCityById(id) {
-  return fetch(`${PROXY}${BASE_URL}City/GetCityById?id=${id}`, {
+  return fetch(`${BASE_URL}City/GetCityById?id=${id}`, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -63,7 +63,7 @@ export function getCityById(id) {
 }
 
 export function createCity({cityName, latitude, longitude, description, modes}) {
-  return request(`${PROXY}${BASE_URL}City/Create`, {
+  return request(`${BASE_URL}City/Create`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ export function createCity({cityName, latitude, longitude, description, modes}) 
 }
 
 export function updateCity({id, cityName, latitude, longitude, description, modes}) {
-  return fetch(`${PROXY}${BASE_URL}City/Update?id=${id}`, {
+  return fetch(`${BASE_URL}City/Update?id=${id}`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
@@ -86,7 +86,7 @@ export function updateCity({id, cityName, latitude, longitude, description, mode
 }
 
 export function deleteCity(id) {
-  return fetch(`${PROXY}${BASE_URL}City/Delete?id=${id}`, {
+  return fetch(`${BASE_URL}City/Delete?id=${id}`, {
     method: 'DELETE',
     headers: { 
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -96,7 +96,7 @@ export function deleteCity(id) {
 }
 
 export function removeModeFromCity(cityId, modeId) {
-  return fetch(`${PROXY}${BASE_URL}City/RemoveModeFromCity?cityId=${cityId}&modeId=${modeId}`, {
+  return fetch(`${BASE_URL}City/RemoveModeFromCity?cityId=${cityId}&modeId=${modeId}`, {
     method: 'DELETE',
     headers: { 
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -106,7 +106,7 @@ export function removeModeFromCity(cityId, modeId) {
 }
 
 export function getAllModes() {
-  return fetch(`${PROXY}${BASE_URL}Mode/GetAllMarkerModes`, {
+  return fetch(`${BASE_URL}Mode/GetAllMarkerModes`, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -116,7 +116,7 @@ export function getAllModes() {
 }
 
 export function getModeById(modeId) {
-  return fetch(`${PROXY}${BASE_URL}Mode/GetMarkerModeById?modeId=${modeId}`, {
+  return fetch(`${BASE_URL}Mode/GetMarkerModeById?modeId=${modeId}`, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -126,7 +126,7 @@ export function getModeById(modeId) {
 }
 
 export function createMode(values) {
-  return request(`${PROXY}${BASE_URL}Mode/CreateMode`, {
+  return request(`${BASE_URL}Mode/CreateMode`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
@@ -137,7 +137,7 @@ export function createMode(values) {
 }
 
 export function updateMode({id, ...values}) {
-  return fetch(`${PROXY}${BASE_URL}Mode/UpdateMode?id=${id}`, {
+  return fetch(`${BASE_URL}Mode/UpdateMode?id=${id}`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
@@ -149,7 +149,7 @@ export function updateMode({id, ...values}) {
 }
 
 export function deleteMode(id) {
-  return fetch(`${PROXY}${BASE_URL}Mode/DeleteMode?id=${id}`, {
+  return fetch(`${BASE_URL}Mode/DeleteMode?id=${id}`, {
     method: 'DELETE',
     headers: { 
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -159,7 +159,7 @@ export function deleteMode(id) {
 }
 
 export function createType(values) {
-  return request(`${PROXY}${BASE_URL}Mode/CreateType`, {
+  return request(`${BASE_URL}Mode/CreateType`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
@@ -170,7 +170,7 @@ export function createType(values) {
 }
 
 export function updateType({id, ...values}) {
-  return fetch(`${PROXY}${BASE_URL}Mode/UpdateType?id=${id}`, {
+  return fetch(`${BASE_URL}Mode/UpdateType?id=${id}`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
@@ -182,7 +182,7 @@ export function updateType({id, ...values}) {
 }
 
 export function deleteType(id) {
-  return fetch(`${PROXY}${BASE_URL}Mode/DeleteType?id=${id}`, {
+  return fetch(`${BASE_URL}Mode/DeleteType?id=${id}`, {
     method: 'DELETE',
     headers: { 
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -196,7 +196,7 @@ export function uploadFile(file) {
   const newFileName = changeFileName(file.name);  
   formData.append('file', file, newFileName);
   formData.append('folder', UPLOAD_FOLDER);
-  return fetch(`${PROXY}${BASE_URL}File/Upload`, {
+  return fetch(`${BASE_URL}File/Upload`, {
     method: 'POST',
     headers: { 
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -207,7 +207,7 @@ export function uploadFile(file) {
 }
 
 export function deleteFile(fileName) {
-  return fetch(`${PROXY}${BASE_URL}File/Delete?folder=${UPLOAD_FOLDER}&fileName=${fileName}`, {
+  return fetch(`${BASE_URL}File/Delete?folder=${UPLOAD_FOLDER}&fileName=${fileName}`, {
     method: 'POST',
     headers: { 
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -217,7 +217,7 @@ export function deleteFile(fileName) {
 }
 
 export function getAllMarkersByCityId(cityId) {
-  return fetch(`${PROXY}${BASE_URL}Marker/GetAllMarkersByCityId?cityId=${cityId}`, {
+  return fetch(`${BASE_URL}Marker/GetAllMarkersByCityId?cityId=${cityId}`, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -227,7 +227,7 @@ export function getAllMarkersByCityId(cityId) {
 }
 
 export function getMarkerById(id) {
-  return fetch(`${PROXY}${BASE_URL}Marker/GetMarkerById?id=${id}`, {
+  return fetch(`${BASE_URL}Marker/GetMarkerById?id=${id}`, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -237,7 +237,7 @@ export function getMarkerById(id) {
 }
 
 export function createMarker(values) {
-  return request(`${PROXY}${BASE_URL}Marker/Create`, {
+  return request(`${BASE_URL}Marker/Create`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
@@ -248,7 +248,7 @@ export function createMarker(values) {
 }
 
 export function updateMarker({id, ...values}) {
-  return fetch(`${PROXY}${BASE_URL}Marker/Update?id=${id}`, {
+  return fetch(`${BASE_URL}Marker/Update?id=${id}`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
@@ -260,7 +260,7 @@ export function updateMarker({id, ...values}) {
 }
 
 export function deleteMarker(id) {
-  return fetch(`${PROXY}${BASE_URL}Marker/Delete?id=${id}`, {
+  return fetch(`${BASE_URL}Marker/Delete?id=${id}`, {
     method: 'DELETE',
     headers: { 
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -270,7 +270,7 @@ export function deleteMarker(id) {
 }
 
 export function getStoriesBlockById(id) {
-  return fetch(`${PROXY}${BASE_URL}Stories/GetStoryBlockById?id=${id}`, {
+  return fetch(`${BASE_URL}Stories/GetStoryBlockById?id=${id}`, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -280,7 +280,7 @@ export function getStoriesBlockById(id) {
 }
 
 export function getStoriesGroupById(id) {
-  return fetch(`${PROXY}${BASE_URL}Stories/GetStoriesByGroupId?id=${id}`, {
+  return fetch(`${BASE_URL}Stories/GetStoriesByGroupId?id=${id}`, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -290,7 +290,7 @@ export function getStoriesGroupById(id) {
 }
 
 export function getAllStoriesBlocksByCityId(cityId) {
-  return fetch(`${PROXY}${BASE_URL}Stories/GetAllStoriesBlockByCityId?cityId=${cityId}`, {
+  return fetch(`${BASE_URL}Stories/GetAllStoriesBlockByCityId?cityId=${cityId}`, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -300,7 +300,7 @@ export function getAllStoriesBlocksByCityId(cityId) {
 }
 
 export function createStoriesBlock(values) {
-  return request(`${PROXY}${BASE_URL}Stories/CreateStoriesBlock`, {
+  return request(`${BASE_URL}Stories/CreateStoriesBlock`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
@@ -311,7 +311,7 @@ export function createStoriesBlock(values) {
 }
 
 export function createStoriesGroup(values) {
-  return request(`${PROXY}${BASE_URL}Stories/CreateStoriesGroup`, {
+  return request(`${BASE_URL}Stories/CreateStoriesGroup`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
@@ -322,7 +322,7 @@ export function createStoriesGroup(values) {
 }
 
 export function createStoriesItem(values) {
-  return request(`${PROXY}${BASE_URL}Stories/CreateStoryItem`, {
+  return request(`${BASE_URL}Stories/CreateStoryItem`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
@@ -333,7 +333,7 @@ export function createStoriesItem(values) {
 }
 
 export function updateStoriesBlock({Id, ...values}) {
-  return fetch(`${PROXY}${BASE_URL}Stories/UpdateStoriesBlock?Id=${Id}`, {
+  return fetch(`${BASE_URL}Stories/UpdateStoriesBlock?Id=${Id}`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
@@ -345,7 +345,7 @@ export function updateStoriesBlock({Id, ...values}) {
 }
 
 export function updateStoriesGroup({Id, ...values}) {
-  return fetch(`${PROXY}${BASE_URL}Stories/UpdateStoriesGroup?Id=${Id}`, {
+  return fetch(`${BASE_URL}Stories/UpdateStoriesGroup?Id=${Id}`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
@@ -357,7 +357,7 @@ export function updateStoriesGroup({Id, ...values}) {
 }
 
 export function updateStoriesItem({Id, ...values}) {
-  return fetch(`${PROXY}${BASE_URL}Stories/UpdateStoryItem?Id=${Id}`, {
+  return fetch(`${BASE_URL}Stories/UpdateStoryItem?Id=${Id}`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
@@ -369,7 +369,7 @@ export function updateStoriesItem({Id, ...values}) {
 }
 
 export function deleteStoriesBlock(id) {
-  return fetch(`${PROXY}${BASE_URL}Stories/DeleteStoriesBlock?id=${id}`, {
+  return fetch(`${BASE_URL}Stories/DeleteStoriesBlock?id=${id}`, {
     method: 'DELETE',
     headers: { 
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -379,7 +379,7 @@ export function deleteStoriesBlock(id) {
 }
 
 export function deleteStoriesGroup(id) {
-  return fetch(`${PROXY}${BASE_URL}Stories/DeleteStoriesGroup?id=${id}`, {
+  return fetch(`${BASE_URL}Stories/DeleteStoriesGroup?id=${id}`, {
     method: 'DELETE',
     headers: { 
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -389,7 +389,7 @@ export function deleteStoriesGroup(id) {
 }
 
 export function deleteStoriesItem(id) {
-  return fetch(`${PROXY}${BASE_URL}Stories/DeleteStoriesItem?id=${id}`, {
+  return fetch(`${BASE_URL}Stories/DeleteStoriesItem?id=${id}`, {
     method: 'DELETE',
     headers: { 
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
