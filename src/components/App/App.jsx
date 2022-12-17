@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 
 import * as api from '../../utils/api.js';
 import { setUser, deleteUser } from '../../store/userSlice';
-import { getCities } from '../../store/citySlice';
+import { getCities, setCurrentCity } from '../../store/citySlice';
 import { getModes } from '../../store/modeSlice';
 
 import Login from '../Login/Login';
@@ -57,7 +57,8 @@ function App() {
     navigate('/login');
     setLoggedIn(false);
     localStorage.clear();
-    dispatch(deleteUser());    
+    dispatch(deleteUser());
+    dispatch(setCurrentCity(null));   
   }
   
 
