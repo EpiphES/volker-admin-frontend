@@ -10,7 +10,7 @@ import { getModeById, setCurrentMode } from '../../store/modeSlice';
 import * as api from '../../utils/api';
 import { BASE_URL } from '../../utils/constants';
 import { markerFormValidate } from '../../utils/validation';
-import { getFileNameFromUrl } from '../../utils/utils';
+import { getFileNameFromUrl, handleCompressImage } from '../../utils/utils';
 
 import TypesGallery from '../TypesGallery/TypesGallery';
 import ModalWithSelect from '../ModalWithSelect/ModalWithSelect';
@@ -165,7 +165,8 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
 
   function handleLoadImage(e) {
     if(e.target.files.length > 0) {
-      api.uploadFile(e.target.files[0])
+      handleCompressImage(e.target.files[0])
+      .then((res) => api.uploadFile(res))      
       .then((res) => {
         const iconUrl = BASE_URL + res;
         setImages((prevVal) => [iconUrl, ...prevVal]);

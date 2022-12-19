@@ -7,6 +7,7 @@ import { Form, Button } from 'react-bootstrap';
 import * as api from '../../utils/api';
 import { BASE_URL } from '../../utils/constants';
 import { storiesGroupFormValidate } from '../../utils/validation';
+import { handleCompressImage } from '../../utils/utils';
 
 import FormInput from '../FormInput/FormInput';
 import FileInputCard from '../FileInputCard/FileInputCard';
@@ -56,7 +57,8 @@ function StoriesGroupForm({name, group, buttonText, submitHandler}) {
     if(imageFile) {
       setUploadFileError(null);
       setFileLoading(true);
-      api.uploadFile(imageFile)
+      handleCompressImage(imageFile)
+      .then((res) => api.uploadFile(res))
       .then((res) => {
         const imageUrl = BASE_URL + res;
         submitHandler({imageUrl, ...values});
@@ -116,7 +118,7 @@ function StoriesGroupForm({name, group, buttonText, submitHandler}) {
 
           <div style={{width: '120px'}} className='mx-auto h-100 mb-3'>
             <FileInputCard
-              name='type'
+              name='group'
               onChange={handleImageSelect}
               imageLink={groupImage}  
             />

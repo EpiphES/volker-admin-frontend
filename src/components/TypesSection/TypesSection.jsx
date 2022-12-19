@@ -6,6 +6,7 @@ import { createType, updateType, deleteType } from '../../store/modeSlice';
 
 import * as api from '../../utils/api';
 import { BASE_URL } from '../../utils/constants';
+import { handleCompressImage } from '../../utils/utils';
 
 import TypesGallery from '../TypesGallery/TypesGallery';
 import TypeForm from '../TypeForm/TypeForm';
@@ -66,7 +67,8 @@ function TypesSection({modeId}) {
   function handleCreateType({title, colorOnMap, iconFile}) {
     if(iconFile) {
       setFileLoading(true);
-      api.uploadFile(iconFile)
+      handleCompressImage(iconFile)
+      .then((res) => api.uploadFile(res))
       .then((res) => {
         const iconUrl = BASE_URL + res;
         dispatch(createType({
@@ -92,7 +94,8 @@ function TypesSection({modeId}) {
   function handleUpdateType({id, title, iconFile, colorOnMap, prevIcon}) {
     if(iconFile) {
       setFileLoading(true);
-      api.uploadFile(iconFile)
+      handleCompressImage(iconFile)
+      .then((res) => api.uploadFile(res))
       .then((res) => {
         const iconUrl = BASE_URL + res;
         dispatch(updateType({

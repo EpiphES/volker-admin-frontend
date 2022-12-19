@@ -6,6 +6,7 @@ import { Form, Button} from 'react-bootstrap';
 
 import * as api from '../../utils/api';
 import { BASE_URL } from '../../utils/constants';
+import { handleCompressImage } from '../../utils/utils';
 import { modeFormValidate } from '../../utils/validation';
 
 import FileInputCard from '../FileInputCard/FileInputCard';
@@ -45,7 +46,8 @@ function ModeForm({name, mode, buttonText, submitHandler}) {
     if(iconFile) {
       setUploadFileError(null);
       setFileLoading(true);
-      api.uploadFile(iconFile)
+      handleCompressImage(iconFile)
+      .then((res) => api.uploadFile(res))
       .then((res) => {
         const iconUrl = BASE_URL + res;
         submitHandler({iconUrl, ...values});
