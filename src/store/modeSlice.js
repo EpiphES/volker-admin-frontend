@@ -58,12 +58,14 @@ export const updateMode = createAsyncThunk(
 
 export const deleteMode = createAsyncThunk(
   'modes/deleteMode',
-  async (values, {rejectWithValue, dispatch}) => {
+  async ({prevIcon, ...values}, {rejectWithValue, dispatch}) => {
     try {
       await api.deleteMode(values.id);
       dispatch(removeMode({id: values.id}));
-      const prevIconFileName = getFileNameFromUrl(values.prevIcon);
-      await api.deleteFile(prevIconFileName);
+      if(prevIcon) {
+        const prevIconFileName = getFileNameFromUrl(prevIcon);
+        await api.deleteFile(prevIconFileName);
+      }
     } catch (err) {
       return rejectWithValue(err);
     }
@@ -102,12 +104,14 @@ export const updateType = createAsyncThunk(
 
 export const deleteType = createAsyncThunk(
   'modes/deleteTypee',
-  async (values, {rejectWithValue, dispatch}) => {
+  async ({prevIcon, ...values}, {rejectWithValue, dispatch}) => {
     try {
       await api.deleteType(values.id);
       dispatch(removeType({id: values.id}));
-      const prevIconFileName = getFileNameFromUrl(values.prevIcon);
-      await api.deleteFile(prevIconFileName);
+      if(prevIcon) {
+        const prevIconFileName = getFileNameFromUrl(prevIcon);
+        await api.deleteFile(prevIconFileName);
+      };
     } catch (err) {
       return rejectWithValue(err);
     }
