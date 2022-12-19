@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/static/css/main.39a3dd0b.css",
-    "main.js": "/static/js/main.e884b17a.js",
-    "index.html": "/index.html",
-    "main.39a3dd0b.css.map": "/static/css/main.39a3dd0b.css.map",
-    "main.e884b17a.js.map": "/static/js/main.e884b17a.js.map"
+    "main.css": "/volker-admin-frontend/static/css/main.39a3dd0b.css",
+    "main.js": "/volker-admin-frontend/static/js/main.e884b17a.js",
+    "index.html": "/volker-admin-frontend/index.html",
+    "main.39a3dd0b.css.map": "/volker-admin-frontend/static/css/main.39a3dd0b.css.map",
+    "main.e884b17a.js.map": "/volker-admin-frontend/static/js/main.e884b17a.js.map"
   },
   "entrypoints": [
     "static/css/main.39a3dd0b.css",
