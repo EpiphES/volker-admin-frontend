@@ -31,7 +31,7 @@ function UpdateStoriesGroup({showDeleteGroupMessage}) {
   function handleUpdateGroup({imageUrl, ...values}) {
     if(imageUrl) {
       dispatch(updateStoriesGroup({
-        Id: currentStoriesGroup.id,
+        id: currentStoriesGroup.id,
         image: imageUrl,
         prevImage: currentStoriesGroup.image,  
         ...values
@@ -39,7 +39,7 @@ function UpdateStoriesGroup({showDeleteGroupMessage}) {
       setShowUpdateGroupMessage(true);
     } else {
       dispatch(updateStoriesGroup({
-        Id: currentStoriesGroup.id,  
+        id: currentStoriesGroup.id,  
         image: currentStoriesGroup.image,
         ...values
       }));
@@ -55,14 +55,16 @@ function UpdateStoriesGroup({showDeleteGroupMessage}) {
   }
 
   function handleDeleteGroup() {
-    if(currentStoriesGroup.storyItems.length === 0)
-    dispatch(deleteStoriesGroup({
-      id: currentStoriesGroup.id,
-      prevImage: currentStoriesGroup.image
-    }));
-    handleCloseConfirmModal();
-    navigate('/stories');
-    showDeleteGroupMessage(true);
+    if(currentStoriesGroup.storyItems.length === 0) {
+      dispatch(deleteStoriesGroup({
+        id: currentStoriesGroup.id,
+        prevImage: currentStoriesGroup.image
+      }));
+      dispatch(setCurrentStoriesGroup(null));
+      handleCloseConfirmModal();
+      navigate('/stories');
+      showDeleteGroupMessage(true);
+    }
   }
 
   useEffect(() => {

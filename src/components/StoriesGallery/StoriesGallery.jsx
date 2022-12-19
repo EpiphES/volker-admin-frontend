@@ -74,7 +74,7 @@ function StoriesGallery() {
   }
 
   function handleUpdateBlock(values) {
-    dispatch(updateStoriesBlock({Id: currentStoriesBlock.id, ...values}));
+    dispatch(updateStoriesBlock({id: currentStoriesBlock.id, ...values}));
   }
 
   function handleCreateBlock(values) {
