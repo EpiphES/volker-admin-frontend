@@ -43,7 +43,7 @@ export const createStoriesBlock = createAsyncThunk(
   async (values, {rejectWithValue, dispatch}) => {
     try {
       const res = await api.createStoriesBlock(values);
-      dispatch(addStoriesBlock(res));
+      dispatch(addStoriesBlock(res.Data));
       return res;
     } catch (err) {
       return rejectWithValue(err);
@@ -55,9 +55,9 @@ export const updateStoriesBlock = createAsyncThunk(
   'stories/updateStoriesBlock',
   async (values, {rejectWithValue, dispatch}) => {
     try {
-      await api.updateStoriesBlock(values);
-      dispatch(changeStoriesBlock(values));
-      return values;
+      const res = await api.updateStoriesBlock(values);
+      dispatch(changeStoriesBlock(res.Data));
+      return res;
     } catch (err) {
       return rejectWithValue(err);
     }
@@ -68,8 +68,8 @@ export const deleteStoriesBlock = createAsyncThunk(
   'stories/deleteStoriesBlock',
   async (id, {rejectWithValue, dispatch}) => {
     try {
-      await api.deleteStoriesBlock(id);
-      dispatch(removeStoriesBlock({id}));
+      const res = await api.deleteStoriesBlock(id);
+      dispatch(removeStoriesBlock(res.Data));
     } catch (err) {
       return rejectWithValue(err);
     }
@@ -81,7 +81,7 @@ export const createStoriesGroup = createAsyncThunk(
   async (values, {rejectWithValue, dispatch}) => {
     try {      
       const res = await api.createStoriesGroup(values);
-      dispatch(addStoriesGroup(res));
+      dispatch(addStoriesGroup(res.Data));
       return res;
     } catch (err) {
       return rejectWithValue(err);
@@ -93,13 +93,13 @@ export const updateStoriesGroup = createAsyncThunk(
   'stories/updateStoriesGroup',
   async ({prevImage, ...values}, {rejectWithValue, dispatch}) => {
     try {
-      await api.updateStoriesGroup(values);
-      dispatch(changeStoriesGroup(values));
+      const res = await api.updateStoriesGroup(values);
+      dispatch(changeStoriesGroup(res.Data));
       if(prevImage) {
         const prevImageFileName = getFileNameFromUrl(prevImage);
         await api.deleteFile(prevImageFileName);
       }       
-      return values;
+      return res;
     } catch (err) {
       return rejectWithValue(err);
     }
@@ -108,12 +108,14 @@ export const updateStoriesGroup = createAsyncThunk(
 
 export const deleteStoriesGroup = createAsyncThunk(
   'stories/deleteStoriesGroupe',
-  async (values, {rejectWithValue, dispatch}) => {
+  async ({prevImage, ...values}, {rejectWithValue, dispatch}) => {
     try {
-      await api.deleteStoriesGroup(values.id);
-      dispatch(removeStoriesGroup({id: values.id}));
-      const prevImageFileName = getFileNameFromUrl(values.prevImage);
-      await api.deleteFile(prevImageFileName);
+      const res = await api.deleteStoriesGroup(values.id);
+      dispatch(removeStoriesGroup(res.Data));
+      if(prevImage) {
+        const prevImageFileName = getFileNameFromUrl(prevImage);
+        await api.deleteFile(prevImageFileName);
+      }       
     } catch (err) {
       return rejectWithValue(err);
     }
@@ -125,7 +127,7 @@ export const createStoriesItem = createAsyncThunk(
   async (values, {rejectWithValue, dispatch}) => {
     try {
       const res = await api.createStoriesItem(values);
-      dispatch(addStoriesItem(res));
+      dispatch(addStoriesItem(res.Data));
       return res;
     } catch (err) {
       return rejectWithValue(err);
@@ -135,10 +137,14 @@ export const createStoriesItem = createAsyncThunk(
 
 export const updateStoriesItem = createAsyncThunk(
   'stories/updateStoriesItem',
-  async ({values}, {rejectWithValue, dispatch}) => {
+  async ({prevImage, ...values}, {rejectWithValue, dispatch}) => {
     try {
-      await api.updateStoriesItem(values);
-      dispatch(changeStoriesItem(values));
+      const res = await api.updateStoriesItem(values);
+      dispatch(changeStoriesItem(res.Data));
+      if(prevImage) {
+        const prevImageFileName = getFileNameFromUrl(prevImage);
+        await api.deleteFile(prevImageFileName);
+      }       
       return values;
     } catch (err) {
       return rejectWithValue(err);
@@ -148,10 +154,14 @@ export const updateStoriesItem = createAsyncThunk(
 
 export const deleteStoriesItem = createAsyncThunk(
   'stories/deleteStoriesItem',
-  async (values, {rejectWithValue, dispatch}) => {
+  async ({prevImage, ...values}, {rejectWithValue, dispatch}) => {
     try {
-      await api.deleteStoriesItem(values.id);
-      dispatch(removeStoriesItem({id: values.id}));
+      const res = await api.deleteStoriesItem(values.id);
+      dispatch(removeStoriesItem(res.Data));
+      if(prevImage) {
+        const prevImageFileName = getFileNameFromUrl(prevImage);
+        await api.deleteFile(prevImageFileName);
+      }       
     } catch (err) {
       return rejectWithValue(err);
     }
@@ -207,7 +217,7 @@ const storySlice = createSlice({
       state.storiesBlocks.push(action.payload);
     },
     removeStoriesBlock: (state, action) => {
-      state.storiesBlocks = state.storiesBlocks.filter(item =>item.id !== +action.payload.id);
+      state.storiesBlocks = state.storiesBlocks.filter(item =>item.id !== action.payload);
       state.currentStoriesBlock = null;
     },
     changeStoriesBlock: (state, action) => {
@@ -215,7 +225,7 @@ const storySlice = createSlice({
       state.currentStoriesBlock = action.payload;       
     },
     addStoriesGroup: (state, action) => {
-      state.storiesBlocks.map((item) => {
+      state.storiesBlocks = state.storiesBlocks.map((item) => {
         if(item.id === action.payload.storiesBlockId) {
           item.storiesGroups.push(action.payload);
         }
@@ -225,11 +235,22 @@ const storySlice = createSlice({
       state.currentStoriesGroup = action.payload;
     },
     changeStoriesGroup: (state, action) => {
-      state.currentStoriesBlock.storiesGroups = state.currentStoriesBlock.storiesGroups.map((item) => item.id === action.payload.id ? action.payload : item);
+      state.storiesBlocks = state.storiesBlocks.map((item) => {
+        if(item.id === action.payload.storiesBlockId) {
+          item.storiesGroups = item.storiesGroups.map((group) => group.id === action.payload.id ? action.payload : group);
+        }
+        return item;  
+      });
       state.currentStoriesGroup = action.payload;
     },
     removeStoriesGroup: (state, action) => {
-      state.currentStoriesBlock.storiesGroups = state.currentStoriesBlock.storiesGroups.filter(item => item.id !== action.payload.id);
+      console.log(action.payload);
+      state.storiesBlocks = state.storiesBlocks.map((item) => {
+        if(item.id === state.currentStoriesBlock.id) {
+          item.storiesGroups = item.storiesGroups.filter((group) => group.id !== action.payload);
+        }
+        return item;  
+      });      
       state.currentStoriesGroup = null;
     },
     addStoriesItem: (state, action) => {
@@ -239,7 +260,7 @@ const storySlice = createSlice({
       state.currentStoriesGroup.storyItems = state.currentStoriesGroup.storyItems.map((item) => item.id === action.payload.id ? action.payload : item);
     },
     removeStoriesItem: (state, action) => {
-      state.currentStoriesGroup.storyItems = state.currentStoriesGroup.storyItems.filter(item => item.id !== action.payload.id);
+      state.currentStoriesGroup.storyItems = state.currentStoriesGroup.storyItems.filter(item => item.id !== action.payload);
     }
   },
   extraReducers: {

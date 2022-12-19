@@ -30,7 +30,8 @@ export const createMarker = createAsyncThunk(
   async (values, {rejectWithValue, dispatch}) => {
     try {
       const res = await api.createMarker(values);
-      dispatch(addMarker({id: res.id, ...values}));
+      dispatch(addMarker(res.Data));
+      return res;
     } catch (err) {
       return rejectWithValue(err);
     }
@@ -41,8 +42,9 @@ export const updateMarker = createAsyncThunk(
   'markers/updateMarker',
   async (values, {rejectWithValue, dispatch}) => {
     try {
-      await api.updateMarker(values);
-      dispatch(changeMarker(values));
+      const res = await api.updateMarker(values);
+      dispatch(changeMarker(res.Data));
+      return res;
     } catch (err) {
       return rejectWithValue(err);
     }
@@ -53,8 +55,9 @@ export const deleteMarker = createAsyncThunk(
   'markers/deleteMarker',
   async (id, {rejectWithValue, dispatch}) => {
     try {
-      await api.deleteMarker(id);
-      dispatch(removeMarker({id}));
+      const res = await api.deleteMarker(id);
+      dispatch(removeMarker(res.Data));
+      return res;
     } catch (err) {
       return rejectWithValue(err);
     }
@@ -88,16 +91,11 @@ const markerSlice = createSlice({
       state.markers.unshift(action.payload);
     },
     removeMarker: (state, action) => {
-      state.markers = state.markers.filter((marker) => marker.id !== +action.payload.id);
+      state.markers = state.markers.filter((marker) => marker.id !== action.payload);
       state.currentMarker = null;
     },
     changeMarker: (state, action) => {
-      state.markers = state.markers.map((marker) => {
-        if (marker.id === action.payload.id) {
-          return action.payload;
-        }
-        return marker;        
-      })
+      state.markers = state.markers.map((marker) => marker.id === action.payload.id ? action.payload : marker);
       state.currentMarker = action.payload;
     },
   },

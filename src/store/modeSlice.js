@@ -31,7 +31,7 @@ export const createMode = createAsyncThunk(
   async (values, {rejectWithValue, dispatch}) => {
     try {
       const res = await api.createMode(values);
-      dispatch(addMode(res));
+      dispatch(addMode(res.Data));
       return res;
     } catch (err) {
       return rejectWithValue(err);
@@ -43,13 +43,13 @@ export const updateMode = createAsyncThunk(
   'modes/updateMode',
   async ({prevIcon, ...values}, {rejectWithValue, dispatch}) => {
     try {
-      await api.updateMode(values);
-      dispatch(changeMode(values));
+      const res = await api.updateMode(values);
+      dispatch(changeMode(res.Data));
       if(prevIcon) {
         const prevIconFileName = getFileNameFromUrl(prevIcon);
         await api.deleteFile(prevIconFileName);
       }
-      return values;
+      return res;
     } catch (err) {
       return rejectWithValue(err);
     }
@@ -60,8 +60,8 @@ export const deleteMode = createAsyncThunk(
   'modes/deleteMode',
   async ({prevIcon, ...values}, {rejectWithValue, dispatch}) => {
     try {
-      await api.deleteMode(values.id);
-      dispatch(removeMode({id: values.id}));
+      const res = await api.deleteMode(values.id);
+      dispatch(removeMode(res.Data));
       if(prevIcon) {
         const prevIconFileName = getFileNameFromUrl(prevIcon);
         await api.deleteFile(prevIconFileName);
@@ -77,7 +77,7 @@ export const createType = createAsyncThunk(
   async (values, {rejectWithValue, dispatch}) => {
     try {      
       const res = await api.createType(values);
-      dispatch(addType(res));
+      dispatch(addType(res.Data));
       return res;
     } catch (err) {
       return rejectWithValue(err);
@@ -89,8 +89,8 @@ export const updateType = createAsyncThunk(
   'modes/updateType',
   async ({prevIcon, ...values}, {rejectWithValue, dispatch}) => {
     try {
-      await api.updateType(values);
-      dispatch(changeType(values));       
+      const res = await api.updateType(values);
+      dispatch(changeType(res.Data));       
       if(prevIcon) {
         const prevIconFileName = getFileNameFromUrl(prevIcon);
         await api.deleteFile(prevIconFileName);
@@ -106,8 +106,8 @@ export const deleteType = createAsyncThunk(
   'modes/deleteTypee',
   async ({prevIcon, ...values}, {rejectWithValue, dispatch}) => {
     try {
-      await api.deleteType(values.id);
-      dispatch(removeType({id: values.id}));
+      const res = await api.deleteType(values.id);
+      dispatch(removeType(res.Data));
       if(prevIcon) {
         const prevIconFileName = getFileNameFromUrl(prevIcon);
         await api.deleteFile(prevIconFileName);
@@ -151,37 +151,21 @@ const modeSlice = createSlice({
       state.modes.unshift(action.payload);
     },
     removeMode: (state, action) => {
-      state.modes = state.modes.filter(mode => mode.id !== +action.payload.id);
+      state.modes = state.modes.filter(mode => mode.id !== action.payload);
       state.currentMode = null;
     },
     changeMode: (state, action) => {
-      state.modes = state.modes.map((mode) => {
-        if (mode.id === +action.payload.id) {
-          mode.title = action.payload.title;
-          mode.icon = action.payload.icon;
-          return mode;
-        }
-        return mode;        
-      })
-      state.currentMode.title = action.payload.title;
-      state.currentMode.icon = action.payload.icon;
+      state.modes = state.modes.map((mode) => mode.id === action.payload.id ? action.payload : mode);
+      state.currentMode = action.payload;
     },
     addType: (state, action) => {
       state.currentMode.markerTypes.push(action.payload);
     },
     changeType: (state, action) => {
-      state.currentMode.markerTypes = state.currentMode.markerTypes.map((type) => {
-        if(type.id === action.payload.id) {
-          type.title = action.payload.title;
-          type.iconOnMap = action.payload.iconOnMap;
-          type.colorOnMap = action.payload.colorOnMap;
-          return type;
-        }
-        return type
-      })
+      state.currentMode.markerTypes = state.currentMode.markerTypes.map((type) => type.id === action.payload.id ? action.payload : type);
     },
     removeType: (state, action) => {
-      state.currentMode.markerTypes = state.currentMode.markerTypes.filter(type => type.id !== action.payload.id)
+      state.currentMode.markerTypes = state.currentMode.markerTypes.filter((type) => type.id !== action.payload)
     }
   },
   extraReducers: {
