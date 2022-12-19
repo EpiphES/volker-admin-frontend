@@ -7,6 +7,7 @@ import { Form, Button } from 'react-bootstrap';
 import * as api from '../../utils/api';
 import { BASE_URL } from '../../utils/constants';
 import { storiesItemFormValidate } from '../../utils/validation';
+import { handleCompressImage } from '../../utils/utils';
 
 import FormInput from '../FormInput/FormInput';
 import FileInputCard from '../FileInputCard/FileInputCard';
@@ -38,12 +39,14 @@ function StoriesItemForm({name, storyItem, buttonText, submitHandler}) {
     },
     validate: storiesItemFormValidate,
     onSubmit: values => {
+      console.log(values);
       handleSubmit(values);      
     },
   });
 
   function handleImageSelect(event) {
     setImageFile(event.target.files[0]);
+    console.log('select');
   }
 
   function handleImageReset() {
@@ -54,7 +57,8 @@ function StoriesItemForm({name, storyItem, buttonText, submitHandler}) {
     if(imageFile) {
       setUploadFileError(null);
       setFileLoading(true);
-      api.uploadFile(imageFile)
+      handleCompressImage(imageFile)
+      .then((res) => api.uploadFile(res))
       .then((res) => {
         const imageUrl = BASE_URL + res;
         submitHandler({imageUrl, ...values});
@@ -93,6 +97,96 @@ function StoriesItemForm({name, storyItem, buttonText, submitHandler}) {
         className='text-center mx-auto'
         validated={validated}
         >
+        <fieldset disabled={(
+          updateStoriesItemStatus === 'loading' || 
+          createStoriesItemStatus === 'loading' || 
+          fileLoading
+        )}>
+          <FormInput
+            title='Название слайда'
+            type='text'
+            name='title'
+            id={`title-item-${name}`} 
+            placeholder='Введите название' 
+            autoFocus
+            onChange={formik.handleChange}
+            value={formik.values.title}
+          />
+
+          <div style={{width: '280px'}} className='mx-auto h-100 mb-3'>
+            <FileInputCard
+              name='item'
+              onChange={handleImageSelect}
+              imageLink={itemImage}  
+            />
+          </div>
+
+          <FormInput
+            title='Описание'
+            as='textarea'  
+            rows={3}
+            name='message'
+            id={`message-item-${name}`}
+            placeholder='Напишите что-нибудь'
+            onChange={formik.handleChange}
+            value={formik.values.message}
+          />
+
+          <FormInput
+            title='Позиция в группе'
+            type='number'
+            name='position'
+            id={`position-item-${name}`} 
+            onChange={formik.handleChange}
+            value={formik.values.position}
+            error={formik.errors.position}
+            min='0'
+            step='1'           
+          />
+
+          <FormInput
+            title='Название кнопки'
+            type='text'
+            name='buttonName'
+            id={`buttonName-item-${name}`} 
+            placeholder='Введите название' 
+            onChange={formik.handleChange}
+            value={formik.values.buttonName}
+          />
+
+          <FormInput
+            title='Ссылка на действие'
+            type='text'
+            name='actionLink'
+            id={`actionLink-item-${name}`} 
+            placeholder='Введите название' 
+            autoFocus
+            onChange={formik.handleChange}
+            value={formik.values.actionLink}
+          />
+
+
+          <Button
+            variant='secondary'
+            type='submit'
+            aria-label={buttonText}
+            className='mt-3'>
+            {(updateStoriesItemStatus === 'loading' || createStoriesItemStatus === 'loading') ? 'Сохранение...' : buttonText}
+          </Button>
+
+          <Button
+            variant='secondary'
+            type='reset'
+            aria-label='очистить изменения'
+            onClick={() => {
+              formik.handleReset();
+              handleImageReset();
+            }}
+            className='ms-2 mt-3'>
+            Очистить изменения
+          </Button>
+
+        </fieldset>
       </Form>
 
       {uploadFileError && <Message type='danger' 
