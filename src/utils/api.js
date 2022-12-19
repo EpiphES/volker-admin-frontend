@@ -62,47 +62,44 @@ export function getCityById(id) {
   .then(checkResponse);
 }
 
-export function createCity({cityName, latitude, longitude, description, modes}) {
+export function createCity(values) {
   return request(`${BASE_URL}City/Create`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
     },
-    body: JSON.stringify({cityName, latitude, longitude, description, modes})
-  })  
+    body: JSON.stringify(values)
+  });  
 }
 
-export function updateCity({id, cityName, latitude, longitude, description, modes}) {
-  return fetch(`${BASE_URL}City/Update?id=${id}`, {
+export function updateCity(values) {
+  return request(`${BASE_URL}City/Update?id=${values.id}`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
     },
-    body: JSON.stringify({cityName, latitude, longitude, description, modes})
-  })
-  .then(checkEmptyResponse); 
+    body: JSON.stringify(values)
+  });
 }
 
 export function deleteCity(id) {
-  return fetch(`${BASE_URL}City/Delete?id=${id}`, {
+  return request(`${BASE_URL}City/Delete?id=${id}`, {
     method: 'DELETE',
     headers: { 
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
     }
-  })
-  .then(checkEmptyResponse);  
+  });
 }
 
 export function removeModeFromCity(cityId, modeId) {
-  return fetch(`${BASE_URL}City/RemoveModeFromCity?cityId=${cityId}&modeId=${modeId}`, {
+  return request(`${BASE_URL}City/RemoveModeFromCity?cityId=${cityId}&modeId=${modeId}`, {
     method: 'DELETE',
     headers: { 
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
     }
-  })
-  .then(checkEmptyResponse);  
+  }); 
 }
 
 export function getAllModes() {
@@ -136,26 +133,24 @@ export function createMode(values) {
   });
 }
 
-export function updateMode({id, ...values}) {
-  return fetch(`${BASE_URL}Mode/UpdateMode?id=${id}`, {
+export function updateMode(values) {
+  return request(`${BASE_URL}Mode/UpdateMode?id=${values.id}`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
     },
     body: JSON.stringify(values)
-  })
-  .then(checkEmptyResponse); 
+  });
 }
 
 export function deleteMode(id) {
-  return fetch(`${BASE_URL}Mode/DeleteMode?id=${id}`, {
+  return request(`${BASE_URL}Mode/DeleteMode?id=${id}`, {
     method: 'DELETE',
     headers: { 
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
     }
-  })
-  .then(checkEmptyResponse);  
+  });
 }
 
 export function createType(values) {
@@ -170,25 +165,23 @@ export function createType(values) {
 }
 
 export function updateType({id, ...values}) {
-  return fetch(`${BASE_URL}Mode/UpdateType?id=${id}`, {
+  return request(`${BASE_URL}Mode/UpdateType?id=${id}`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
     },
     body: JSON.stringify(values)
-  })
-  .then(checkEmptyResponse); 
+  });
 }
 
 export function deleteType(id) {
-  return fetch(`${BASE_URL}Mode/DeleteType?id=${id}`, {
+  return request(`${BASE_URL}Mode/DeleteType?id=${id}`, {
     method: 'DELETE',
     headers: { 
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
     }
-  })
-  .then(checkEmptyResponse);  
+  });
 }
 
 export function uploadFile(file) {
@@ -332,8 +325,8 @@ export function createStoriesItem(values) {
   });  
 }
 
-export function updateStoriesBlock({Id, ...values}) {
-  return fetch(`${BASE_URL}Stories/UpdateStoriesBlock?Id=${Id}`, {
+export function updateStoriesBlock({id, ...values}) {
+  return fetch(`${BASE_URL}Stories/UpdateStoriesBlock?Id=${id}`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
@@ -344,8 +337,8 @@ export function updateStoriesBlock({Id, ...values}) {
   .then(checkEmptyResponse); 
 }
 
-export function updateStoriesGroup({Id, ...values}) {
-  return fetch(`${BASE_URL}Stories/UpdateStoriesGroup?Id=${Id}`, {
+export function updateStoriesGroup({id, ...values}) {
+  return fetch(`${BASE_URL}Stories/UpdateStoriesGroup?Id=${id}`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
@@ -356,8 +349,8 @@ export function updateStoriesGroup({Id, ...values}) {
   .then(checkEmptyResponse); 
 }
 
-export function updateStoriesItem({Id, ...values}) {
-  return fetch(`${BASE_URL}Stories/UpdateStoryItem?Id=${Id}`, {
+export function updateStoriesItem({id, ...values}) {
+  return fetch(`${BASE_URL}Stories/UpdateStoryItem?Id=${id}`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
