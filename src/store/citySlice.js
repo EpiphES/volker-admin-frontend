@@ -30,7 +30,7 @@ export const createCity = createAsyncThunk(
   async (values, {rejectWithValue, dispatch}) => {
     try {
       const res = await api.createCity(values);
-      dispatch(addCity(res));
+      dispatch(addCity(res.Data));
       return res;
     } catch (err) {
       return rejectWithValue(err);
@@ -42,9 +42,9 @@ export const updateCity = createAsyncThunk(
   'cities/updateCity',
   async (values, {rejectWithValue, dispatch}) => {
     try {
-      await api.updateCity(values);
-      dispatch(changeCity(values));
-      return values;
+      const res = await api.updateCity(values);
+      dispatch(changeCity(res.Data));
+      return res;
     } catch (err) {
       return rejectWithValue(err);
     }
@@ -55,9 +55,9 @@ export const deleteCity = createAsyncThunk(
   'cities/deleteCity',
   async (id, {rejectWithValue, dispatch}) => {
     try {
-      await api.deleteCity(id);
-      dispatch(removeCity({id}));
-      return id;
+      const res = await api.deleteCity(id);
+      dispatch(removeCity(res.Data));
+      return res;
     } catch (err) {
       return rejectWithValue(err);
     }
@@ -104,7 +104,7 @@ const citySlice = createSlice({
       state.currentCity = action.payload;
     },
     removeCity: (state, action) => {
-      state.cities = state.cities.filter(city => city.id !== action.payload.id);
+      state.cities = state.cities.filter(city => city.id !== action.payload);
       state.currentCity = null;
     },
     changeCity: (state, action) => {
