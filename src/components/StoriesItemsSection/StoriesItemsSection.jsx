@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Modal } from 'react-bootstrap';
 
-import { setCurrentStoriesItem, addStoriesItem, changeStoriesItem, removeStoriesItem } from '../../store/storySlice';
+import { setCurrentStoriesItem, createStoriesItem, updateStoriesItem, deleteStoriesItem } from '../../store/storySlice';
 
 import StoriesSlider from '../StorySlider/StorySlider';
 import StoriesItemForm from '../StoriesItemForm/StoriesItemForm';
@@ -15,13 +15,10 @@ function StoriesItemsSection() {
   const [showCreateModal, setShowCreateModal] =
   useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [showCreateItemMessage, setShowCreateTypeMessage] = useState(false);
-  const [showUpdateItemMessage, setShowUpdateTypeMessage] = useState(false);  
+  const [showCreateItemMessage, setShowCreateItemMessage] = useState(false);
+  const [showUpdateItemMessage, setShowUpdateItemMessage] = useState(false);  
   const [showDeleteItemMessage, setShowDeleteTypeMessage] = useState(false);
-  const [showUploadFileError, setShowUploadFileError] = useState(false);
-  const [uploadFileError, setUploadFileError] = useState(null);
-  const [fileLoading, setFileLoading] = useState(false);
-
+    
   const { 
     currentStoriesGroup,
     currentStoriesItem, 
@@ -57,72 +54,54 @@ function StoriesItemsSection() {
     dispatch(setCurrentStoriesItem(item));
   };
 
-  function handleCreateItem({title, colorOnMap, iconFile}) {
-    // if(iconFile) {
-    //   setFileLoading(true);
-    //   api.uploadFile(iconFile)
-    //   .then((res) => {
-    //     const iconUrl = BASE_URL + res;
-    //     dispatch(createType({
-    //       markerModeId: modeId,
-    //       title,
-    //       colorOnMap,
-    //       iconOnMap: iconUrl,
-    //     }));
-    //     setShowCreateTypeMessage(true)
-    //   })
-    //   .catch((err) => setUploadFileError(err))
-    //   .finally(() => setFileLoading(false));
-    // } else {
-    //   dispatch(createType({
-    //     markerModeId: modeId,
-    //     title,
-    //     colorOnMap,
-    //   }));
-    //   setShowCreateTypeMessage(true);
-    // }    
+  function handleCreateItem({imageUrl, ...values}) {
+    if(imageUrl) {
+      dispatch(createStoriesItem({
+        image: imageUrl,
+        ...values
+      }));
+      setShowCreateItemMessage(true);
+    } else {
+      dispatch(createStoriesItem({
+        values
+      }));
+      setShowCreateItemMessage(true);
+    }       
   }
 
-  function handleUpdateItem({id, title, iconFile, colorOnMap, prevIcon}) {
-    // if(iconFile) {
-    //   setFileLoading(true);
-    //   api.uploadFile(iconFile)
-    //   .then((res) => {
-    //     const iconUrl = BASE_URL + res;
-    //     dispatch(updateType({
-    //       id,
-    //       markerModeId: +modeId,
-    //       title,
-    //       colorOnMap,
-    //       iconOnMap: iconUrl,
-    //       prevIcon,
-    //     }));
-    //     setShowUpdateTypeMessage(true);
-    //   })
-    //   .catch((err) => setUploadFileError(err))
-    //   .finally(() => setFileLoading(false));
-    // } else {
-    //   dispatch(updateType({
-    //     id,
-    //     markerModeId: +modeId,
-    //     title,
-    //     colorOnMap,
-    //     iconOnMap: prevIcon,
-    //   }));
-    //   setShowUpdateTypeMessage(true);
-    // }        
+  function handleUpdateItem({imageUrl, ...values}) {
+    if(imageUrl) {
+      dispatch(updateStoriesItem({
+        id: currentStoriesItem.id,
+        image: imageUrl,
+        prevImage: currentStoriesItem.image,  
+        ...values
+      }));    
+      setShowUpdateItemMessage(true);
+    } else {
+      dispatch(updateStoriesItem({
+        id: currentStoriesItem.id,  
+        image: currentStoriesItem.image,
+        ...values
+      }));
+      setShowUpdateItemMessage(true);
+    }   
   }
   
   function handleDeleteItem() {
-    // dispatch(deleteType({id: deletedType.id, prevIcon: deletedType.iconOnMap}));
-    // handleCloseConfirmModal();  
-    // setShowDeleteTypeMessage(true);
+    dispatch(deleteStoriesItem({
+        id: currentStoriesItem.id,
+        prevImage: currentStoriesItem.image
+      }));
+      dispatch(setCurrentStoriesItem(null));
+      handleCloseConfirmModal();
+      showDeleteItemMessage(true);
   } 
 
   return (
     <>      
       <StoriesSlider 
-        onUpdate={handleOpenUpdateModal}
+        onEdit={handleOpenUpdateModal}
         onDelete={handleShowConfirmModal}
       />
 
@@ -142,9 +121,9 @@ function StoriesItemsSection() {
         <Modal.Body >
           <StoriesItemForm 
             name='update'
+            storyItem={currentStoriesItem}
             buttonText='Обновить'
-            onSubmit={handleUpdateItem}
-            fileLoading={fileLoading}
+            submitHandler={handleUpdateItem}
           />        
         </Modal.Body>
       </Modal>
@@ -157,8 +136,7 @@ function StoriesItemsSection() {
           <StoriesItemForm
             name='create'
             buttonText='Создать'
-            onSubmit={handleCreateItem}
-            fileLoading={fileLoading}
+            submitHandler={handleCreateItem}
           />
         </Modal.Body>
       </Modal>
@@ -171,19 +149,18 @@ function StoriesItemsSection() {
         onDecline={handleCloseConfirmModal}
       />
 
-      {createStoriesItemStatus === 'rejected' && <Message type='danger' text={`${createStoriesItemError}`} show={showCreateItemMessage} setShow={setShowCreateTypeMessage} />}
+      {createStoriesItemStatus === 'rejected' && <Message type='danger' text={`${createStoriesItemError}`} show={showCreateItemMessage} setShow={setShowCreateItemMessage} />}
 
-      {createStoriesItemStatus === 'resolved' && <Message type='success' text='Слайд создан!' show={showCreateItemMessage} setShow={setShowCreateTypeMessage} />}
+      {createStoriesItemStatus === 'resolved' && <Message type='success' text='Слайд создан!' show={showCreateItemMessage} setShow={setShowCreateItemMessage} />}
 
       {updateStoriesItemStatus === 'rejected' && 
-      <Message type='danger' text={`${updateStoriesItemError}`} show={showUpdateItemMessage} setShow={setShowUpdateTypeMessage} />}
+      <Message type='danger' text={`${updateStoriesItemError}`} show={showUpdateItemMessage} setShow={setShowUpdateItemMessage} />}
 
       {updateStoriesItemStatus === 'resolved' && 
-      <Message type='success' text='Тип обновлен!' show={showUpdateItemMessage} setShow={setShowUpdateTypeMessage} />}
+      <Message type='success' text='Тип обновлен!' show={showUpdateItemMessage} setShow={setShowUpdateItemMessage} />}
 
       {deleteStoriesItemStatus === 'rejected' && <Message type='danger' text={`${deleteStoriesItemError}`} show={showDeleteItemMessage} setShow={setShowDeleteTypeMessage} />}
 
-      {uploadFileError && <Message type='danger' text={`${uploadFileError}`} show={showUploadFileError} setShow={setShowUploadFileError} />}
     </>
     
   )
