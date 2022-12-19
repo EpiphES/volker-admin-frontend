@@ -3,7 +3,7 @@ import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-
 import { useDispatch } from 'react-redux';
 
 import * as api from '../../utils/api.js';
-import { setUser, deleteUser } from '../../store/userSlice';
+import { setUser } from '../../store/userSlice';
 import { getCities, setCurrentCity } from '../../store/citySlice';
 import { getModes } from '../../store/modeSlice';
 
@@ -57,7 +57,7 @@ function App() {
     navigate('/login');
     setLoggedIn(false);
     localStorage.clear();
-    dispatch(deleteUser());
+    dispatch(setUser(null));
     dispatch(setCurrentCity(null));   
   }
   
@@ -78,7 +78,7 @@ function App() {
     .catch((err) => {
       setLoggedIn(false);
       localStorage.clear();
-      dispatch(deleteUser());
+      dispatch(setUser(null));
       console.log(err);
     })
     .finally(() => setIsTokenCheckLoading(false))     
