@@ -209,12 +209,18 @@ export function deleteFile(fileName) {
   .then(checkEmptyResponse); 
 }
 
-export function getAllMarkersByCityId(cityId) {
-  return fetch(`${BASE_URL}Marker/GetAllMarkersByCityId?cityId=${cityId}`, {
-    method: 'GET',
+export function GetMarkers(values) {
+  return fetch(`${BASE_URL}Marker/GetMarkersOfPaging?cityId=${values.cityId}&page=${values.page}&search=${values.search}`, {
+    method: 'POST',
     headers: {
+      'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`
-    }
+    },
+    body: JSON.stringify({
+      mode: values.mode,
+      isPublished: values.isPublished,
+      type: values.type,
+    }),
   })
   .then(checkResponse);
 }
@@ -224,7 +230,7 @@ export function getMarkerById(id) {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('token')}`
-    }
+    },
   })
   .then(checkResponse);
 }
