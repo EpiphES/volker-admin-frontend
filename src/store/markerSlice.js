@@ -88,7 +88,7 @@ const markerSlice = createSlice({
     page: 1,
     totalPages: 0,
     searchQuery: '', 
-    isPublished: null,
+    isPublished: 'all',
     mode: null,
     type: null,
     currentMarker: null,

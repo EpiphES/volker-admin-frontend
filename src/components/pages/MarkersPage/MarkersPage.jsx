@@ -36,7 +36,7 @@ function MarkersPage() {
         cityId: currentCity.id, 
         page: 1, 
         search: searchQuery,
-        isPublished,
+        isPublished: isPublished === 'all' ? null : isPublished === 'true' ? true : false,
         mode,
         type, 
       }));
