@@ -19,7 +19,9 @@ function BtnScrollUp() {
 
   useEffect(() => {    
     window.addEventListener('scroll', toggleVisible);
-    return () => window.removeEventListener('scroll', toggleVisible); 
+    return function () { 
+      window.removeEventListener('scroll', toggleVisible); 
+    } 
   }, [])
 
   return (
