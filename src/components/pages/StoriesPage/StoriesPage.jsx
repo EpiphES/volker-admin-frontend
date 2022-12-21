@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { getStoriesBlocks } from '../../store/storySlice';
+import { getStoriesBlocks } from '../../../store/storySlice';
 
-import StoriesGallery from '../StoriesGallery/StoriesGallery';
-import UpdateStoriesGroup from '../UpdateStoriesGroup/UpdateStoriesGroup';
-import CreateStoriesGroup from '../CreateStoriesGroup/CreateStoriesGroup';
-import Message from '../Message/Message';
+import StoriesGallery from '../../StoriesGallery/StoriesGallery';
+import UpdateStoriesGroup from '../../UpdateStoriesGroup/UpdateStoriesGroup';
+import CreateStoriesGroup from '../../CreateStoriesGroup/CreateStoriesGroup';
+import Message from '../../Message/Message';
 
 function StoriesPage() {
   const dispatch = useDispatch();
