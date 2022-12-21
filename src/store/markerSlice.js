@@ -1,11 +1,28 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import * as api from '../utils/api';
 
-export const getMarkers = createAsyncThunk(
-  'markers/getMarkers',
-  async (cityId, {rejectWithValue}) => {
+export const fetchMarkers = createAsyncThunk(
+  'markers/fetchMarkers',
+  async (values, {rejectWithValue, dispatch}) => {
     try {
-      const res = await api.getAllMarkersByCityId (cityId);
+      const res = await api.GetMarkers(values);
+      dispatch(setMarkers(res.data))
+      dispatch(setTotalPages(res.allPageCount));
+      dispatch(setPage(2));
+      return res;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const uploadMarkers = createAsyncThunk(
+  'markers/uploadMarkers',
+  async (values, {rejectWithValue, dispatch}) => {
+    try {
+      const res = await api.GetMarkers(values);
+      dispatch(addMarkers(res.data));
+      dispatch(increasePage());
       return res;
     } catch (err) {
       return rejectWithValue(err);
@@ -68,11 +85,17 @@ const markerSlice = createSlice({
   name: 'markers',
   initialState: {
     markers: [],
+    page: 1,
+    totalPages: 0,
+    searchQuery: '', 
+    isPublished: null,
+    mode: null,
+    type: null,
     currentMarker: null,
     currentMarkerStatus: null,
     currentMarkerError: null,
-    getMarkersStatus: null,
-    getMarkersError: null,
+    fetchMarkersStatus: null,
+    fetchMarkersError: null,
     updateMarkerStatus: null,
     updateMarkerError: null,
     createMarkerStatus: null,
@@ -84,6 +107,18 @@ const markerSlice = createSlice({
     setMarkers: (state, action) => {
       state.markers = action.payload;
     },
+    addMarkers: (state, action) => {
+      state.markers = [...state.markers, ...action.payload];
+    },
+    setPage: (state, action) => {
+      state.page = action.payload;
+    },
+    increasePage: (state,action) => {
+      state.page = state.page + 1;
+    },
+    setTotalPages: ((state, action) => {
+      state.totalPages = action.payload;
+    }),
     setCurrentMarker: (state, action) => {
       state.currentMarker = action.payload;
     },
@@ -100,17 +135,27 @@ const markerSlice = createSlice({
     },
   },
   extraReducers: {
-    [getMarkers.pending]: (state) => { 
-      state.getMarkersStatus = 'loading';
-      state.getMarkersError = null;
+    [fetchMarkers.pending]: (state) => { 
+      state.fetchMarkersStatus = 'loading';
+      state.fetchMarkersError = null;
     },
-    [getMarkers.fulfilled]: (state, action) => {
-      state.getMarkersStatus = 'resolved';
-      state.markers = action.payload;
+    [fetchMarkers.fulfilled]: (state, action) => { 
+      state.fetchMarkersStatus = 'resolved';
     },
-    [getMarkers.rejected]: (state, action) => {
-      state.getMarkersStatus = 'rejected';
-      state.getMarkersError = action.payload;
+    [fetchMarkers.rejected]: (state, action) => {
+      state.fetchMarkersStatus = 'rejected';
+      state.fetchMarkersError = action.payload;
+    },
+    [uploadMarkers.pending]: (state) => { 
+      state.uploadMarkersStatus = 'loading';
+      state.uploadMarkersError = null;
+    },
+    [uploadMarkers.fulfilled]: (state, action) => { 
+      state.uploadMarkersStatus = 'resolved';
+    },
+    [uploadMarkers.rejected]: (state, action) => {
+      state.uploadMarkersStatus = 'rejected';
+      state.uploadMarkersError = action.payload;
     },
     [getMarkerById.pending]: (state) => { 
       state.currentMarkerStatus = 'loading';
@@ -159,6 +204,6 @@ const markerSlice = createSlice({
     },
   },
 });
-export const { setMarkers, setCurrentMarker, addMarker, changeMarker, removeMarker } = markerSlice.actions;
+export const { setMarkers, addMarkers, setPage, increasePage, setTotalPages, setCurrentMarker, addMarker, changeMarker, removeMarker } = markerSlice.actions;
 
 export default markerSlice.reducer;
