@@ -1,9 +1,6 @@
-import './Header.css'
-import { GiWolfHead } from 'react-icons/gi';
-
 import { Link, NavLink, useLocation } from 'react-router-dom';
-
-import { Container, Navbar, Nav, Button } from "react-bootstrap"
+import { Container, Navbar, Nav, Button, Image } from 'react-bootstrap';
+import logo from '../../images/logo-dark.png';
 
 function Header({onProfileClick}) {
   const location = useLocation();
@@ -18,10 +15,12 @@ function Header({onProfileClick}) {
         <Container>
           <Navbar.Brand
             as={Link}
-            to='/'>
-            <GiWolfHead className='header__logo'/>
+            to='/'
+            className='p-0'>
+            <Image src={logo} className='header__logo' alt='логотип' style={{height: '43px'}}/>
+            {/* <GiWolfHead className='header__logo'/>
             {' '}
-            VOLKER
+            VOLKER */}
           </Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse>

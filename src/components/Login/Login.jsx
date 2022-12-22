@@ -11,12 +11,13 @@ import {
   Form,
   FloatingLabel,
   Button,
-  InputGroup, 
+  InputGroup,
+  Image, 
 } from 'react-bootstrap';
 
-import { GiWolfHead } from 'react-icons/gi';
 import { FaEye } from 'react-icons/fa';
 import { FaEyeSlash } from 'react-icons/fa';
+import logoIcon from '../../images/icon-colored.svg'
 
 function Login({onLogin, isLoading}) {
   const [isPasswordVisible, setPasswordVisible] = useState(false);
@@ -43,7 +44,7 @@ function Login({onLogin, isLoading}) {
       <div 
         className='login__container w-100 m-auto d-flex flex-column align-items-center justify-content-center'
         >
-        <GiWolfHead className='login__logo mb-4'/>
+        <Image src={logoIcon} alt='логотип' className='login__logo mb-4'/>
         <h1 className='text-light h3 mb-4 fw-normal'>
           Добро пожаловать!
         </h1>
