@@ -1,18 +1,20 @@
-import { useEffect,useState } from 'react';
-import { Button, Form, InputGroup,Modal } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
+import {
+  Button, Form, InputGroup, Modal,
+} from 'react-bootstrap';
 import { BsSearch } from 'react-icons/bs';
 
-function ModalWithSelect({items, show, onClose, onSubmit, withSearch, text}) {
+function ModalWithSelect({
+  items, show, onClose, onSubmit, withSearch, text,
+}) {
   const [selectedId, setSelectedId] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectItems, setSelectItems] = useState([]);
-  const selectOptions = selectItems.map((item) => {
-    return (
+  const selectOptions = selectItems.map((item) => (
       <option key={item.id} value={item.id}>
         {item.title}
       </option>
-    );
-  })
+  ));
 
   function handleChange(e) {
     setSelectedId(e.target.value);
@@ -29,10 +31,9 @@ function ModalWithSelect({items, show, onClose, onSubmit, withSearch, text}) {
   }
 
   useEffect(() => {
-    if(searchQuery) {
-      setSelectItems((prevVal) => {
-        return prevVal.filter(item => item.title.toLowerCase().includes(searchQuery.toLowerCase()));
-      });
+    if (searchQuery) {
+      setSelectItems((prevVal) => prevVal
+        .filter((item) => item.title.toLowerCase().includes(searchQuery.toLowerCase())));
     } else {
       setSelectItems(items);
     }
@@ -44,8 +45,8 @@ function ModalWithSelect({items, show, onClose, onSubmit, withSearch, text}) {
         <Modal.Title className='d-block'>{`Выбор ${text}а`}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        { withSearch &&
-        <InputGroup className='mb-2'>
+        { withSearch
+        && <InputGroup className='mb-2'>
           <InputGroup.Text>
             <BsSearch />
           </InputGroup.Text>
@@ -77,7 +78,7 @@ function ModalWithSelect({items, show, onClose, onSubmit, withSearch, text}) {
         </Form>
       </Modal.Body>
     </Modal>
-  )
+  );
 }
 
 export default ModalWithSelect;

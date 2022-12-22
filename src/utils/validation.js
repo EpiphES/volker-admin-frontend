@@ -1,11 +1,10 @@
-import { EMAIL_REGEX } from './constants';
-import { LAT_REGEX, LON_REGEX } from './constants';
+import { EMAIL_REGEX, LAT_REGEX, LON_REGEX } from './constants';
 
-const emailRegexp = new RegExp(EMAIL_REGEX, 'i')
+const emailRegexp = new RegExp(EMAIL_REGEX, 'i');
 const latRegex = new RegExp(LAT_REGEX);
 const lonRegex = new RegExp(LON_REGEX);
 
-const loginFormValidate = values => {
+const loginFormValidate = (values) => {
   const errors = {};
 
   if (!values.email) {
@@ -21,29 +20,29 @@ const loginFormValidate = values => {
   return errors;
 };
 
-const cityFormValidate = values => {
+const cityFormValidate = (values) => {
   const errors = {};
 
   if (!values.cityName) {
     errors.cityName = 'Поле должно быть заполнено';
   }
 
-  if(values.latitude === '') {
+  if (values.latitude === '') {
     errors.latitude = 'Введите координаты';
   } else if (!latRegex.test(values.latitude)) {
     errors.latitude = 'Некорректное значение';
   }
 
-  if(values.longitude === '') {
+  if (values.longitude === '') {
     errors.longitude = 'Введите координаты';
   } else if (!lonRegex.test(values.longitude)) {
     errors.longitude = 'Некорректное значение';
   }
 
   return errors;
- };
+};
 
- const modeFormValidate = values => {
+const modeFormValidate = (values) => {
   const errors = {};
 
   if (!values.title) {
@@ -51,9 +50,9 @@ const cityFormValidate = values => {
   }
 
   return errors;
- };
+};
 
-const typeFormValidate = values => {
+const typeFormValidate = (values) => {
   const errors = {};
 
   if (!values.title) {
@@ -67,73 +66,73 @@ const typeFormValidate = values => {
   return errors;
 };
 
-const markerFormValidate = values => {
+const markerFormValidate = (values) => {
   const errors = {};
 
   if (!values.title) {
     errors.title = 'Поле должно быть заполнено';
   }
 
-  if(!values.latitude) {
+  if (!values.latitude) {
     errors.latitude = 'Введите координаты';
   } else if (!latRegex.test(values.latitude)) {
     errors.latitude = 'Некорректное значение';
   }
 
-  if(!values.longitude) {
+  if (!values.longitude) {
     errors.longitude = 'Введите координаты';
   } else if (!lonRegex.test(values.longitude)) {
     errors.longitude = 'Некорректное значение';
   }
 
-  if(!values.modeType) {
+  if (!values.modeType) {
     errors.modeType = 'Необходимо выбрать режим';
   }
 
   return errors;
 };
 
-const storiesBlockFormValidate = values => {
+const storiesBlockFormValidate = (values) => {
   const errors = {};
 
   if (!values.title) {
     errors.title = 'Поле должно быть заполнено';
   }
 
-  if(values.cityId === '') {
+  if (values.cityId === '') {
     errors.cityId = 'Необходимо выбрать город';
   }
 
-  if(!Number.isInteger(values.position)) {
-    errors.position = 'Введите целое число'
+  if (!Number.isInteger(values.position)) {
+    errors.position = 'Введите целое число';
   }
 
   return errors;
 };
 
-const storiesGroupFormValidate = values => {
+const storiesGroupFormValidate = (values) => {
   const errors = {};
 
   if (!values.title) {
     errors.title = 'Поле должно быть заполнено';
   }
 
-  if(values.storiesBlockId === '') {
+  if (values.storiesBlockId === '') {
     errors.storiesBlockId = 'Необходимо выбрать блок';
   }
 
-  if(!Number.isInteger(values.position)) {
-    errors.position = 'Введите целое число'
+  if (!Number.isInteger(values.position)) {
+    errors.position = 'Введите целое число';
   }
 
   return errors;
 };
 
-const storiesItemFormValidate = values => {
+const storiesItemFormValidate = (values) => {
   const errors = {};
 
-  if(!Number.isInteger(values.position)) {
-    errors.position = 'Введите целое число'
+  if (!Number.isInteger(values.position)) {
+    errors.position = 'Введите целое число';
   }
 
   return errors;
@@ -148,4 +147,4 @@ export {
   storiesGroupFormValidate,
   storiesItemFormValidate,
   typeFormValidate,
-}
+};

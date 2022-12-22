@@ -1,6 +1,6 @@
-import { useEffect,useState } from 'react';
-import { Button, Card,Form } from 'react-bootstrap';
-import { useDispatch,useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { Button, Card, Form } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 
 import { getCurrentCity } from '../../store/citySlice';
@@ -9,14 +9,16 @@ import * as api from '../../utils/api';
 import { BASE_URL } from '../../utils/constants';
 import { getFileNameFromUrl, handleCompressImage } from '../../utils/utils';
 import { markerFormValidate } from '../../utils/validation';
-import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup';
-import Coordinates from '../Coordinates/Coordinates';
-import FormInput from '../FormInput/FormInput';
-import ImageGallery from '../ImageGallery/ImageGallery';
-import ModalWithSelect from '../ModalWithSelect/ModalWithSelect';
-import TypesGallery from '../TypesGallery/TypesGallery';
+import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup.jsx';
+import Coordinates from '../Coordinates/Coordinates.jsx';
+import FormInput from '../FormInput/FormInput.jsx';
+import ImageGallery from '../ImageGallery/ImageGallery.jsx';
+import ModalWithSelect from '../ModalWithSelect/ModalWithSelect.jsx';
+import TypesGallery from '../TypesGallery/TypesGallery.jsx';
 
-function MarkerForm({name, marker, buttonText, onSubmit}) {
+function MarkerForm({
+  name, marker, buttonText, onSubmit,
+}) {
   const [validated, setValidated] = useState(false);
   const dispatch = useDispatch();
   const [filteredCities, setFilteredCities] = useState([]);
@@ -31,21 +33,21 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
   const {
     updateMarkerStatus,
     createMarkerStatus,
-  } = useSelector(state => state.marker);
+  } = useSelector((state) => state.marker);
 
   const {
     cities,
     currentCity,
     currentCityStatus,
     currentCityError,
-  } = useSelector(state => state.city);
+  } = useSelector((state) => state.city);
 
   const {
     modes,
     currentMode,
     currentModeStatus,
     currentModeError,
-  } = useSelector(state => state.mode);
+  } = useSelector((state) => state.mode);
 
   const formik = useFormik({
     initialValues: {
@@ -55,7 +57,7 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
       longitude: marker?.longitude || '',
       description: marker?.description || '',
       isMainPlace: marker?.isMainPlace || false,
-      modeType:  marker?.modeType || '',
+      modeType: marker?.modeType || '',
       address: marker?.address || '',
       createAuthor: marker?.createAuthor || '',
       createDate: marker?.createDate || '',
@@ -71,8 +73,8 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
       isPublished: marker?.isPublished || true,
     },
     validate: markerFormValidate,
-    onSubmit: values => {
-      if(selectedTypes.length === 0) {
+    onSubmit: (values) => {
+      if (selectedTypes.length === 0) {
         return;
       }
       onSubmit({
@@ -82,7 +84,7 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
         longitude: values.longitude,
         description: values.description,
         isMainPlace: values.isMainPlace,
-        modeType:  +values.modeType,
+        modeType: parseInt(values.modeType, 10),
         markerTypes: selectedTypes,
         address: values.address,
         createAuthor: values.createAuthor,
@@ -97,40 +99,39 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
         phones: values.phones.split(/,\s*/),
         isConfirmed: values.isConfirmed,
         isPublished: values.isPublished,
-        images: images,
+        images,
       });
     },
     onReset: () => {
-      if(marker) {
+      if (marker) {
         dispatch(getModeById(marker.modeType));
         setSelectedTypes(marker.markerTypes);
-        if(marker.cityId) {
+        if (marker.cityId) {
           dispatch(getCurrentCity(marker.cityId));
         }
       } else {
         dispatch(setCurrentMode(null));
         setSelectedTypes([]);
       }
-    }
+    },
   });
 
-  const citySelect = filteredCities?.map((city) => {
-    return (<option key={city.id} value={city.id}>{city.cityName}</option>)
-  });
+  const citySelect = filteredCities?.map((city) => (
+    <option key={city.id} value={city.id}>{city.cityName}</option>
+  ));
 
-  const modeSelect = (formik.values.cityId && currentCity ? currentCity.modes : modes).map((mode) => {
-    return (<option key={mode.id} value={mode.id}>{mode.title}</option>)
-  })
+  const modeSelect = (formik.values.cityId && currentCity ? currentCity.modes : modes)
+    .map((mode) => (<option key={mode.id} value={mode.id}>{mode.title}</option>));
 
   function handleSelectCity(e) {
-    if(e.target.value) {
+    if (e.target.value) {
       dispatch(getCurrentCity(e.target.value));
     }
   }
 
   function handleChangeMode(e) {
     setSelectedTypes([]);
-    if(!e.target.value) {
+    if (!e.target.value) {
       dispatch(setCurrentMode(null));
       return;
     }
@@ -139,7 +140,7 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
 
   function toggleCityFilter() {
     setCityFilter(!cityFilter);
-    formik.values.cityId ='';
+    formik.values.cityId = '';
   }
 
   function handleCloseTypeSelectModal() {
@@ -150,25 +151,23 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
   }
 
   function handleAddType(id) {
-    const type = currentMode.markerTypes.find(item => item.id === (+id));
+    const type = currentMode.markerTypes.find((item) => item.id === (+id));
     setSelectedTypes([...selectedTypes, type]);
   }
 
   function handleDeleteType(id) {
-    setSelectedTypes((prevVal) => {
-      return prevVal.filter(item => item.id !== +id)
-    })
+    setSelectedTypes((prevVal) => prevVal.filter((item) => item.id !== +id));
   }
 
   function handleLoadImage(e) {
-    if(e.target.files.length > 0) {
+    if (e.target.files.length > 0) {
       handleCompressImage(e.target.files[0])
-      .then((res) => api.uploadFile(res))
-      .then((res) => {
-        const iconUrl = BASE_URL + res;
-        setImages((prevVal) => [iconUrl, ...prevVal]);
-      })
-       .catch((err) => console.log(err))
+        .then((res) => api.uploadFile(res))
+        .then((res) => {
+          const iconUrl = BASE_URL + res;
+          setImages((prevVal) => [iconUrl, ...prevVal]);
+        })
+        .catch((err) => console.error(err));
     }
   }
 
@@ -184,20 +183,22 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
   function handleDeleteImage() {
     const fileName = getFileNameFromUrl(deletedImage);
     api.deleteFile(fileName)
-    .then(() => {
-      setImages((prevVal) => prevVal.filter(item => item !== deletedImage));
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => handleCloseConfirmModal());
+      .then(() => {
+        setImages((prevVal) => prevVal.filter((item) => item !== deletedImage));
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+      .finally(() => handleCloseConfirmModal());
   }
 
   useEffect(() => {
-    if(formik.values.modeType && cityFilter) {
-      const filteredCitiesArr = cities.filter((city) => {
-        return city.modes.some((item) => item.id === +formik.values.modeType)
-      });
+    if (formik.values.modeType && cityFilter) {
+      const filteredCitiesArr = cities.filter(
+        (city) => city.modes.some(
+          (item) => item.id === parseInt(formik.values.modeType, 10),
+        ),
+      );
       setFilteredCities(filteredCitiesArr);
       return;
     }
@@ -205,7 +206,8 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
   }, [cities, cityFilter, formik.values.modeType]);
 
   useEffect(() => {
-    if(formik.values.cityId && currentCity &&currentMode && !currentCity?.modes.some(item => item.id === currentMode.id)) {
+    if (formik.values.cityId && currentCity && currentMode && !currentCity?.modes
+      .some((item) => item.id === currentMode.id)) {
       dispatch(setCurrentMode(null));
       formik.values.modeType = '';
       setSelectedTypes([]);
@@ -213,7 +215,7 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
   }, [currentCity, currentMode, dispatch, formik.values.cityId]);
 
   useEffect(() => {
-    if(marker) {
+    if (marker) {
       dispatch(getModeById(marker.modeType));
       setSelectedTypes(marker.markerTypes);
       setImages(marker.images);
@@ -221,8 +223,9 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
   }, [marker, dispatch]);
 
   useEffect(() => {
-    if(currentMode) {
-      const typeItems = currentMode.markerTypes.filter((type) => !selectedTypes.some(item => item.id === type.id));
+    if (currentMode) {
+      const typeItems = currentMode.markerTypes
+        .filter((type) => !selectedTypes.some((item) => item.id === type.id));
       setFilteredTypes(typeItems);
     }
   }, [currentMode, selectedTypes]);
@@ -248,7 +251,7 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
         }}
         noValidate
         className='text-center mb-4 mx-auto'
-        style={{maxWidth: '800px'}}
+        style={{ maxWidth: '800px' }}
         validated={validated}
         >
         <fieldset disabled={(
@@ -272,10 +275,10 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
             <Form.Label className='h6 mb-3' htmlFor={`cityId-marker-${name}`}>
               Город нахождения:
               {' '}
-              {!formik.values.cityId ? 'Не выбран'
+              { !formik.values.cityId ? 'Не выбран'
                 : currentCityStatus === 'loading' ? <small className='text-primary'>Идет загрузка...</small>
                 : currentCityStatus === 'rejected' ? <small className='text-danger'>{currentCityError}</small>
-                : currentCity?.cityName}
+                : currentCity?.cityName }
             </Form.Label>
             <Form.Check
               type='checkbox'
@@ -337,16 +340,16 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
             body
             className='shadow-sm mb-3 mt-2 mx-auto'
             border='primary'
-            style={{maxWidth: '800px'}}>
+            style={{ maxWidth: '800px' }}>
 
             <Form.Group className='mb-3'>
               <Form.Label className='h6 mb-3' htmlFor={`modeType-marker-${name}`}>
                 Режим отображения:
                 {' '}
-                {!formik.values.modeType ? 'Не выбран'
+                { !formik.values.modeType ? 'Не выбран'
                 : currentModeStatus === 'loading' ? <small className='text-primary'>Идет загрузка...</small>
                 : currentModeStatus === 'rejected' ? <small className='text-danger'>{currentModeError}</small>
-                : currentMode?.title}
+                : currentMode?.title }
               </Form.Label>
               <Form.Select
                 aria-label='выберите режим'
@@ -374,8 +377,11 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
               place='marker'
             />
 
-            {validated && selectedTypes.length === 0  &&
-            <small className='text-danger'>Необходимо выбрать тип</small>}
+            {
+              validated
+              && selectedTypes.length === 0
+              && <small className='text-danger'>Необходимо выбрать тип</small>
+            }
           </Card>
 
           <FormInput
@@ -520,8 +526,8 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
         </fieldset>
       </Form>
 
-      { name === 'update' && images.length > 0  &&
-      <small className='text-danger d-block text-center mb-2' >Перед удалением маркера желательно удалить все изображения</small> }
+      { name === 'update' && images.length > 0
+      && <small className='text-danger d-block text-center mb-2' >Перед удалением маркера желательно удалить все изображения</small> }
 
       <ModalWithSelect
         items={filteredTypes}
@@ -532,14 +538,14 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
       />
 
       <ConfirmationPopup
-        text={`Удалить изображение?`}
+        text={'Удалить изображение?'}
         show={showConfirmModal}
         onClose={handleCloseConfirmModal}
         onConfirm={handleDeleteImage}
         onDecline={handleCloseConfirmModal}
       />
     </>
-  )
+  );
 }
 
 export default MarkerForm;

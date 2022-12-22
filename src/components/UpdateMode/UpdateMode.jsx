@@ -1,21 +1,25 @@
 import { useEffect, useState } from 'react';
-import { Alert, Button,Card } from 'react-bootstrap';
+import { Alert, Button, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-import { deleteMode, getModeById, setCurrentMode,updateMode} from '../../store/modeSlice';
-import ConfirmationPopup from "../ConfirmationPopup/ConfirmationPopup";
-import GoBackButton from "../GoBackButton/GoBackButton";
-import Loader from "../Loader/Loader";
-import Message from '../Message/Message';
-import ModeForm from "../ModeForm/ModeForm";
-import TypesSection from "../TypesSection/TypesSection";
+import {
+  deleteMode,
+  getModeById,
+  setCurrentMode,
+  updateMode,
+} from '../../store/modeSlice';
+import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup.jsx';
+import GoBackButton from '../GoBackButton/GoBackButton.jsx';
+import Loader from '../Loader/Loader.jsx';
+import Message from '../Message/Message.jsx';
+import ModeForm from '../ModeForm/ModeForm.jsx';
+import TypesSection from '../TypesSection/TypesSection.jsx';
 
-function UpdateMode({showDeleteModeMessage}) {
+function UpdateMode({ showDeleteModeMessage }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {modeId} = useParams();
+  const { modeId } = useParams();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showUpdateModeMessage, setShowUpdateModeMessage] = useState(false);
 
@@ -25,22 +29,22 @@ function UpdateMode({showDeleteModeMessage}) {
     currentModeError,
     updateModeStatus,
     updateModeError,
-  } = useSelector(state => state.mode);
+  } = useSelector((state) => state.mode);
 
-  function handleUpdateMode({iconUrl, ...values}) {
-    if(iconUrl) {
+  function handleUpdateMode({ iconUrl, ...values }) {
+    if (iconUrl) {
       dispatch(updateMode({
         id: modeId,
         title: values.title,
         icon: iconUrl,
-        prevIcon: currentMode.icon
+        prevIcon: currentMode.icon,
       }));
       setShowUpdateModeMessage(true);
     } else {
       dispatch(updateMode({
         id: modeId,
         title: values.title,
-        icon: currentMode.icon
+        icon: currentMode.icon,
       }));
       setShowUpdateModeMessage(true);
     }
@@ -49,14 +53,12 @@ function UpdateMode({showDeleteModeMessage}) {
   function handleCloseConfirmModal() {
     setShowConfirmModal(false);
   }
-
   function handleShowConfirmModal() {
     setShowConfirmModal(true);
   }
-
   function handleDeleteMode() {
-    if(currentMode.markerTypes.length === 0) {
-      dispatch(deleteMode({id: modeId, prevIcon: currentMode.icon}));
+    if (currentMode.markerTypes.length === 0) {
+      dispatch(deleteMode({ id: modeId, prevIcon: currentMode.icon }));
       handleCloseConfirmModal();
       navigate('/modes');
       showDeleteModeMessage(true);
@@ -72,13 +74,13 @@ function UpdateMode({showDeleteModeMessage}) {
     <>
       <GoBackButton />
       { currentModeStatus === 'loading' && <Loader />}
-      { currentModeStatus === 'resolved' &&
-      <>
+      { currentModeStatus === 'resolved'
+      && <>
         <Card
           body
           className='shadow-sm mb-3 mt-2 mx-auto'
           border='primary'
-          style={{maxWidth: '800px'}}>
+          style={{ maxWidth: '800px' }}>
           <ModeForm
             name='update'
             mode={currentMode}
@@ -91,7 +93,7 @@ function UpdateMode({showDeleteModeMessage}) {
           body
           className='shadow-sm mb-4 mt-2 mx-auto'
           border='primary'
-          style={{maxWidth: '800px'}}>
+          style={{ maxWidth: '800px' }}>
           <TypesSection modeId={+modeId}/>
         </Card>
 
@@ -107,12 +109,11 @@ function UpdateMode({showDeleteModeMessage}) {
         </Button>
         { currentMode?.markerTypes.length > 0 && <p className='text-danger text-center'>Чтобы удалить режим, сначала удалите все типы</p> }
 
-
         <GoBackButton />
       </> }
 
-      { currentModeStatus === 'rejected' &&
-      <Alert variant='danger'>
+      { currentModeStatus === 'rejected'
+      && <Alert variant='danger'>
         {currentModeError}
       </Alert> }
 
@@ -128,7 +129,7 @@ function UpdateMode({showDeleteModeMessage}) {
 
       {updateModeStatus === 'resolved' && <Message type='success' text='Режим обновлен!' show={showUpdateModeMessage} setShow={setShowUpdateModeMessage} />}
     </>
-  )
+  );
 }
 
 export default UpdateMode;

@@ -1,5 +1,5 @@
-import { useEffect,useState } from 'react';
-import { Button,Form} from 'react-bootstrap';
+import { useEffect, useState } from 'react';
+import { Button, Form } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 
@@ -7,11 +7,13 @@ import * as api from '../../utils/api';
 import { BASE_URL } from '../../utils/constants';
 import { handleCompressImage } from '../../utils/utils';
 import { modeFormValidate } from '../../utils/validation';
-import FileInputCard from '../FileInputCard/FileInputCard';
-import FormInput from '../FormInput/FormInput';
-import Message from '../Message/Message';
+import FileInputCard from '../FileInputCard/FileInputCard.jsx';
+import FormInput from '../FormInput/FormInput.jsx';
+import Message from '../Message/Message.jsx';
 
-function ModeForm({name, mode, buttonText, submitHandler}) {
+function ModeForm({
+  name, mode, buttonText, submitHandler,
+}) {
   const [modeIcon, setModeIcon] = useState('');
   const [validated, setValidated] = useState(false);
   const [iconFile, setIconFile] = useState(null);
@@ -22,7 +24,27 @@ function ModeForm({name, mode, buttonText, submitHandler}) {
   const {
     updateModeStatus,
     createModeStatus,
-  } = useSelector(state => state.mode);
+  } = useSelector((state) => state.mode);
+
+  function handleSubmit(values) {
+    if (iconFile) {
+      setUploadFileError(null);
+      setFileLoading(true);
+      handleCompressImage(iconFile)
+        .then((res) => api.uploadFile(res))
+        .then((res) => {
+          const iconUrl = BASE_URL + res;
+          submitHandler({ iconUrl, ...values });
+        })
+        .catch((err) => {
+          setUploadFileError(err);
+          setShowUploadFileError(true);
+        })
+        .finally(() => setFileLoading(false));
+    } else {
+      submitHandler(values);
+    }
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -40,36 +62,18 @@ function ModeForm({name, mode, buttonText, submitHandler}) {
     setIconFile(null);
   }
 
-  function handleSubmit(values) {
-    if(iconFile) {
-      setUploadFileError(null);
-      setFileLoading(true);
-      handleCompressImage(iconFile)
-      .then((res) => api.uploadFile(res))
-      .then((res) => {
-        const iconUrl = BASE_URL + res;
-        submitHandler({iconUrl, ...values});
-      })
-      .catch((err) => {
-        setUploadFileError(err);
-        setShowUploadFileError(true);
-      })
-      .finally(() => setFileLoading(false));
-    } else {
-      submitHandler(values);
-    }
-  }
-
   useEffect(() => {
     if (!iconFile) {
-      mode ?
-      setModeIcon(mode.icon)
+      mode
+      ? setModeIcon(mode.icon)
       : setModeIcon('');
-      return
+      return;
     }
     const objectUrl = URL.createObjectURL(iconFile);
     setModeIcon(objectUrl);
-    return () => URL.revokeObjectURL(objectUrl);
+    return () => {
+      URL.revokeObjectURL(objectUrl);
+    };
   }, [iconFile, mode]);
 
   return (
@@ -85,9 +89,9 @@ function ModeForm({name, mode, buttonText, submitHandler}) {
         className='text-center'
         >
         <fieldset disabled={(
-          updateModeStatus === 'loading' ||
-          createModeStatus === 'loading' ||
-          fileLoading
+          updateModeStatus === 'loading'
+          || createModeStatus === 'loading'
+          || fileLoading
           )}>
 
           <FormInput
@@ -104,7 +108,7 @@ function ModeForm({name, mode, buttonText, submitHandler}) {
           />
 
           <h6 className='mb-2'>Иконка режима</h6>
-          <div style={{width: '120px'}} className='mx-auto'>
+          <div style={{ width: '120px' }} className='mx-auto'>
             <FileInputCard
               name='mode'
               onChange={handleIconSelect}
@@ -137,7 +141,7 @@ function ModeForm({name, mode, buttonText, submitHandler}) {
       {uploadFileError && <Message type='danger'
       title='Не получилось загрузить файл :(' text={`${uploadFileError}`} show={showUploadFileError} setShow={setShowUploadFileError} />}
     </>
-  )
+  );
 }
 
 export default ModeForm;

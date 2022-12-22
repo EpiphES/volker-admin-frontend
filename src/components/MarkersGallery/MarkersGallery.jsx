@@ -1,19 +1,29 @@
-import { useEffect,useState } from 'react';
-import { Alert, Button,Col, Row } from 'react-bootstrap';
-import { useDispatch,useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import {
+  Alert, Button, Col, Row,
+} from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { fetchAllMarkers, fetchFilteredMarkers, resetFilters, setFilterActive,setFilters, uploadAllMarkers, uploadFilteredMarkers } from '../../store/markerSlice';
-import AddCard from '../AddCard/AddCard';
-import BtnScrollUp from '../BtnScrollUp/BtnScrollUp';
-import Loader from '../Loader/Loader';
-import MarkerCard from '../MarkerCard/MarkerCard';
-import MarkersFilter from '../MarkersFilter/MarkersFilter';
+import {
+  fetchAllMarkers,
+  fetchFilteredMarkers,
+  resetFilters,
+  setFilterActive,
+  setFilters,
+  uploadAllMarkers,
+  uploadFilteredMarkers,
+} from '../../store/markerSlice';
+import AddCard from '../AddCard/AddCard.jsx';
+import BtnScrollUp from '../BtnScrollUp/BtnScrollUp.jsx';
+import Loader from '../Loader/Loader.jsx';
+import MarkerCard from '../MarkerCard/MarkerCard.jsx';
+import MarkersFilter from '../MarkersFilter/MarkersFilter.jsx';
 
 function MarkersGallery() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [fetching, setFetching] = useState(false)
+  const [fetching, setFetching] = useState(false);
   const {
     markers,
     page,
@@ -27,37 +37,39 @@ function MarkersGallery() {
     fetchMarkersError,
     uploadMarkersStatus,
     uploadMarkersError,
-  } = useSelector(state => state.marker);
+  } = useSelector((state) => state.marker);
 
-  const {currentCity} = useSelector(state => state.city);
-
-  const markerCards = markers.map(item => {
-    return (
-      <Col key={item.id}>
-        <MarkerCard item={item} onClick={handleCardClick} />
-      </Col>
-    )
-  });
+  const { currentCity } = useSelector((state) => state.city);
 
   function handleCardClick(markerId) {
     navigate(`${markerId}`);
   }
 
+  const markerCards = markers.map((item) => (
+      <Col key={item.id}>
+        <MarkerCard item={item} onClick={handleCardClick} />
+      </Col>
+  ));
+
   function handleAddClick() {
     navigate('create');
   }
 
-  function handleFilter({searchQuery, isPublished, mode, type}) {
-
+  function handleFilter(values) {
     dispatch(fetchFilteredMarkers({
       cityId: currentCity.id,
       page: 1,
-      search: searchQuery,
-      isPublished: isPublished === 'all' ? null : isPublished === 'true' ? true : false,
-      mode: mode ? mode : null,
-      type: type ? type : null,
+      search: values.searchQuery,
+      isPublished: values.isPublished === 'all' ? null : values.isPublished === 'true' ? true : false,
+      mode: values.mode ? values.mode : null,
+      type: values.type ? values.type : null,
     }));
-    dispatch(setFilters({searchQuery, isPublished, mode, type} ));
+    dispatch(setFilters({
+      searchQuery,
+      isPublished,
+      mode,
+      type,
+    }));
     dispatch(setFilterActive(true));
   }
 
@@ -72,7 +84,7 @@ function MarkersGallery() {
   }
 
   useEffect(() => {
-    if(fetching && page <= totalPages) {
+    if (fetching && page <= totalPages) {
       filterActive ?
       dispatch(uploadFilteredMarkers({
         cityId: currentCity.id,
@@ -81,25 +93,36 @@ function MarkersGallery() {
         isPublished: isPublished === 'all' ? null : isPublished === 'true' ? true : false,
         mode: mode ? mode : null,
         type: type ? type : null,
-      })) :
-      dispatch(uploadAllMarkers({
+      }))
+      : dispatch(uploadAllMarkers({
         cityId: currentCity.id,
         page: page,
         search: '',
       }));
-      setFetching(false);
+      return setFetching(false);
     }
-  },[fetching, page, totalPages, currentCity, dispatch, filterActive, searchQuery, isPublished, mode, type])
+  }, [
+    currentCity.id,
+    dispatch,
+    fetching,
+    filterActive,
+    isPublished,
+    mode,
+    page,
+    searchQuery,
+    totalPages,
+    type,
+  ]);
 
   return (
     <>
-      { currentCity ?
-      (<MarkersFilter onSubmit={handleFilter} onReset={handleResetFilter}/>) :
-      (<Alert variant='primary'>
+      { currentCity
+        ? (<MarkersFilter onSubmit={handleFilter} onReset={handleResetFilter}/>)
+        : (<Alert variant='primary'>
         Город не выбран.
       </Alert>) }
-      { fetchMarkersStatus ==='resolved' && markers.length === 0 &&
-      <Alert variant='primary'>
+      { fetchMarkersStatus === 'resolved' && markers.length === 0
+      && <Alert variant='primary'>
         Маркеры не найдены.
       </Alert> }
 
@@ -115,12 +138,12 @@ function MarkersGallery() {
       </section>
 
       { (fetchMarkersStatus === 'loading' || uploadMarkersStatus === 'loading') && <Loader /> }
-      { fetchMarkersStatus === 'rejected' &&
-        <Alert variant='danger'>
+      { fetchMarkersStatus === 'rejected'
+        && <Alert variant='danger'>
           {fetchMarkersError}
         </Alert> }
-      { uploadMarkersStatus === 'rejected' &&
-        <Alert variant='danger'>
+      { uploadMarkersStatus === 'rejected'
+        && <Alert variant='danger'>
           {uploadMarkersError}
         </Alert> }
       { page <= totalPages && <Button
@@ -130,6 +153,6 @@ function MarkersGallery() {
         Загрузить еще
       </Button> }
     </>
-  )
+  );
 }
 export default MarkersGallery;

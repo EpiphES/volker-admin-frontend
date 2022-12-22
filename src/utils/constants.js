@@ -14,4 +14,4 @@ export {
   LAT_REGEX,
   LON_REGEX,
   UPLOAD_FOLDER,
-}
+};

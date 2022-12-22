@@ -1,5 +1,5 @@
-import { useEffect,useState } from 'react';
-import { Button,Form } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
+import { Button, Form } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 
@@ -7,11 +7,13 @@ import * as api from '../../utils/api';
 import { BASE_URL } from '../../utils/constants';
 import { handleCompressImage } from '../../utils/utils';
 import { storiesGroupFormValidate } from '../../utils/validation';
-import FileInputCard from '../FileInputCard/FileInputCard';
-import FormInput from '../FormInput/FormInput';
-import Message from '../Message/Message';
+import FileInputCard from '../FileInputCard/FileInputCard.jsx';
+import FormInput from '../FormInput/FormInput.jsx';
+import Message from '../Message/Message.jsx';
 
-function StoriesGroupForm({name, group, buttonText, submitHandler}) {
+function StoriesGroupForm({
+  name, group, buttonText, submitHandler,
+}) {
   const [validated, setValidated] = useState(false);
   const [groupImage, setGroupImage] = useState('');
   const [imageFile, setImageFile] = useState(null);
@@ -24,7 +26,27 @@ function StoriesGroupForm({name, group, buttonText, submitHandler}) {
     currentStoriesBlock,
     updateStoriesGroupStatus,
     createStoriesGroupStatus,
-  } = useSelector(state => state.story);
+  } = useSelector((state) => state.story);
+
+  function handleSubmit(values) {
+    if (imageFile) {
+      setUploadFileError(null);
+      setFileLoading(true);
+      handleCompressImage(imageFile)
+        .then((res) => api.uploadFile(res))
+        .then((res) => {
+          const imageUrl = BASE_URL + res;
+          submitHandler({ imageUrl, ...values });
+        })
+        .catch((err) => {
+          setUploadFileError(err);
+          setShowUploadFileError(true);
+        })
+        .finally(() => setFileLoading(false));
+    } else {
+      submitHandler(values);
+    }
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -34,49 +56,27 @@ function StoriesGroupForm({name, group, buttonText, submitHandler}) {
       storyItems: group?.storyItems || [],
     },
     validate: storiesGroupFormValidate,
-    onSubmit: values => {
+    onSubmit: (values) => {
       handleSubmit(values);
     },
   });
 
-  const blockSelect = storiesBlocks.map((item) => {
-    return (<option key={item.id} value={item.id}>{item.title}</option>)
-  });
+  const blockSelect = storiesBlocks.map((item) => (
+    <option key={item.id} value={item.id}>{item.title}</option>));
 
   function handleImageSelect(event) {
     setImageFile(event.target.files[0]);
   }
-
   function handleImageReset() {
     setImageFile(null);
   }
 
-  function handleSubmit(values) {
-    if(imageFile) {
-      setUploadFileError(null);
-      setFileLoading(true);
-      handleCompressImage(imageFile)
-      .then((res) => api.uploadFile(res))
-      .then((res) => {
-        const imageUrl = BASE_URL + res;
-        submitHandler({imageUrl, ...values});
-      })
-      .catch((err) => {
-        setUploadFileError(err);
-        setShowUploadFileError(true);
-      })
-      .finally(() => setFileLoading(false));
-    } else {
-      submitHandler(values);
-    }
-  }
-
   useEffect(() => {
     if (!imageFile) {
-      group ?
-      setGroupImage(group.image)
+      group
+      ? setGroupImage(group.image)
       : setGroupImage('');
-      return
+      return;
     }
     const objectUrl = URL.createObjectURL(imageFile);
     setGroupImage(objectUrl);
@@ -97,9 +97,9 @@ function StoriesGroupForm({name, group, buttonText, submitHandler}) {
         validated={validated}
         >
         <fieldset disabled={(
-          updateStoriesGroupStatus === 'loading' ||
-          createStoriesGroupStatus === 'loading' ||
-          fileLoading
+          updateStoriesGroupStatus === 'loading'
+          || createStoriesGroupStatus === 'loading'
+          || fileLoading
         )}>
           <FormInput
             title='Название группы'
@@ -114,7 +114,7 @@ function StoriesGroupForm({name, group, buttonText, submitHandler}) {
             error={formik.errors.title}
           />
 
-          <div style={{width: '120px'}} className='mx-auto h-100 mb-3'>
+          <div style={{ width: '120px' }} className='mx-auto h-100 mb-3'>
             <FileInputCard
               name='group'
               onChange={handleImageSelect}
@@ -182,7 +182,7 @@ function StoriesGroupForm({name, group, buttonText, submitHandler}) {
       {uploadFileError && <Message type='danger'
       title='Не получилось загрузить файл :(' text={`${uploadFileError}`} show={showUploadFileError} setShow={setShowUploadFileError} />}
     </>
-  )
+  );
 }
 
 export default StoriesGroupForm;

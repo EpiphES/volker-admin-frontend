@@ -3,9 +3,9 @@ import { Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { createStoriesGroup } from '../../store/storySlice';
-import GoBackButton from '../GoBackButton/GoBackButton';
-import Message from '../Message/Message';
-import StoriesGroupForm from '../StoriesGroupForm/StoriesGroupForm';
+import GoBackButton from '../GoBackButton/GoBackButton.jsx';
+import Message from '../Message/Message.jsx';
+import StoriesGroupForm from '../StoriesGroupForm/StoriesGroupForm.jsx';
 
 function CreateStoriesGroup() {
   const dispatch = useDispatch();
@@ -15,19 +15,17 @@ function CreateStoriesGroup() {
   const {
     createStoriesGroupStatus,
     createStoriesGroupError,
-  } = useSelector(state => state.story);
+  } = useSelector((state) => state.story);
 
-  function handleCreateGroup({imageUrl, ...values}) {
-    if(imageUrl) {
+  function handleCreateGroup({ imageUrl, ...values }) {
+    if (imageUrl) {
       dispatch(createStoriesGroup({
         image: imageUrl,
-        ...values
+        ...values,
       }));
       setShowCreateGroupMessage(true);
     } else {
-      dispatch(createStoriesGroup({
-        values
-      }));
+      dispatch(createStoriesGroup({ values }));
       setShowCreateGroupMessage(true);
     }
   }
@@ -38,7 +36,7 @@ function CreateStoriesGroup() {
       <Card
         body
         className='shadow-sm mb-3 mt-2 mx-auto'
-        style={{maxWidth: '800px'}}
+        style={{ maxWidth: '800px' }}
         border='primary'>
         <StoriesGroupForm
           name='create'
@@ -53,7 +51,7 @@ function CreateStoriesGroup() {
       {createStoriesGroupStatus === 'resolved' && <Message type='success' text='Группа создана!' show={showCreateGroupMessage} setShow={setShowCreateGroupMessage} />}
 
     </>
-  )
+  );
 }
 
 export default CreateStoriesGroup;

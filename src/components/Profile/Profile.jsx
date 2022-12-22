@@ -1,16 +1,18 @@
 import { useState } from 'react';
-import { Button,Card, Form, ListGroup } from 'react-bootstrap';
-import { useDispatch,useSelector } from 'react-redux';
+import {
+  Button, Card, Form, ListGroup,
+} from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { deleteCity,getCurrentCity } from '../../store/citySlice';
-import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup';
-import Message from '../Message/Message';
+import { deleteCity, getCurrentCity } from '../../store/citySlice';
+import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup.jsx';
+import Message from '../Message/Message.jsx';
 
-function Profile({onLogout}) {
+function Profile({ onLogout }) {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const dispatch = useDispatch();
-  const {user} = useSelector(state => state.user);
+  const { user } = useSelector((state) => state.user);
   const [showDeleteCityMessage, setShowDeleteCityMessage] = useState(false);
   const {
     cities,
@@ -18,15 +20,15 @@ function Profile({onLogout}) {
     currentCityStatus,
     currentCityError,
     deleteCityStatus,
-    deleteCityError
-  } = useSelector(state => state.city);
+    deleteCityError,
+  } = useSelector((state) => state.city);
 
-  const citySelect = cities.map(city => {
-    return (<option key={city.id} value={city.id}>{city.cityName}</option>)
-  });
+  const citySelect = cities.map((city) => (
+    <option key={city.id} value={city.id}>{city.cityName}</option>
+  ));
 
   function handleSelectCity(e) {
-    if(e.target.value) {
+    if (e.target.value) {
       dispatch(getCurrentCity(e.target.value));
     }
   }
@@ -52,7 +54,7 @@ function Profile({onLogout}) {
           <Card.Body>
             <ListGroup variant='flush'>
               <ListGroup.Item>Email: {user?.email}</ListGroup.Item>
-              <ListGroup.Item>Город: {user?.cityId ? cities.find(city => city.id === user.cityId).cityName : 'Все'}</ListGroup.Item>
+              <ListGroup.Item>Город: {user?.cityId ? cities.find((city) => city.id === user.cityId).cityName : 'Все'}</ListGroup.Item>
               <ListGroup.Item>Суперадмин: {user?.isSuperAdmin ? 'Да' : 'Нет'}</ListGroup.Item>
             </ListGroup>
           </Card.Body>
@@ -119,7 +121,7 @@ function Profile({onLogout}) {
       {deleteCityStatus === 'resolved' && <Message type='success' text='Режим удален!' show={showDeleteCityMessage} setShow={setShowDeleteCityMessage} />}
 
     </>
-  )
+  );
 }
 
 export default Profile;

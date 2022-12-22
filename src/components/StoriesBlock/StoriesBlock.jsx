@@ -1,31 +1,31 @@
-import { Button, Card, Col,Row } from 'react-bootstrap';
-import { MdDelete,MdEdit } from 'react-icons/md';
+import {
+  Button, Card, Col, Row,
+} from 'react-bootstrap';
+import { MdDelete, MdEdit } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { setCurrentStoriesBlock } from '../../store/storySlice';
-import AddCard from '../AddCard/AddCard';
-import StoriesGroup from '../StoriesGroup/StoriesGroup';
+import AddCard from '../AddCard/AddCard.jsx';
+import StoriesGroup from '../StoriesGroup/StoriesGroup.jsx';
 
-function StoriesBlock({item, onUpdate, onDelete}) {
+function StoriesBlock({ item, onUpdate, onDelete }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const storiesGroupCards = item.storiesGroups.map(group => {
-    return (
-      <Col key={group.id}>
-        <StoriesGroup item={group} onClick={handleCardClick} />
-      </Col>
-    )
-  });
-
   function handleCardClick(storiesId) {
-    dispatch(setCurrentStoriesBlock({id: item.id}));
+    dispatch(setCurrentStoriesBlock({ id: item.id }));
     navigate(`${storiesId}`);
   }
 
+  const storiesGroupCards = item.storiesGroups.map((group) => (
+      <Col key={group.id}>
+        <StoriesGroup item={group} onClick={handleCardClick} />
+      </Col>
+  ));
+
   function handleAddClick() {
-    dispatch(setCurrentStoriesBlock({id: item.id}));
+    dispatch(setCurrentStoriesBlock({ id: item.id }));
     navigate('create');
   }
 
@@ -68,7 +68,7 @@ function StoriesBlock({item, onUpdate, onDelete}) {
       </Card.Body>
 
     </Card>
-  )
+  );
 }
 
 export default StoriesBlock;

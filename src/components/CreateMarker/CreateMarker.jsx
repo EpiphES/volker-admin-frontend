@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { createMarker } from '../../store/markerSlice';
-import GoBackButton from '../GoBackButton/GoBackButton';
-import MarkerForm from '../MarkerForm/MarkerForm';
-import Message from '../Message/Message';
+import GoBackButton from '../GoBackButton/GoBackButton.jsx';
+import MarkerForm from '../MarkerForm/MarkerForm.jsx';
+import Message from '../Message/Message.jsx';
 
 function CreateMarker() {
   const dispatch = useDispatch();
@@ -13,7 +13,7 @@ function CreateMarker() {
   const {
     createMarkerStatus,
     createMarkerError,
-  } = useSelector(state => state.marker);
+  } = useSelector((state) => state.marker);
 
   function handleCreateMarker(values) {
     dispatch(createMarker(values));
@@ -33,7 +33,7 @@ function CreateMarker() {
 
     {createMarkerStatus === 'resolved' && <Message type='success' text='Маркер создан!' show={showCreateMarkerMessage} setShow={setShowCreateMarkerMessage} />}
   </>
-  )
+  );
 }
 
 export default CreateMarker;

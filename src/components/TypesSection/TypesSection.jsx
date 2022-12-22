@@ -1,24 +1,23 @@
 import { useState } from 'react';
 import { Modal } from 'react-bootstrap';
-import { useDispatch,useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { createType, deleteType,updateType } from '../../store/modeSlice';
+import { createType, deleteType, updateType } from '../../store/modeSlice';
 import * as api from '../../utils/api';
 import { BASE_URL } from '../../utils/constants';
 import { handleCompressImage } from '../../utils/utils';
-import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup';
-import Message from '../Message/Message';
-import TypeForm from '../TypeForm/TypeForm';
-import TypesGallery from '../TypesGallery/TypesGallery';
+import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup.jsx';
+import Message from '../Message/Message.jsx';
+import TypeForm from '../TypeForm/TypeForm.jsx';
+import TypesGallery from '../TypesGallery/TypesGallery.jsx';
 
-function TypesSection({modeId}) {
+function TypesSection({ modeId }) {
   const dispatch = useDispatch();
 
   const [selectedType, setSelectedType] = useState(null);
   const [deletedType, setDeletedType] = useState('');
   const [showUpdateModal, setShowUpdateModal] = useState(false);
-  const [showCreateModal, setShowCreateModal] =
-  useState(false);
+  const [showCreateModal, setShowCreateModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showCreateTypeMessage, setShowCreateTypeMessage] = useState(false);
   const [showUpdateTypeMessage, setShowUpdateTypeMessage] = useState(false);
@@ -35,14 +34,14 @@ function TypesSection({modeId}) {
     updateTypeError,
     deleteTypeStatus,
     deleteTypeError,
-  } = useSelector(state => state.mode);
+  } = useSelector((state) => state.mode);
 
   function handleCloseUpdateModal() {
     setShowUpdateModal(false);
     setSelectedType(null);
   }
   function handleOpenUpdateModal(typeId) {
-    const type = currentMode.markerTypes.find(item => item.id === typeId);
+    const type = currentMode.markerTypes.find((item) => item.id === typeId);
     setSelectedType(type);
     setShowUpdateModal(true);
   }
@@ -62,23 +61,23 @@ function TypesSection({modeId}) {
     setDeletedType(currentMode.markerTypes.find((item) => item.id === id));
   }
 
-  function handleCreateType({title, colorOnMap, iconFile}) {
-    if(iconFile) {
+  function handleCreateType({ title, colorOnMap, iconFile }) {
+    if (iconFile) {
       setFileLoading(true);
       handleCompressImage(iconFile)
-      .then((res) => api.uploadFile(res))
-      .then((res) => {
-        const iconUrl = BASE_URL + res;
-        dispatch(createType({
-          markerModeId: modeId,
-          title,
-          colorOnMap,
-          iconOnMap: iconUrl,
-        }));
-        setShowCreateTypeMessage(true)
-      })
-      .catch((err) => setUploadFileError(err))
-      .finally(() => setFileLoading(false));
+        .then((res) => api.uploadFile(res))
+        .then((res) => {
+          const iconUrl = BASE_URL + res;
+          dispatch(createType({
+            markerModeId: modeId,
+            title,
+            colorOnMap,
+            iconOnMap: iconUrl,
+          }));
+          setShowCreateTypeMessage(true);
+        })
+        .catch((err) => setUploadFileError(err))
+        .finally(() => setFileLoading(false));
     } else {
       dispatch(createType({
         markerModeId: modeId,
@@ -89,25 +88,27 @@ function TypesSection({modeId}) {
     }
   }
 
-  function handleUpdateType({id, title, iconFile, colorOnMap, prevIcon}) {
-    if(iconFile) {
+  function handleUpdateType({
+    id, title, iconFile, colorOnMap, prevIcon,
+  }) {
+    if (iconFile) {
       setFileLoading(true);
       handleCompressImage(iconFile)
-      .then((res) => api.uploadFile(res))
-      .then((res) => {
-        const iconUrl = BASE_URL + res;
-        dispatch(updateType({
-          id,
-          markerModeId: +modeId,
-          title,
-          colorOnMap,
-          iconOnMap: iconUrl,
-          prevIcon,
-        }));
-        setShowUpdateTypeMessage(true);
-      })
-      .catch((err) => setUploadFileError(err))
-      .finally(() => setFileLoading(false));
+        .then((res) => api.uploadFile(res))
+        .then((res) => {
+          const iconUrl = BASE_URL + res;
+          dispatch(updateType({
+            id,
+            markerModeId: +modeId,
+            title,
+            colorOnMap,
+            iconOnMap: iconUrl,
+            prevIcon,
+          }));
+          setShowUpdateTypeMessage(true);
+        })
+        .catch((err) => setUploadFileError(err))
+        .finally(() => setFileLoading(false));
     } else {
       dispatch(updateType({
         id,
@@ -121,7 +122,7 @@ function TypesSection({modeId}) {
   }
 
   function handleDeleteType() {
-    dispatch(deleteType({id: deletedType.id, prevIcon: deletedType.iconOnMap}));
+    dispatch(deleteType({ id: deletedType.id, prevIcon: deletedType.iconOnMap }));
     handleCloseConfirmModal();
     setShowDeleteTypeMessage(true);
   }
@@ -176,21 +177,25 @@ function TypesSection({modeId}) {
         onDecline={handleCloseConfirmModal}
       />
 
-      {createTypeStatus === 'rejected' && <Message type='danger' text={`${createTypeError}`} show={showCreateTypeMessage} setShow={setShowCreateTypeMessage} />}
+      {createTypeStatus === 'rejected'
+      && <Message type='danger' text={`${createTypeError}`} show={showCreateTypeMessage} setShow={setShowCreateTypeMessage} />}
 
-      {createTypeStatus === 'resolved' && <Message type='success' text='Тип создан!' show={showCreateTypeMessage} setShow={setShowCreateTypeMessage} />}
+      {createTypeStatus === 'resolved'
+      && <Message type='success' text='Тип создан!' show={showCreateTypeMessage} setShow={setShowCreateTypeMessage} />}
 
-      {updateTypeStatus === 'rejected' &&
-      <Message type='danger' text={`${updateTypeError}`} show={showUpdateTypeMessage} setShow={setShowUpdateTypeMessage} />}
+      {updateTypeStatus === 'rejected'
+      && <Message type='danger' text={`${updateTypeError}`} show={showUpdateTypeMessage} setShow={setShowUpdateTypeMessage} />}
 
-      {updateTypeStatus === 'resolved' &&
-      <Message type='success' text='Тип обновлен!' show={showUpdateTypeMessage} setShow={setShowUpdateTypeMessage} />}
+      {updateTypeStatus === 'resolved'
+      && <Message type='success' text='Тип обновлен!' show={showUpdateTypeMessage} setShow={setShowUpdateTypeMessage} />}
 
-      {deleteTypeStatus === 'rejected' && <Message type='danger' text={`${deleteTypeError}`} show={showDeleteTypeMessage} setShow={setShowDeleteTypeMessage} />}
+      {deleteTypeStatus === 'rejected'
+      && <Message type='danger' text={`${deleteTypeError}`} show={showDeleteTypeMessage} setShow={setShowDeleteTypeMessage} />}
 
-      {uploadFileError && <Message type='danger' text={`${uploadFileError}`} show={showUploadFileError} setShow={setShowUploadFileError} />}
+      {uploadFileError
+      && <Message type='danger' text={`${uploadFileError}`} show={showUploadFileError} setShow={setShowUploadFileError} />}
     </>
-  )
+  );
 }
 
 export default TypesSection;

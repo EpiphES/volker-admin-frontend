@@ -1,17 +1,17 @@
 import { useState } from 'react';
-import { useDispatch,useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { createCity } from '../../store/citySlice';
-import CityForm from '../CityForm/CityForm';
-import GoBackButton from '../GoBackButton/GoBackButton';
-import Message from '../Message/Message';
+import CityForm from '../CityForm/CityForm.jsx';
+import GoBackButton from '../GoBackButton/GoBackButton.jsx';
+import Message from '../Message/Message.jsx';
 
 function CreateCity() {
   const dispatch = useDispatch();
   const {
     createCityStatus,
     createCityError,
-  } = useSelector(state => state.city);
+  } = useSelector((state) => state.city);
 
   const [showMessage, setShowMessage] = useState(false);
 
@@ -36,7 +36,7 @@ function CreateCity() {
 
       {createCityStatus === 'resolved' && <Message type='success' text='Город создан!' show={showMessage} setShow={setShowMessage}/>}
     </>
-  )
+  );
 }
 
 export default CreateCity;

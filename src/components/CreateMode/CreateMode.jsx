@@ -3,9 +3,9 @@ import { Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { createMode } from '../../store/modeSlice';
-import GoBackButton from '../GoBackButton/GoBackButton';
-import Message from '../Message/Message';
-import ModeForm from '../ModeForm/ModeForm';
+import GoBackButton from '../GoBackButton/GoBackButton.jsx';
+import Message from '../Message/Message.jsx';
+import ModeForm from '../ModeForm/ModeForm.jsx';
 
 function CreateMode() {
   const dispatch = useDispatch();
@@ -15,13 +15,13 @@ function CreateMode() {
   const {
     createModeStatus,
     createModeError,
-  } = useSelector(state => state.mode);
+  } = useSelector((state) => state.mode);
 
-  function handleCreateMode({iconUrl, ...values}) {
-    if(iconUrl) {
+  function handleCreateMode({ iconUrl, ...values }) {
+    if (iconUrl) {
       dispatch(createMode({
         title: values.title,
-        icon: iconUrl
+        icon: iconUrl,
       }));
       setShowCreateModeMessage(true);
     } else {
@@ -38,7 +38,7 @@ function CreateMode() {
       <Card
         body
         className='shadow-sm mb-3 mt-2 mx-auto'
-        style={{maxWidth: '800px'}}
+        style={{ maxWidth: '800px' }}
         border='primary'>
         <ModeForm
           name='create'
@@ -53,7 +53,7 @@ function CreateMode() {
       {createModeStatus === 'resolved' && <Message type='success' text='Режим создан!' show={showCreateModeMessage} setShow={setShowCreateModeMessage} />}
 
     </>
-  )
+  );
 }
 
 export default CreateMode;

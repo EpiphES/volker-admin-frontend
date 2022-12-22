@@ -1,25 +1,29 @@
-import { useEffect,useState } from 'react';
-import { Button,Col, Form, Row } from 'react-bootstrap';
-import { useDispatch,useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import {
+  Button, Col, Form, Row,
+} from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 
 import { removeModeFromCity } from '../../store/citySlice';
 import { cityFormValidate } from '../../utils/validation';
-import AddCard from '../AddCard/AddCard';
-import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup';
-import Coordinates from '../Coordinates/Coordinates';
-import FormInput from '../FormInput/FormInput';
-import ModalWithSelect from '../ModalWithSelect/ModalWithSelect';
-import ModeCard from '../ModeCard/ModeCard';
+import AddCard from '../AddCard/AddCard.jsx';
+import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup.jsx';
+import Coordinates from '../Coordinates/Coordinates.jsx';
+import FormInput from '../FormInput/FormInput.jsx';
+import ModalWithSelect from '../ModalWithSelect/ModalWithSelect.jsx';
+import ModeCard from '../ModeCard/ModeCard.jsx';
 
-function CityForm({name, city, buttonText, onSubmit}) {
+function CityForm({
+  name, city, buttonText, onSubmit,
+}) {
   const dispatch = useDispatch();
-  const { modes } = useSelector(state => state.mode);
+  const { modes } = useSelector((state) => state.mode);
   const {
     updateCityStatus,
     createCityStatus,
     removeModeFromCityStatus,
-  } = useSelector(state => state.city);
+  } = useSelector((state) => state.city);
   const [validated, setValidated] = useState(false);
   const [cityModes, setCityModes] = useState([]);
   const [filteredModes, setFilteredModes] = useState([]);
@@ -27,6 +31,13 @@ function CityForm({name, city, buttonText, onSubmit}) {
   const [showModeSelectModal, setShowModeSelectModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
+  function removeModes() {
+    const modesToDelete = city.modes
+      .filter((mode) => !cityModes.some((item) => item.id === mode.id));
+    modesToDelete.forEach((mode) => {
+      dispatch(removeModeFromCity({ cityId: city.id, modeId: mode.id }));
+    });
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -36,8 +47,8 @@ function CityForm({name, city, buttonText, onSubmit}) {
       description: city?.description || '',
     },
     validate: cityFormValidate,
-    onSubmit: values => {
-      if(name === 'update') {
+    onSubmit: (values) => {
+      if (name === 'update') {
         removeModes();
       }
       onSubmit({
@@ -50,16 +61,23 @@ function CityForm({name, city, buttonText, onSubmit}) {
     },
     onReset: () => {
       setCityModes(city?.modes || []);
-    }
+    },
   });
 
-  const cityModeCards = cityModes.map(item => {
-    return (
+  function handleShowConfirmModal(id) {
+    setShowConfirmModal(true);
+    setDeletedMode(modes.find((item) => item.id === id));
+  }
+
+  function handleCloseConfirmModal() {
+    setShowConfirmModal(false);
+  }
+
+  const cityModeCards = cityModes.map((item) => (
       <Col key={item.id}>
         <ModeCard item={item} onClick={handleShowConfirmModal} deleteOn/>
       </Col>
-    )
-  })
+  ));
 
   function handleCloseModeSelectModal() {
     setShowModeSelectModal(false);
@@ -67,15 +85,8 @@ function CityForm({name, city, buttonText, onSubmit}) {
   function handleShowModeSelectModal() {
     setShowModeSelectModal(true);
   }
-  function handleCloseConfirmModal() {
-    setShowConfirmModal(false);
-  }
-  function handleShowConfirmModal(id) {
-    setShowConfirmModal(true);
-    setDeletedMode(modes.find((item) => item.id === id));
-  }
   function handleAddMode(id) {
-    const mode = modes.find(item => item.id === +id);
+    const mode = modes.find((item) => item.id === +id);
     setCityModes((prevVal) => [...prevVal, mode]);
   }
   function handleDeleteMode() {
@@ -83,27 +94,17 @@ function CityForm({name, city, buttonText, onSubmit}) {
     setDeletedMode(null);
     setShowConfirmModal(false);
   }
-  function removeModes() {
-    const modesToDelete = city.modes.filter((mode) => {
-        return !cityModes.some((item) => item.id === mode.id);
-      })
-    modesToDelete.forEach((mode) => {
-      dispatch(removeModeFromCity({cityId: city.id, modeId: mode.id}))
-    })
-  }
 
   useEffect(() => {
-    if(city?.modes) {
+    if (city?.modes) {
       setCityModes(city.modes);
     }
   }, [city]);
 
   useEffect(() => {
-    const modeItems = modes.filter((mode) => {
-      return !cityModes.some(item => item.id === mode.id)
-    });
+    const modeItems = modes.filter((mode) => !cityModes.some((item) => item.id === mode.id));
     setFilteredModes(modeItems);
-  },[cityModes, modes]);
+  }, [cityModes, modes]);
 
   return (
     <>
@@ -115,7 +116,7 @@ function CityForm({name, city, buttonText, onSubmit}) {
         }}
         noValidate
         className='pt-3 text-center mb-3 mx-auto'
-        style={{maxWidth: '800px'}}
+        style={{ maxWidth: '800px' }}
         validated={validated}>
 
         <fieldset disabled={(updateCityStatus === 'loading' || createCityStatus === 'loading' || removeModeFromCityStatus === 'loading')}>
@@ -199,7 +200,7 @@ function CityForm({name, city, buttonText, onSubmit}) {
         onDecline={handleCloseConfirmModal}
       />
     </>
-  )
+  );
 }
 
 export default CityForm;

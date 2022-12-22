@@ -1,34 +1,34 @@
-import { createAsyncThunk,createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import * as api from '../utils/api';
 
 export const getCities = createAsyncThunk(
   'cities/getCities',
-  async (isPublished, {rejectWithValue}) => {
+  async (isPublished, { rejectWithValue }) => {
     try {
       const res = await api.getAllCities(isPublished);
       return res;
     } catch (err) {
       return rejectWithValue(err);
     }
-  }
+  },
 );
 
 export const getCurrentCity = createAsyncThunk(
   'cities/getCurrentCity',
-  async (id, {rejectWithValue}) => {
+  async (id, { rejectWithValue }) => {
     try {
       const res = await api.getCityById(id);
       return res;
     } catch (err) {
       return rejectWithValue(err);
     }
-  }
+  },
 );
 
 export const createCity = createAsyncThunk(
   'cities/createCity',
-  async (values, {rejectWithValue, dispatch}) => {
+  async (values, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.createCity(values);
       dispatch(addCity(res.Data));
@@ -36,12 +36,12 @@ export const createCity = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err);
     }
-  }
+  },
 );
 
 export const updateCity = createAsyncThunk(
   'cities/updateCity',
-  async (values, {rejectWithValue, dispatch}) => {
+  async (values, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.updateCity(values);
       dispatch(changeCity(res.Data));
@@ -49,12 +49,12 @@ export const updateCity = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err);
     }
-  }
+  },
 );
 
 export const deleteCity = createAsyncThunk(
   'cities/deleteCity',
-  async (id, {rejectWithValue, dispatch}) => {
+  async (id, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.deleteCity(id);
       dispatch(removeCity(res.Data));
@@ -62,19 +62,19 @@ export const deleteCity = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err);
     }
-  }
+  },
 );
 
 export const removeModeFromCity = createAsyncThunk(
   'cities/removeModeFromCity',
-  async (values, {rejectWithValue}) => {
+  async (values, { rejectWithValue }) => {
     try {
       await api.removeModeFromCity(values.cityId, values.modeId);
       return values;
     } catch (err) {
       return rejectWithValue(err);
     }
-  }
+  },
 );
 
 const citySlice = createSlice({
@@ -105,11 +105,12 @@ const citySlice = createSlice({
       state.currentCity = action.payload;
     },
     removeCity: (state, action) => {
-      state.cities = state.cities.filter(city => city.id !== action.payload);
+      state.cities = state.cities.filter((city) => city.id !== action.payload);
       state.currentCity = null;
     },
     changeCity: (state, action) => {
-      state.cities = state.cities.map(city => city.id === action.payload.id ? action.payload : city);
+      state.cities = state.cities.map((city) => (
+        city.id === action.payload.id ? action.payload : city));
       state.currentCity = action.payload;
     },
   },
@@ -179,6 +180,12 @@ const citySlice = createSlice({
   },
 });
 
-export const { setCities, setCurrentCity, addCity, changeCity, removeCity } = citySlice.actions;
+export const {
+  setCities,
+  setCurrentCity,
+  addCity,
+  changeCity,
+  removeCity,
+} = citySlice.actions;
 
 export default citySlice.reducer;

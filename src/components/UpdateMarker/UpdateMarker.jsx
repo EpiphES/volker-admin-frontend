@@ -1,19 +1,23 @@
 import { useEffect, useState } from 'react';
 import { Alert, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-import { deleteMarker, getMarkerById, setCurrentMarker,updateMarker } from '../../store/markerSlice';
+import {
+  deleteMarker,
+  getMarkerById,
+  setCurrentMarker,
+  updateMarker,
+} from '../../store/markerSlice';
 import { setCurrentMode } from '../../store/modeSlice';
-import BtnScrollUp from '../BtnScrollUp/BtnScrollUp';
-import ConfirmationPopup from "../ConfirmationPopup/ConfirmationPopup";
-import GoBackButton from "../GoBackButton/GoBackButton";
-import Loader from "../Loader/Loader";
-import MarkerForm from '../MarkerForm/MarkerForm';
-import Message from '../Message/Message';
+import BtnScrollUp from '../BtnScrollUp/BtnScrollUp.jsx';
+import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup.jsx';
+import GoBackButton from '../GoBackButton/GoBackButton.jsx';
+import Loader from '../Loader/Loader.jsx';
+import MarkerForm from '../MarkerForm/MarkerForm.jsx';
+import Message from '../Message/Message.jsx';
 
-function UpdateMarker({showDeleteMarkerMessage}) {
+function UpdateMarker({ showDeleteMarkerMessage }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { markerId } = useParams();
@@ -26,18 +30,16 @@ function UpdateMarker({showDeleteMarkerMessage}) {
     currentMarkerError,
     updateMarkerStatus,
     updateMarkerError,
-  } = useSelector(state => state.marker);
+  } = useSelector((state) => state.marker);
 
   function handleCloseConfirmModal() {
     setShowConfirmModal(false);
   }
-
   function handleShowConfirmModal() {
     setShowConfirmModal(true);
   }
-
   function handleUpdateMarker(values) {
-    dispatch(updateMarker({id: +markerId, ...values}));
+    dispatch(updateMarker({ id: +markerId, ...values }));
     setShowUpdateMarkerMessage(true);
   }
 
@@ -53,15 +55,15 @@ function UpdateMarker({showDeleteMarkerMessage}) {
     return () => {
       dispatch(setCurrentMode(null));
       dispatch(setCurrentMarker(null));
-    }
+    };
   }, [dispatch, markerId]);
 
   return (
     <>
       <GoBackButton />
       { currentMarkerStatus === 'loading' && <Loader />}
-      { currentMarkerStatus === 'resolved' &&
-      <>
+      { currentMarkerStatus === 'resolved'
+      && <>
         <MarkerForm
           name='update'
           marker={currentMarker}
@@ -84,8 +86,8 @@ function UpdateMarker({showDeleteMarkerMessage}) {
         <BtnScrollUp />
       </>
       }
-      { currentMarkerStatus === 'rejected' &&
-      <Alert variant='danger'>
+      { currentMarkerStatus === 'rejected'
+      && <Alert variant='danger'>
         {currentMarkerError}
       </Alert> }
 
@@ -101,7 +103,7 @@ function UpdateMarker({showDeleteMarkerMessage}) {
 
       {updateMarkerStatus === 'resolved' && <Message type='success' text='Маркер обновлен!' show={showUpdateMarkerMessage} setShow={setShowUpdateMarkerMessage} />}
     </>
-  )
+  );
 }
 
 export default UpdateMarker;

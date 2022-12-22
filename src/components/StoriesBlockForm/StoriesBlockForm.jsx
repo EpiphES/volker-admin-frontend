@@ -1,23 +1,25 @@
 import { useState } from 'react';
-import { Button,Form } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 
 import { storiesBlockFormValidate } from '../../utils/validation';
-import FormInput from '../FormInput/FormInput';
+import FormInput from '../FormInput/FormInput.jsx';
 
-function StoriesBlockForm({name, block, buttonText, onSubmit}) {
+function StoriesBlockForm({
+  name, block, buttonText, onSubmit,
+}) {
   const [validated, setValidated] = useState(false);
 
   const {
     updateStoriesBlockStatus,
     createStoriesBlockStatus,
-  } = useSelector(state => state.story);
+  } = useSelector((state) => state.story);
 
   const {
     cities,
-    currentCity
-  } = useSelector(state => state.city);
+    currentCity,
+  } = useSelector((state) => state.city);
 
   const formik = useFormik({
     initialValues: {
@@ -28,15 +30,13 @@ function StoriesBlockForm({name, block, buttonText, onSubmit}) {
       storiesGroups: block?.storiesGroups || [],
     },
     validate: storiesBlockFormValidate,
-    onSubmit: values => {
-      console.log(values);
+    onSubmit: (values) => {
       onSubmit(values);
     },
   });
 
-  const citySelect = cities.map(city => {
-    return (<option key={city.id} value={city.id}>{city.cityName}</option>)
-  });
+  const citySelect = cities.map((city) => (
+    <option key={city.id} value={city.id}>{city.cityName}</option>));
 
   return (
     <>
@@ -112,7 +112,7 @@ function StoriesBlockForm({name, block, buttonText, onSubmit}) {
 
       </Form>
     </>
-  )
+  );
 }
 
 export default StoriesBlockForm;

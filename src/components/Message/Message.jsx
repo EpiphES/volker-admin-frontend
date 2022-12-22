@@ -1,10 +1,11 @@
 import { Toast, ToastContainer } from 'react-bootstrap';
-import { MdDone,MdError } from 'react-icons/md';
+import { MdDone, MdError } from 'react-icons/md';
 
-function Message({type, title, text, show, setShow}) {
-
+function Message({
+  type, title, text, show, setShow,
+}) {
   return (
-    <ToastContainer  position='middle-center' className='position-fixed'>
+    <ToastContainer position='middle-center' className='position-fixed'>
       <Toast
         onClose={() => setShow(false)}
         show={show}
@@ -22,7 +23,7 @@ function Message({type, title, text, show, setShow}) {
         </Toast.Body>
       </Toast>
     </ToastContainer>
-  )
+  );
 }
 
 export default Message;

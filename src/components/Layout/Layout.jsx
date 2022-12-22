@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { Container, Offcanvas } from 'react-bootstrap';
 import { Outlet } from 'react-router-dom';
 
-import Footer from '../Footer/Footer';
-import Header from '../Header/Header';
-import Profile from '../Profile/Profile';
+import Footer from '../Footer/Footer.jsx';
+import Header from '../Header/Header.jsx';
+import Profile from '../Profile/Profile.jsx';
 
-function Layout({onLogout}) {
+function Layout({ onLogout }) {
   const [showProfile, setShowProfile] = useState(false);
 
   function handleCloseProfile() {
@@ -19,7 +19,7 @@ function Layout({onLogout}) {
   return (
     <>
       <Header onProfileClick={handleShowProfile}/>
-      <main style={{paddingTop: '60px'}}>
+      <main style={{ paddingTop: '60px' }}>
         <Container className='mt-3'>
           <Outlet />
         </Container>

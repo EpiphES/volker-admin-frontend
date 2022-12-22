@@ -1,8 +1,12 @@
-import { Col, Form,InputGroup, Row } from 'react-bootstrap';
+import {
+  Col, Form, InputGroup, Row,
+} from 'react-bootstrap';
 
 import { LAT_REGEX, LON_REGEX } from '../../utils/constants';
 
-function Coordinates({onChange, latitudeValue, longitudeValue, latitudeError, longitudeError}) {
+function Coordinates({
+  onChange, latitudeValue, longitudeValue, latitudeError, longitudeError,
+}) {
   return (
     <>
       <h6 className='mb-3'>Координаты</h6>
@@ -44,7 +48,7 @@ function Coordinates({onChange, latitudeValue, longitudeValue, latitudeError, lo
         </InputGroup>
       </Row>
     </>
-  )
+  );
 }
 
 export default Coordinates;

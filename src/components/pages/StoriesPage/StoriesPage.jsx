@@ -1,27 +1,26 @@
 import { useEffect, useState } from 'react';
-import { useDispatch,useSelector } from 'react-redux';
-import { Route,Routes } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Route, Routes } from 'react-router-dom';
 
 import { getStoriesBlocks } from '../../../store/storySlice';
-import CreateStoriesGroup from '../../CreateStoriesGroup/CreateStoriesGroup';
-import Message from '../../Message/Message';
-import StoriesGallery from '../../StoriesGallery/StoriesGallery';
-import UpdateStoriesGroup from '../../UpdateStoriesGroup/UpdateStoriesGroup';
+import CreateStoriesGroup from '../../CreateStoriesGroup/CreateStoriesGroup.jsx';
+import Message from '../../Message/Message.jsx';
+import StoriesGallery from '../../StoriesGallery/StoriesGallery.jsx';
+import UpdateStoriesGroup from '../../UpdateStoriesGroup/UpdateStoriesGroup.jsx';
 
 function StoriesPage() {
   const dispatch = useDispatch();
   const [showDeleteGroupMessage, setShowDeleteGroupMessage] = useState(false);
 
-  const {currentCity} = useSelector(state => state.city);
+  const { currentCity } = useSelector((state) => state.city);
   const {
     deleteStoriesGroupStatus,
     deleteStoriesGroupError,
-  } = useSelector(state => state.story);
-
+  } = useSelector((state) => state.story);
 
   useEffect(() => {
-    if(currentCity) {
-    dispatch(getStoriesBlocks(currentCity.id));
+    if (currentCity) {
+      dispatch(getStoriesBlocks(currentCity.id));
     }
   }, [dispatch, currentCity]);
 

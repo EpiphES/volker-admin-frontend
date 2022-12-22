@@ -1,18 +1,22 @@
 import { useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
-import { useDispatch,useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { createStoriesItem, deleteStoriesItem,setCurrentStoriesItem, updateStoriesItem } from '../../store/storySlice';
-import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup';
-import Message from '../Message/Message';
-import StoriesItemForm from '../StoriesItemForm/StoriesItemForm';
-import StoriesSlider from '../StorySlider/StorySlider';
+import {
+  createStoriesItem,
+  deleteStoriesItem,
+  setCurrentStoriesItem,
+  updateStoriesItem,
+} from '../../store/storySlice';
+import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup.jsx';
+import Message from '../Message/Message.jsx';
+import StoriesItemForm from '../StoriesItemForm/StoriesItemForm.jsx';
+import StoriesSlider from '../StorySlider/StorySlider.jsx';
 
 function StoriesItemsSection() {
   const dispatch = useDispatch();
   const [showUpdateModal, setShowUpdateModal] = useState(false);
-  const [showCreateModal, setShowCreateModal] =
-  useState(false);
+  const [showCreateModal, setShowCreateModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showCreateItemMessage, setShowCreateItemMessage] = useState(false);
   const [showUpdateItemMessage, setShowUpdateItemMessage] = useState(false);
@@ -26,7 +30,7 @@ function StoriesItemsSection() {
     updateStoriesItemError,
     deleteStoriesItemStatus,
     deleteStoriesItemError,
-  } = useSelector(state => state.story);
+  } = useSelector((state) => state.story);
 
   function handleCloseUpdateModal() {
     setShowUpdateModal(false);
@@ -42,7 +46,6 @@ function StoriesItemsSection() {
   function handleOpenCreateModal() {
     setShowCreateModal(true);
   }
-
   function handleCloseConfirmModal() {
     setShowConfirmModal(false);
     dispatch(setCurrentStoriesItem(null));
@@ -51,36 +54,33 @@ function StoriesItemsSection() {
     setShowConfirmModal(true);
     dispatch(setCurrentStoriesItem(item));
   }
-
-  function handleCreateItem({imageUrl, ...values}) {
-    if(imageUrl) {
+  function handleCreateItem({ imageUrl, ...values }) {
+    if (imageUrl) {
       dispatch(createStoriesItem({
         image: imageUrl,
-        ...values
+        ...values,
       }));
       setShowCreateItemMessage(true);
     } else {
-      dispatch(createStoriesItem({
-        values
-      }));
+      dispatch(createStoriesItem({ ...values }));
       setShowCreateItemMessage(true);
     }
   }
 
-  function handleUpdateItem({imageUrl, ...values}) {
-    if(imageUrl) {
+  function handleUpdateItem({ imageUrl, ...values }) {
+    if (imageUrl) {
       dispatch(updateStoriesItem({
         id: currentStoriesItem.id,
         image: imageUrl,
         prevImage: currentStoriesItem.image,
-        ...values
+        ...values,
       }));
       setShowUpdateItemMessage(true);
     } else {
       dispatch(updateStoriesItem({
         id: currentStoriesItem.id,
         image: currentStoriesItem.image,
-        ...values
+        ...values,
       }));
       setShowUpdateItemMessage(true);
     }
@@ -88,12 +88,12 @@ function StoriesItemsSection() {
 
   function handleDeleteItem() {
     dispatch(deleteStoriesItem({
-        id: currentStoriesItem.id,
-        prevImage: currentStoriesItem.image
-      }));
-      dispatch(setCurrentStoriesItem(null));
-      handleCloseConfirmModal();
-      showDeleteItemMessage(true);
+      id: currentStoriesItem.id,
+      prevImage: currentStoriesItem.image,
+    }));
+    dispatch(setCurrentStoriesItem(null));
+    handleCloseConfirmModal();
+    showDeleteItemMessage(true);
   }
 
   return (
@@ -140,27 +140,29 @@ function StoriesItemsSection() {
       </Modal>
 
       <ConfirmationPopup
-        text={`Удалить слайд?`}
+        text={'Удалить слайд?'}
         show={showConfirmModal}
         onClose={handleCloseConfirmModal}
         onConfirm={handleDeleteItem}
         onDecline={handleCloseConfirmModal}
       />
 
-      {createStoriesItemStatus === 'rejected' && <Message type='danger' text={`${createStoriesItemError}`} show={showCreateItemMessage} setShow={setShowCreateItemMessage} />}
+      {createStoriesItemStatus === 'rejected'
+      && <Message type='danger' text={`${createStoriesItemError}`} show={showCreateItemMessage} setShow={setShowCreateItemMessage} />}
 
-      {createStoriesItemStatus === 'resolved' && <Message type='success' text='Слайд создан!' show={showCreateItemMessage} setShow={setShowCreateItemMessage} />}
+      {createStoriesItemStatus === 'resolved'
+      && <Message type='success' text='Слайд создан!' show={showCreateItemMessage} setShow={setShowCreateItemMessage} />}
 
-      {updateStoriesItemStatus === 'rejected' &&
-      <Message type='danger' text={`${updateStoriesItemError}`} show={showUpdateItemMessage} setShow={setShowUpdateItemMessage} />}
+      {updateStoriesItemStatus === 'rejected'
+      && <Message type='danger' text={`${updateStoriesItemError}`} show={showUpdateItemMessage} setShow={setShowUpdateItemMessage} />}
 
-      {updateStoriesItemStatus === 'resolved' &&
-      <Message type='success' text='Тип обновлен!' show={showUpdateItemMessage} setShow={setShowUpdateItemMessage} />}
+      {updateStoriesItemStatus === 'resolved'
+      && <Message type='success' text='Тип обновлен!' show={showUpdateItemMessage} setShow={setShowUpdateItemMessage} />}
 
-      {deleteStoriesItemStatus === 'rejected' && <Message type='danger' text={`${deleteStoriesItemError}`} show={showDeleteItemMessage} setShow={setShowDeleteTypeMessage} />}
-
+      {deleteStoriesItemStatus === 'rejected'
+      && <Message type='danger' text={`${deleteStoriesItemError}`} show={showDeleteItemMessage} setShow={setShowDeleteTypeMessage} />}
     </>
-  )
+  );
 }
 
 export default StoriesItemsSection;

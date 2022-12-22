@@ -14,7 +14,7 @@ function GoBackButton() {
       <BsArrowLeft />
       Назад
     </Button>
-  )
+  );
 }
 
 export default GoBackButton;

@@ -1,35 +1,35 @@
-import { createAsyncThunk,createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import * as api from '../utils/api';
 import { getFileNameFromUrl } from '../utils/utils';
 
 export const getModes = createAsyncThunk(
   'modes/getModes',
-  async (_, {rejectWithValue}) => {
+  async (_, { rejectWithValue }) => {
     try {
       const res = await api.getAllModes();
       return res;
     } catch (err) {
       return rejectWithValue(err);
     }
-  }
+  },
 );
 
 export const getModeById = createAsyncThunk(
   'modes/getModeById',
-  async (modeId, {rejectWithValue}) => {
+  async (modeId, { rejectWithValue }) => {
     try {
       const res = await api.getModeById(modeId);
       return res;
     } catch (err) {
       return rejectWithValue(err);
     }
-  }
+  },
 );
 
 export const createMode = createAsyncThunk(
   'modes/createMode',
-  async (values, {rejectWithValue, dispatch}) => {
+  async (values, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.createMode(values);
       dispatch(addMode(res.Data));
@@ -37,16 +37,16 @@ export const createMode = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err);
     }
-  }
+  },
 );
 
 export const updateMode = createAsyncThunk(
   'modes/updateMode',
-  async ({prevIcon, ...values}, {rejectWithValue, dispatch}) => {
+  async ({ prevIcon, ...values }, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.updateMode(values);
       dispatch(changeMode(res.Data));
-      if(prevIcon) {
+      if (prevIcon) {
         const prevIconFileName = getFileNameFromUrl(prevIcon);
         await api.deleteFile(prevIconFileName);
       }
@@ -54,28 +54,29 @@ export const updateMode = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err);
     }
-  }
+  },
 );
 
 export const deleteMode = createAsyncThunk(
   'modes/deleteMode',
-  async ({prevIcon, ...values}, {rejectWithValue, dispatch}) => {
+  async ({ prevIcon, ...values }, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.deleteMode(values.id);
       dispatch(removeMode(res.Data));
-      if(prevIcon) {
+      if (prevIcon) {
         const prevIconFileName = getFileNameFromUrl(prevIcon);
         await api.deleteFile(prevIconFileName);
       }
+      return res;
     } catch (err) {
       return rejectWithValue(err);
     }
-  }
+  },
 );
 
 export const createType = createAsyncThunk(
   'modes/createType',
-  async (values, {rejectWithValue, dispatch}) => {
+  async (values, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.createType(values);
       dispatch(addType(res.Data));
@@ -83,40 +84,41 @@ export const createType = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err);
     }
-  }
+  },
 );
 
 export const updateType = createAsyncThunk(
   'modes/updateType',
-  async ({prevIcon, ...values}, {rejectWithValue, dispatch}) => {
+  async ({ prevIcon, ...values }, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.updateType(values);
       dispatch(changeType(res.Data));
-      if(prevIcon) {
+      if (prevIcon) {
         const prevIconFileName = getFileNameFromUrl(prevIcon);
         await api.deleteFile(prevIconFileName);
       }
-      return values;
+      return res;
     } catch (err) {
       return rejectWithValue(err);
     }
-  }
+  },
 );
 
 export const deleteType = createAsyncThunk(
   'modes/deleteTypee',
-  async ({prevIcon, ...values}, {rejectWithValue, dispatch}) => {
+  async ({ prevIcon, ...values }, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.deleteType(values.id);
       dispatch(removeType(res.Data));
-      if(prevIcon) {
+      if (prevIcon) {
         const prevIconFileName = getFileNameFromUrl(prevIcon);
         await api.deleteFile(prevIconFileName);
       }
+      return res;
     } catch (err) {
       return rejectWithValue(err);
     }
-  }
+  },
 );
 
 const modeSlice = createSlice({
@@ -156,17 +158,20 @@ const modeSlice = createSlice({
       state.currentMode = null;
     },
     changeMode: (state, action) => {
-      state.modes = state.modes.map((mode) => mode.id === action.payload.id ? action.payload : mode);
+      state.modes = state.modes.map((mode) => (
+        mode.id === action.payload.id ? action.payload : mode));
       state.currentMode = action.payload;
     },
     addType: (state, action) => {
       state.currentMode.markerTypes.push(action.payload);
     },
     changeType: (state, action) => {
-      state.currentMode.markerTypes = state.currentMode.markerTypes.map((type) => type.id === action.payload.id ? action.payload : type);
+      state.currentMode.markerTypes = state.currentMode.markerTypes.map((type) => (
+        type.id === action.payload.id ? action.payload : type));
     },
     removeType: (state, action) => {
-      state.currentMode.markerTypes = state.currentMode.markerTypes.filter((type) => type.id !== action.payload)
+      state.currentMode.markerTypes = state.currentMode.markerTypes.filter((type) => (
+        type.id !== action.payload));
     }
   },
   extraReducers: {
@@ -262,6 +267,15 @@ const modeSlice = createSlice({
     },
   },
 });
-export const { setModes, setCurrentMode, addMode, changeMode, removeMode, addType, changeType, removeType } = modeSlice.actions;
+export const {
+  setModes,
+  setCurrentMode,
+  addMode,
+  changeMode,
+  removeMode,
+  addType,
+  changeType,
+  removeType,
+} = modeSlice.actions;
 
 export default modeSlice.reducer;

@@ -1,13 +1,15 @@
-import { useEffect,useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Form, InputGroup } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 
 import { typeFormValidate } from '../../utils/validation';
-import FileInputCard from '../FileInputCard/FileInputCard';
-import FormInput from '../FormInput/FormInput';
+import FileInputCard from '../FileInputCard/FileInputCard.jsx';
+import FormInput from '../FormInput/FormInput.jsx';
 
-function TypeForm({name, type, buttonText, onSubmit, fileLoading}) {
+function TypeForm({
+  name, type, buttonText, onSubmit, fileLoading,
+}) {
   const [validated, setValidated] = useState(false);
   const [typeIcon, setTypeIcon] = useState('');
   const [iconFile, setIconFile] = useState(null);
@@ -15,7 +17,7 @@ function TypeForm({name, type, buttonText, onSubmit, fileLoading}) {
   const {
     updateTypeStatus,
     createTypeStatus,
-  } = useSelector(state => state.mode);
+  } = useSelector((state) => state.mode);
 
   const formik = useFormik({
     initialValues: {
@@ -23,7 +25,7 @@ function TypeForm({name, type, buttonText, onSubmit, fileLoading}) {
       color: type?.colorOnMap || '#ffffff',
     },
     validate: typeFormValidate,
-    onSubmit: values => {
+    onSubmit: (values) => {
       onSubmit({
         id: type?.id,
         title: values.title,
@@ -44,10 +46,10 @@ function TypeForm({name, type, buttonText, onSubmit, fileLoading}) {
 
   useEffect(() => {
     if (!iconFile) {
-      type ?
-      setTypeIcon(type.iconOnMap)
+      type
+      ? setTypeIcon(type.iconOnMap)
       : setTypeIcon('');
-      return
+      return;
     }
     const objectUrl = URL.createObjectURL(iconFile);
     setTypeIcon(objectUrl);
@@ -65,9 +67,9 @@ function TypeForm({name, type, buttonText, onSubmit, fileLoading}) {
       className='text-center'
       validated={validated}>
       <fieldset disabled = {(
-        updateTypeStatus === 'loading' ||
-        createTypeStatus === 'loading' ||
-        fileLoading
+        updateTypeStatus === 'loading'
+        || createTypeStatus === 'loading'
+        || fileLoading
       )}>
         <Form.Group className='mb-3'>
           <Form.Label className='h6'>Выберите цвет</Form.Label>
@@ -84,7 +86,7 @@ function TypeForm({name, type, buttonText, onSubmit, fileLoading}) {
         </Form.Group>
 
         <h6 className='mb-3'>Иконка типа</h6>
-        <div style={{width: '120px'}} className='mx-auto h-100'>
+        <div style={{ width: '120px' }} className='mx-auto h-100'>
           <FileInputCard
           name='type'
             onChange={handleIconSelect}
@@ -123,7 +125,7 @@ function TypeForm({name, type, buttonText, onSubmit, fileLoading}) {
         </Button>
       </fieldset>
     </Form>
-  )
+  );
 }
 
 export default TypeForm;

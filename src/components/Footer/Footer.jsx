@@ -1,6 +1,6 @@
 import { Container } from 'react-bootstrap';
 
-const Footer = () => {
+function Footer() {
   return (
     <footer className='mt-auto pt-5 mb-2'>
       <Container className='d-flex'>

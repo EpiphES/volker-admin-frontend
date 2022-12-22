@@ -1,12 +1,12 @@
-import { useEffect,useState } from 'react';
-import { useDispatch,useSelector } from 'react-redux';
-import { Route,Routes } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Route, Routes } from 'react-router-dom';
 
 import { fetchAllMarkers, resetFilters, setFilterActive } from '../../../store/markerSlice';
-import CreateMarker from '../../CreateMarker/CreateMarker';
-import MarkersGallery from '../../MarkersGallery/MarkersGallery';
-import Message from '../../Message/Message';
-import UpdateMarker from '../../UpdateMarker/UpdateMarker';
+import CreateMarker from '../../CreateMarker/CreateMarker.jsx';
+import MarkersGallery from '../../MarkersGallery/MarkersGallery.jsx';
+import Message from '../../Message/Message.jsx';
+import UpdateMarker from '../../UpdateMarker/UpdateMarker.jsx';
 
 function MarkersPage() {
   const dispatch = useDispatch();
@@ -14,12 +14,12 @@ function MarkersPage() {
   const {
     deleteMarkerStatus,
     deleteMarkerError,
-  } = useSelector(state => state.marker);
+  } = useSelector((state) => state.marker);
 
-  const {currentCity} = useSelector(state => state.city);
+  const { currentCity } = useSelector((state) => state.city);
 
   useEffect(() => {
-    if(currentCity) {
+    if (currentCity) {
       dispatch(fetchAllMarkers({
         cityId: currentCity.id,
         page: 1,

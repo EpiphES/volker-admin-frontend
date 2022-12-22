@@ -1,17 +1,18 @@
 import { useState } from 'react';
-import { Button, FloatingLabel, Form, Image, InputGroup } from 'react-bootstrap';
-import { FaEye } from 'react-icons/fa';
-import { FaEyeSlash } from 'react-icons/fa';
+import {
+  Button, FloatingLabel, Form, Image, InputGroup,
+} from 'react-bootstrap';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
 import { useFormik } from 'formik';
 
-import logoIcon from '../../images/icon-colored.svg'
+import logoIcon from '../../images/icon-colored.svg';
 import { EMAIL_REGEX } from '../../utils/constants';
 import { loginFormValidate } from '../../utils/validation';
 
 import './Login.css';
 
-function Login({onLogin, isLoading}) {
+function Login({ onLogin, isLoading }) {
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const location = useLocation();
   const fromPage = location.state?.from?.pathname || '/';
@@ -22,8 +23,12 @@ function Login({onLogin, isLoading}) {
       password: '',
     },
     validate: loginFormValidate,
-    onSubmit: values => {
-      onLogin({email: values.email, password: values.password, fromPage: fromPage});
+    onSubmit: (values) => {
+      onLogin({
+        email: values.email,
+        password: values.password,
+        fromPage,
+      });
     },
   });
 
@@ -93,13 +98,13 @@ function Login({onLogin, isLoading}) {
               size='lg'
               type='submit'
               aria-label='Войти'>
-              {isLoading? 'Загрузка...' : 'Войти'}
+              {isLoading ? 'Загрузка...' : 'Войти'}
             </Button>
           </fieldset>
         </Form>
       </div>
     </main>
-  )
+  );
 }
 
 export default Login;

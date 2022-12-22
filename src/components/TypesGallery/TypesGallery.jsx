@@ -1,12 +1,12 @@
-import { Col,Row } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 
-import AddCard from '../AddCard/AddCard';
-import TypeCard from '../TypeCard/TypeCard';
+import AddCard from '../AddCard/AddCard.jsx';
+import TypeCard from '../TypeCard/TypeCard.jsx';
 
-function TypesGallery({markerTypes, onUpdate, onDelete, onAddClick, place}) {
-
-  const typeCards = markerTypes.map(item => {
-    return (
+function TypesGallery({
+  markerTypes, onUpdate, onDelete, onAddClick, place,
+}) {
+  const typeCards = markerTypes.map((item) => (
       <Col key={item.id}>
         <TypeCard
           item={item}
@@ -15,8 +15,7 @@ function TypesGallery({markerTypes, onUpdate, onDelete, onAddClick, place}) {
           place={place}
         />
       </Col>
-    )
-  });
+  ));
 
   return (
     <Row xs={2} sm={3} md={4} lg={5}className='g-2 h-100'>
@@ -27,7 +26,7 @@ function TypesGallery({markerTypes, onUpdate, onDelete, onAddClick, place}) {
           onClick={onAddClick}/>
       </Col>
     </Row>
-  )
+  );
 }
 
 export default TypesGallery;

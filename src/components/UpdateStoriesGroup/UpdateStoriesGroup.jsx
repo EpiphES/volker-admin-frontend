@@ -1,21 +1,25 @@
 import { useEffect, useState } from 'react';
-import { Alert, Button,Card } from 'react-bootstrap';
+import { Alert, Button, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-import { deleteStoriesGroup,getStoriesGroupById, setCurrentStoriesGroup, updateStoriesGroup } from '../../store/storySlice';
-import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup';
-import GoBackButton from "../GoBackButton/GoBackButton";
-import Loader from "../Loader/Loader";
-import Message from '../Message/Message';
-import StoriesGroupForm from '../StoriesGroupForm/StoriesGroupForm';
-import StoriesItemsSection from '../StoriesItemsSection/StoriesItemsSection';
+import {
+  deleteStoriesGroup,
+  getStoriesGroupById,
+  setCurrentStoriesGroup,
+  updateStoriesGroup,
+} from '../../store/storySlice';
+import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup.jsx';
+import GoBackButton from '../GoBackButton/GoBackButton.jsx';
+import Loader from '../Loader/Loader.jsx';
+import Message from '../Message/Message.jsx';
+import StoriesGroupForm from '../StoriesGroupForm/StoriesGroupForm.jsx';
+import StoriesItemsSection from '../StoriesItemsSection/StoriesItemsSection.jsx';
 
-function UpdateStoriesGroup({showDeleteGroupMessage}) {
+function UpdateStoriesGroup({ showDeleteGroupMessage }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {storiesId} = useParams();
+  const { storiesId } = useParams();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showUpdateGroupMessage, setShowUpdateGroupMessage] = useState(false);
 
@@ -25,22 +29,22 @@ function UpdateStoriesGroup({showDeleteGroupMessage}) {
     currentStoriesGroupError,
     updateStoriesGroupStatus,
     updateStoriesGroupError,
-  } = useSelector(state => state.story);
+  } = useSelector((state) => state.story);
 
-  function handleUpdateGroup({imageUrl, ...values}) {
-    if(imageUrl) {
+  function handleUpdateGroup({ imageUrl, ...values }) {
+    if (imageUrl) {
       dispatch(updateStoriesGroup({
         id: currentStoriesGroup.id,
         image: imageUrl,
         prevImage: currentStoriesGroup.image,
-        ...values
+        ...values,
       }));
       setShowUpdateGroupMessage(true);
     } else {
       dispatch(updateStoriesGroup({
         id: currentStoriesGroup.id,
         image: currentStoriesGroup.image,
-        ...values
+        ...values,
       }));
       setShowUpdateGroupMessage(true);
     }
@@ -52,12 +56,11 @@ function UpdateStoriesGroup({showDeleteGroupMessage}) {
   function handleShowConfirmModal() {
     setShowConfirmModal(true);
   }
-
   function handleDeleteGroup() {
-    if(currentStoriesGroup.storyItems.length === 0) {
+    if (currentStoriesGroup.storyItems.length === 0) {
       dispatch(deleteStoriesGroup({
         id: currentStoriesGroup.id,
-        prevImage: currentStoriesGroup.image
+        prevImage: currentStoriesGroup.image,
       }));
       dispatch(setCurrentStoriesGroup(null));
       handleCloseConfirmModal();
@@ -75,13 +78,13 @@ function UpdateStoriesGroup({showDeleteGroupMessage}) {
     <>
       <GoBackButton />
       { currentStoriesGroupStatus === 'loading' && <Loader />}
-      { currentStoriesGroupStatus === 'resolved' &&
-      <>
+      { currentStoriesGroupStatus === 'resolved'
+      && <>
         <Card
           body
           className='shadow-sm mb-3 mt-2 mx-auto'
           border='primary'
-          style={{maxWidth: '800px'}}>
+          style={{ maxWidth: '800px' }}>
           <StoriesGroupForm
             name='update'
             group={currentStoriesGroup}
@@ -94,7 +97,7 @@ function UpdateStoriesGroup({showDeleteGroupMessage}) {
           body
           className='shadow-sm mb-3 mt-2 mx-auto'
           border='primary'
-          style={{maxWidth: '800px'}}>
+          style={{ maxWidth: '800px' }}>
           <StoriesItemsSection />
         </Card>
 
@@ -110,12 +113,11 @@ function UpdateStoriesGroup({showDeleteGroupMessage}) {
         </Button>
         { currentStoriesGroup?.storyItems.length > 0 && <p className='text-danger text-center'>Чтобы удалить группу, сначала удалите все элементы</p> }
 
-
         <GoBackButton />
       </> }
 
-      { currentStoriesGroupStatus === 'rejected' &&
-      <Alert variant='danger'>
+      { currentStoriesGroupStatus === 'rejected'
+      && <Alert variant='danger'>
         {currentStoriesGroupError}
       </Alert> }
 
@@ -131,7 +133,7 @@ function UpdateStoriesGroup({showDeleteGroupMessage}) {
 
       {updateStoriesGroupStatus === 'resolved' && <Message type='success' text='Группа обновлена!' show={showUpdateGroupMessage} setShow={setShowUpdateGroupMessage} />}
     </>
-  )
+  );
 }
 
 export default UpdateStoriesGroup;

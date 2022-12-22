@@ -1,9 +1,11 @@
-import { Button, Container, Image,Nav, Navbar } from 'react-bootstrap';
+import {
+  Button, Container, Image, Nav, Navbar,
+} from 'react-bootstrap';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 
 import logo from '../../images/logo-dark.png';
 
-function Header({onProfileClick}) {
+function Header({ onProfileClick }) {
   const location = useLocation();
   return (
     <header>
@@ -18,7 +20,7 @@ function Header({onProfileClick}) {
             as={Link}
             to='/'
             className='p-0'>
-            <Image src={logo} className='header__logo' alt='логотип' style={{height: '43px'}}/>
+            <Image src={logo} className='header__logo' alt='логотип' style={{ height: '43px' }}/>
           </Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse>
@@ -52,7 +54,7 @@ function Header({onProfileClick}) {
         </Container>
       </Navbar>
     </header>
-  )
+  );
 }
 
 export default Header;

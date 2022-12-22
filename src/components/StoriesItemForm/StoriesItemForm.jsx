@@ -1,5 +1,5 @@
-import { useEffect,useState } from 'react';
-import { Button,Form } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
+import { Button, Form } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 
@@ -7,11 +7,13 @@ import * as api from '../../utils/api';
 import { BASE_URL } from '../../utils/constants';
 import { handleCompressImage } from '../../utils/utils';
 import { storiesItemFormValidate } from '../../utils/validation';
-import FileInputCard from '../FileInputCard/FileInputCard';
-import FormInput from '../FormInput/FormInput';
-import Message from '../Message/Message';
+import FileInputCard from '../FileInputCard/FileInputCard.jsx';
+import FormInput from '../FormInput/FormInput.jsx';
+import Message from '../Message/Message.jsx';
 
-function StoriesItemForm({name, storyItem, buttonText, submitHandler}) {
+function StoriesItemForm({
+  name, storyItem, buttonText, submitHandler,
+}) {
   const [validated, setValidated] = useState(false);
   const [itemImage, setItemImage] = useState('');
   const [imageFile, setImageFile] = useState(null);
@@ -23,7 +25,27 @@ function StoriesItemForm({name, storyItem, buttonText, submitHandler}) {
     currentStoriesGroup,
     updateStoriesItemStatus,
     createStoriesItemStatus,
-  } = useSelector(state => state.story);
+  } = useSelector((state) => state.story);
+
+  function handleSubmit(values) {
+    if (imageFile) {
+      setUploadFileError(null);
+      setFileLoading(true);
+      handleCompressImage(imageFile)
+        .then((res) => api.uploadFile(res))
+        .then((res) => {
+          const imageUrl = BASE_URL + res;
+          submitHandler({ imageUrl, ...values });
+        })
+        .catch((err) => {
+          setUploadFileError(err);
+          setShowUploadFileError(true);
+        })
+        .finally(() => setFileLoading(false));
+    } else {
+      submitHandler(values);
+    }
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -36,47 +58,24 @@ function StoriesItemForm({name, storyItem, buttonText, submitHandler}) {
       actionLink: storyItem?.actionLink || '',
     },
     validate: storiesItemFormValidate,
-    onSubmit: values => {
-      console.log(values);
+    onSubmit: (values) => {
       handleSubmit(values);
     },
   });
 
   function handleImageSelect(event) {
     setImageFile(event.target.files[0]);
-    console.log('select');
   }
-
   function handleImageReset() {
     setImageFile(null);
   }
 
-  function handleSubmit(values) {
-    if(imageFile) {
-      setUploadFileError(null);
-      setFileLoading(true);
-      handleCompressImage(imageFile)
-      .then((res) => api.uploadFile(res))
-      .then((res) => {
-        const imageUrl = BASE_URL + res;
-        submitHandler({imageUrl, ...values});
-      })
-      .catch((err) => {
-        setUploadFileError(err);
-        setShowUploadFileError(true);
-      })
-      .finally(() => setFileLoading(false));
-    } else {
-      submitHandler(values);
-    }
-  }
-
   useEffect(() => {
     if (!imageFile) {
-      storyItem ?
-      setItemImage(storyItem.image)
+      storyItem
+      ? setItemImage(storyItem.image)
       : setItemImage('');
-      return
+      return;
     }
     const objectUrl = URL.createObjectURL(imageFile);
     setItemImage(objectUrl);
@@ -96,9 +95,9 @@ function StoriesItemForm({name, storyItem, buttonText, submitHandler}) {
         validated={validated}
         >
         <fieldset disabled={(
-          updateStoriesItemStatus === 'loading' ||
-          createStoriesItemStatus === 'loading' ||
-          fileLoading
+          updateStoriesItemStatus === 'loading'
+          || createStoriesItemStatus === 'loading'
+          || fileLoading
         )}>
           <FormInput
             title='Название слайда'
@@ -111,7 +110,7 @@ function StoriesItemForm({name, storyItem, buttonText, submitHandler}) {
             value={formik.values.title}
           />
 
-          <div style={{width: '280px'}} className='mx-auto h-100 mb-3'>
+          <div style={{ width: '280px' }} className='mx-auto h-100 mb-3'>
             <FileInputCard
               name='item'
               onChange={handleImageSelect}
@@ -163,8 +162,7 @@ function StoriesItemForm({name, storyItem, buttonText, submitHandler}) {
             value={formik.values.actionLink}
           />
 
-
-          <Button
+         <Button
             variant='secondary'
             type='submit'
             aria-label={buttonText}
@@ -190,7 +188,7 @@ function StoriesItemForm({name, storyItem, buttonText, submitHandler}) {
       {uploadFileError && <Message type='danger'
       title='Не получилось загрузить файл :(' text={`${uploadFileError}`} show={showUploadFileError} setShow={setShowUploadFileError} />}
     </>
-  )
+  );
 }
 
 export default StoriesItemForm;

@@ -1,25 +1,25 @@
-import { createAsyncThunk,createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import * as api from '../utils/api';
 
 export const fetchAllMarkers = createAsyncThunk(
   'markers/fetchAllMarkers',
-  async (values, {rejectWithValue, dispatch}) => {
+  async (values, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.getPaginatedMarkers(values);
-      dispatch(setMarkers(res.data))
+      dispatch(setMarkers(res.data));
       dispatch(setTotalPages(res.allPageCount));
       dispatch(setPage(2));
       return res;
     } catch (err) {
       return rejectWithValue(err);
     }
-  }
+  },
 );
 
 export const uploadAllMarkers = createAsyncThunk(
   'markers/uploadAllMarkers',
-  async (values, {rejectWithValue, dispatch}) => {
+  async (values, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.getPaginatedMarkers(values);
       dispatch(addMarkers(res.data));
@@ -28,27 +28,27 @@ export const uploadAllMarkers = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err);
     }
-  }
+  },
 );
 
 export const fetchFilteredMarkers = createAsyncThunk(
   'markers/fetchFilteredMarkers',
-  async (values, {rejectWithValue, dispatch}) => {
+  async (values, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.getFilteredPaginatedMarkers(values);
-      dispatch(setMarkers(res.data))
+      dispatch(setMarkers(res.data));
       dispatch(setTotalPages(res.allPageCount));
       dispatch(setPage(2));
       return res;
     } catch (err) {
       return rejectWithValue(err);
     }
-  }
+  },
 );
 
 export const uploadFilteredMarkers = createAsyncThunk(
   'markers/uploadFilteredMarkers',
-  async (values, {rejectWithValue, dispatch}) => {
+  async (values, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.getFilteredPaginatedMarkers(values);
       dispatch(addMarkers(res.data));
@@ -57,24 +57,24 @@ export const uploadFilteredMarkers = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err);
     }
-  }
+  },
 );
 
 export const getMarkerById = createAsyncThunk(
   'markers/getMarkerById',
-  async (id, {rejectWithValue}) => {
+  async (id, { rejectWithValue }) => {
     try {
       const res = await api.getMarkerById(id);
       return res;
     } catch (err) {
       return rejectWithValue(err);
     }
-  }
+  },
 );
 
 export const createMarker = createAsyncThunk(
   'markers/createMarker',
-  async (values, {rejectWithValue, dispatch}) => {
+  async (values, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.createMarker(values);
       dispatch(addMarker(res.Data));
@@ -82,12 +82,12 @@ export const createMarker = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err);
     }
-  }
+  },
 );
 
 export const updateMarker = createAsyncThunk(
   'markers/updateMarker',
-  async (values, {rejectWithValue, dispatch}) => {
+  async (values, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.updateMarker(values);
       dispatch(changeMarker(res.Data));
@@ -95,12 +95,12 @@ export const updateMarker = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err);
     }
-  }
+  },
 );
 
 export const deleteMarker = createAsyncThunk(
   'markers/deleteMarker',
-  async (id, {rejectWithValue, dispatch}) => {
+  async (id, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.deleteMarker(id);
       dispatch(removeMarker(res.Data));
@@ -108,7 +108,7 @@ export const deleteMarker = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err);
     }
-  }
+  },
 );
 
 const markerSlice = createSlice({
@@ -159,8 +159,8 @@ const markerSlice = createSlice({
     setFilterActive: (state, action) => {
       state.filterActive = action.payload;
     },
-    increasePage: (state ) => {
-      state.page = state.page + 1;
+    increasePage: (state) => {
+      state.page += state.page;
     },
     setTotalPages: ((state, action) => {
       state.totalPages = action.payload;
@@ -176,7 +176,8 @@ const markerSlice = createSlice({
       state.currentMarker = null;
     },
     changeMarker: (state, action) => {
-      state.markers = state.markers.map((marker) => marker.id === action.payload.id ? action.payload : marker);
+      state.markers = state.markers.map((marker) => (
+        marker.id === action.payload.id ? action.payload : marker));
       state.currentMarker = action.payload;
     },
   },
@@ -272,6 +273,19 @@ const markerSlice = createSlice({
     },
   },
 });
-export const { setMarkers, addMarkers, setPage, increasePage, setTotalPages, setFilters, resetFilters, setFilterActive, setCurrentMarker, addMarker, changeMarker, removeMarker } = markerSlice.actions;
+export const {
+  setMarkers,
+  addMarkers,
+  setPage,
+  increasePage,
+  setTotalPages,
+  setFilters,
+  resetFilters,
+  setFilterActive,
+  setCurrentMarker,
+  addMarker,
+  changeMarker,
+  removeMarker,
+} = markerSlice.actions;
 
 export default markerSlice.reducer;

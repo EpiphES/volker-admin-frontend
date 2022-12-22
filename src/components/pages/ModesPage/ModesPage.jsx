@@ -1,19 +1,18 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Route,Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
-import CreateMode from '../../CreateMode/CreateMode';
-import Message from '../../Message/Message';
-import ModesGallery from '../../ModesGallery/ModesGallery';
-import UpdateMode from '../../UpdateMode/UpdateMode';
-
+import CreateMode from '../../CreateMode/CreateMode.jsx';
+import Message from '../../Message/Message.jsx';
+import ModesGallery from '../../ModesGallery/ModesGallery.jsx';
+import UpdateMode from '../../UpdateMode/UpdateMode.jsx';
 
 function ModesPage() {
   const [showMessage, setShowMessage] = useState(false);
   const {
     deleteModeStatus,
     deleteModeError,
-  } = useSelector(state => state.mode);
+  } = useSelector((state) => state.mode);
 
   return (
     <>

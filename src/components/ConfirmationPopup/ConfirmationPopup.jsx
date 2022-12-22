@@ -1,6 +1,8 @@
-import { Button, Modal } from "react-bootstrap";
+import { Button, Modal } from 'react-bootstrap';
 
-function ConfirmationPopup({text, show, onClose, onConfirm, onDecline}) {
+function ConfirmationPopup({
+  text, show, onClose, onConfirm, onDecline,
+}) {
   return (
     <Modal show={show} onHide={onClose}>
       <Modal.Header closeButton>
@@ -22,7 +24,7 @@ function ConfirmationPopup({text, show, onClose, onConfirm, onDecline}) {
         </Button>
       </Modal.Body>
     </Modal>
-  )
+  );
 }
 
 export default ConfirmationPopup;

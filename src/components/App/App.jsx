@@ -1,24 +1,30 @@
-import { useEffect,useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Navigate, Route, Routes, useLocation,useNavigate } from 'react-router-dom';
+import
+{
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from 'react-router-dom';
 
 import { getCities, setCurrentCity } from '../../store/citySlice';
 import { getModes } from '../../store/modeSlice';
 import { setUser } from '../../store/userSlice';
-import * as api from '../../utils/api.js';
-import CreateCity from '../CreateCity/CreateCity';
-import Layout from '../Layout/Layout';
+import * as api from '../../utils/api';
+import CreateCity from '../CreateCity/CreateCity.jsx';
+import Layout from '../Layout/Layout.jsx';
 import Loader from '../Loader/Loader.jsx';
-import Login from '../Login/Login';
+import Login from '../Login/Login.jsx';
 import Message from '../Message/Message.jsx';
-import Main from '../pages/MainPage/MainPage';
-import MarkersPage from '../pages/MarkersPage/MarkersPage';
-import ModesPage from '../pages/ModesPage/ModesPage';
-import NotFoundPage from '../pages/NotFoundPage/NotFoundPage';
-import StoriesPage from '../pages/StoriesPage/StoriesPage';
-import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
-import UpdateCity from '../UpdateCity/UpdateCity';
-
+import Main from '../pages/MainPage/MainPage.jsx';
+import MarkersPage from '../pages/MarkersPage/MarkersPage.jsx';
+import ModesPage from '../pages/ModesPage/ModesPage.jsx';
+import NotFoundPage from '../pages/NotFoundPage/NotFoundPage.jsx';
+import StoriesPage from '../pages/StoriesPage/StoriesPage.jsx';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute.jsx';
+import UpdateCity from '../UpdateCity/UpdateCity.jsx';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -27,11 +33,10 @@ function App() {
   const location = useLocation();
   const [isLoginLoading, setIsLoginLoading] = useState(false);
   const [isTokenCheckLoading, setIsTokenCheckLoading] = useState(false);
-
   const [loginError, setLoginError] = useState(null);
   const [showLoginError, setShowLoginError] = useState(false);
 
-  function handleLogin({email, password, fromPage}) {
+  function handleLogin({ email, password, fromPage }) {
     setIsLoginLoading(true);
     api
       .login({ email, password })
@@ -60,7 +65,6 @@ function App() {
     dispatch(setCurrentCity(null));
   }
 
-
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -69,23 +73,23 @@ function App() {
     const path = location.pathname;
     setIsTokenCheckLoading(true);
     api.getUserInfo(token)
-    .then((res) => {
-      dispatch(setUser(res));
-      setLoggedIn(true);
-      navigate(path);
-    })
-    .catch((err) => {
-      setLoggedIn(false);
-      localStorage.clear();
-      dispatch(setUser(null));
-      console.log(err);
-    })
-    .finally(() => setIsTokenCheckLoading(false))
+      .then((res) => {
+        dispatch(setUser(res));
+        setLoggedIn(true);
+        navigate(path);
+      })
+      .catch((err) => {
+        setLoggedIn(false);
+        localStorage.clear();
+        dispatch(setUser(null));
+        console.log(err);
+      })
+      .finally(() => setIsTokenCheckLoading(false));
   }, [dispatch]);
 
   useEffect(() => {
-    if(!loggedIn) {
-      return
+    if (!loggedIn) {
+      return;
     }
     dispatch(getCities(false));
     dispatch(getModes());
@@ -93,18 +97,19 @@ function App() {
 
   return (
     <div className='d-flex flex-column'
-    style={{minHeight: '100vh'}}>
+    style={{ minHeight: '100vh' }}>
       <Routes>
         <Route
           path='/login'
           element={
-          loggedIn ?
-          <Navigate to='/' replace='true' /> :
-          isTokenCheckLoading ?
-          <Loader /> :
-          <Login
-            onLogin={handleLogin}
-            isLoading={isLoginLoading}/>}
+            loggedIn
+            ? <Navigate to='/' replace='true' />
+            : isTokenCheckLoading
+            ? <Loader />
+            : <Login
+              onLogin={handleLogin}
+              isLoading={isLoginLoading} />
+          }
         />
         <Route
           path='/'
@@ -119,6 +124,7 @@ function App() {
           index
           element={<Main />}
           />
+
           <Route
             path='markers/*'
             element={<MarkersPage />}
@@ -138,6 +144,7 @@ function App() {
             path='/city/create'
             element={ <CreateCity /> }
           />
+
           <Route
             path='/city/update'
             element={ <UpdateCity /> }

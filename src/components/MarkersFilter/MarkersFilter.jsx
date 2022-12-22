@@ -1,19 +1,21 @@
 import { useEffect } from 'react';
-import { Accordion, Button, Form, InputGroup } from 'react-bootstrap';
+import {
+  Accordion, Button, Form, InputGroup,
+} from 'react-bootstrap';
 import { BsSearch } from 'react-icons/bs';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 
-function MarkersFilter({onSubmit, onReset}) {
+function MarkersFilter({ onSubmit, onReset }) {
   const {
     fetchMarkersStatus,
-  } = useSelector(state => state.marker);
+  } = useSelector((state) => state.marker);
 
-  const {currentCity} = useSelector(state => state.city);
+  const { currentCity } = useSelector((state) => state.city);
 
-  const modeSelect = currentCity.modes.map((mode) => {
-    return (<option key={mode.id} value={mode.id}>{mode.title}</option>)
-  });
+  const modeSelect = currentCity.modes.map(
+    (mode) => (<option key={mode.id} value={mode.id}>{mode.title}</option>),
+  );
 
   const formik = useFormik({
     initialValues: {
@@ -22,20 +24,20 @@ function MarkersFilter({onSubmit, onReset}) {
       type: '',
       isPublished: 'all',
     },
-    onSubmit: values => {
+    onSubmit: (values) => {
       onSubmit(values);
     },
   });
 
-  const typeSelect = currentCity.modes.find((item) => item.id === parseInt(formik.values.mode))?.markerTypes.map((type) => {
-    return (<option key={type.id} value={type.id}>{type.title}</option>)
-  });
+  const typeSelect = currentCity.modes
+    .find((item) => item.id === parseInt(formik.values.mode, 10))?.markerTypes
+    .map((type) => (<option key={type.id} value={type.id}>{type.title}</option>));
 
   useEffect(() => {
-    if(currentCity) {
+    if (currentCity) {
       formik.handleReset();
     }
-  }, [currentCity])
+  }, [currentCity]);
 
   return (
     <Accordion className='mb-3'>
@@ -43,7 +45,7 @@ function MarkersFilter({onSubmit, onReset}) {
           <Accordion.Header>Фильтры</Accordion.Header>
           <Accordion.Body>
             <Form
-              name={`filter`}
+              name={'filter'}
               onSubmit={formik.handleSubmit}
               noValidate
               >
@@ -94,7 +96,7 @@ function MarkersFilter({onSubmit, onReset}) {
                 </Form.Group>
 
                 <Form.Group className='mb-3'>
-                  <Form.Label className='h6 mb-3' htmlFor={`mode-filter`}>
+                  <Form.Label className='h6 mb-3' htmlFor={'mode.-filter'}>
                     Выберите режим
                   </Form.Label>
                   <Form.Select
@@ -104,7 +106,7 @@ function MarkersFilter({onSubmit, onReset}) {
                       formik.values.type = '';
                     }}
                     name='mode'
-                    id={`mode-filter`}
+                    id={'mode-filter'}
                     value={formik.values.mode}>
                     <option value=''>Вcе</option>
                     {modeSelect}
@@ -112,14 +114,14 @@ function MarkersFilter({onSubmit, onReset}) {
                 </Form.Group>
 
                 <Form.Group>
-                  <Form.Label className='h6 mb-3' htmlFor={`type-filter`}>
+                  <Form.Label className='h6 mb-3' htmlFor={'type-filter'}>
                     Выберите тип
                   </Form.Label>
                   <Form.Select
                     aria-label='выберите тип'
                     onChange={formik.handleChange}
                     name='type'
-                    id={`type-filter`}
+                    id={'type-filter'}
                     value={formik.values.type}>
                     <option value=''>Все</option>
                     {typeSelect}
@@ -150,6 +152,6 @@ function MarkersFilter({onSubmit, onReset}) {
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
-  )
+  );
 }
 export default MarkersFilter;
