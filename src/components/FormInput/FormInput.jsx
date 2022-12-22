@@ -4,7 +4,7 @@ function FormInput({title, error, ...props}) {
   return (
     <Form.Group className='mb-3'>
       <Form.Label className='h6 mb-3' htmlFor={props.id}>{title}</Form.Label>
-      <Form.Control 
+      <Form.Control
         {...props}
       />
       { error &&

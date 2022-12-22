@@ -9,17 +9,17 @@ import BtnScrollUp from '../BtnScrollUp/BtnScrollUp';
 
 function ModesGallery() {
   const navigate = useNavigate();
-  const { 
-    modes, 
+  const {
+    modes,
     getModesStatus,
-    getModesError, 
-  } = useSelector(state => state.mode); 
-  
+    getModesError,
+  } = useSelector(state => state.mode);
+
   const modeCards = modes.map(item => {
     return (
-      <Col key={item.id}>        
+      <Col key={item.id}>
         <ModeCard item={item} onClick={handleCardClick} />
-      </Col>  
+      </Col>
     )
   });
 
@@ -34,11 +34,11 @@ function ModesGallery() {
   return (
     <>
       { getModesStatus ==='loading' && <Loader /> }
-      { getModesStatus ==='resolved' && modes.length === 0 && 
+      { getModesStatus ==='resolved' && modes.length === 0 &&
       <Alert variant='primary'>
         Режимы не созданы
       </Alert> }
-      { getModesStatus === 'rejected' && 
+      { getModesStatus === 'rejected' &&
       <Alert variant='danger'>
         {getModesError}
       </Alert> }
@@ -49,7 +49,7 @@ function ModesGallery() {
           <Col>
             <AddCard minHeight='100px' onClick={handleAddClick}/>
           </Col>
-          {modeCards}        
+          {modeCards}
         </Row>
 
         <BtnScrollUp />
@@ -58,5 +58,4 @@ function ModesGallery() {
     </>
   )
 }
-
 export default ModesGallery;

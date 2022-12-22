@@ -33,15 +33,15 @@ function ModalWithSelect({items, show, onClose, onSubmit, withSearch, text}) {
       setSelectItems((prevVal) => {
         return prevVal.filter(item => item.title.toLowerCase().includes(searchQuery.toLowerCase()));
       });
-    } else { 
-      setSelectItems(items); 
+    } else {
+      setSelectItems(items);
     }
   }, [searchQuery, items]);
 
   return (
     <Modal show={show} onHide={onClose}>
       <Modal.Header closeButton>
-        <Modal.Title className='d-block'>{`Выбор ${text}а`}</Modal.Title>        
+        <Modal.Title className='d-block'>{`Выбор ${text}а`}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         { withSearch &&
@@ -58,17 +58,17 @@ function ModalWithSelect({items, show, onClose, onSubmit, withSearch, text}) {
           />
         </InputGroup> }
         <Form onSubmit={handleSubmit}>
-          <Form.Select 
-            aria-label='выберите режим' 
+          <Form.Select
+            aria-label='выберите режим'
             onChange={handleChange}
             htmlSize={10}
             defaultValue=''>
             <option disabled value=''>{`Выберите ${text}`}</option>
             {selectOptions}
           </Form.Select>
-          <Button 
+          <Button
             variant="secondary"
-            type='submit' 
+            type='submit'
             disabled={!selectedId}
             className='d-block mt-3 ms-auto'
             >
@@ -80,4 +80,4 @@ function ModalWithSelect({items, show, onClose, onSubmit, withSearch, text}) {
   )
 }
 
-export default ModalWithSelect
+export default ModalWithSelect;

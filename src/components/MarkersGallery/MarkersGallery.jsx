@@ -16,28 +16,28 @@ function MarkersGallery() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [fetching, setFetching] = useState(false)
-  const { 
+  const {
     markers,
     page,
     totalPages,
     searchQuery,
     isPublished,
-    mode, 
+    mode,
     type,
-    filterActive, 
+    filterActive,
     fetchMarkersStatus,
     fetchMarkersError,
     uploadMarkersStatus,
-    uploadMarkersError, 
+    uploadMarkersError,
   } = useSelector(state => state.marker);
 
   const {currentCity} = useSelector(state => state.city);
-  
+
   const markerCards = markers.map(item => {
     return (
-      <Col key={item.id}>        
+      <Col key={item.id}>
         <MarkerCard item={item} onClick={handleCardClick} />
-      </Col>  
+      </Col>
     )
   });
 
@@ -50,14 +50,14 @@ function MarkersGallery() {
   }
 
   function handleFilter({searchQuery, isPublished, mode, type}) {
-    
+
     dispatch(fetchFilteredMarkers({
-      cityId: currentCity.id, 
-      page: 1, 
+      cityId: currentCity.id,
+      page: 1,
       search: searchQuery,
       isPublished: isPublished === 'all' ? null : isPublished === 'true' ? true : false,
       mode: mode ? mode : null,
-      type: type ? type : null, 
+      type: type ? type : null,
     }));
     dispatch(setFilters({searchQuery, isPublished, mode, type} ));
     dispatch(setFilterActive(true));
@@ -66,9 +66,9 @@ function MarkersGallery() {
   function handleResetFilter() {
     dispatch(resetFilters());
     dispatch(fetchAllMarkers({
-      cityId: currentCity.id, 
+      cityId: currentCity.id,
       page: 1,
-      search: '', 
+      search: '',
     }));
     dispatch(setFilterActive(false));
   }
@@ -77,62 +77,61 @@ function MarkersGallery() {
     if(fetching && page <= totalPages) {
       filterActive ?
       dispatch(uploadFilteredMarkers({
-        cityId: currentCity.id, 
-        page: page, 
+        cityId: currentCity.id,
+        page: page,
         search: searchQuery,
         isPublished: isPublished === 'all' ? null : isPublished === 'true' ? true : false,
         mode: mode ? mode : null,
-        type: type ? type : null, 
+        type: type ? type : null,
       })) :
       dispatch(uploadAllMarkers({
-        cityId: currentCity.id, 
-        page: page, 
+        cityId: currentCity.id,
+        page: page,
         search: '',
       }));
-      setFetching(false);      
+      setFetching(false);
     }
   },[fetching, page, totalPages, currentCity, dispatch, filterActive, searchQuery, isPublished, mode, type])
 
   return (
     <>
-      { currentCity ? 
+      { currentCity ?
       (<MarkersFilter onSubmit={handleFilter} onReset={handleResetFilter}/>) :
       (<Alert variant='primary'>
         Город не выбран.
       </Alert>) }
-      { fetchMarkersStatus ==='resolved' && markers.length === 0 && 
+      { fetchMarkersStatus ==='resolved' && markers.length === 0 &&
       <Alert variant='primary'>
         Маркеры не найдены.
       </Alert> }
-      
+
       <section>
         <Row xs={2} sm={3} md={4} lg={5} className='g-2 h-100 mb-3'>
           <Col>
             <AddCard minHeight='150px' onClick={handleAddClick} />
           </Col>
-          {markerCards}      
-        </Row> 
-        
-        <BtnScrollUp /> 
-      </section> 
-        
+          {markerCards}
+        </Row>
+
+        <BtnScrollUp />
+      </section>
+
       { (fetchMarkersStatus === 'loading' || uploadMarkersStatus === 'loading') && <Loader /> }
-      { fetchMarkersStatus === 'rejected' && 
+      { fetchMarkersStatus === 'rejected' &&
         <Alert variant='danger'>
           {fetchMarkersError}
         </Alert> }
-      { uploadMarkersStatus === 'rejected' && 
+      { uploadMarkersStatus === 'rejected' &&
         <Alert variant='danger'>
           {uploadMarkersError}
         </Alert> }
-      { page <= totalPages && <Button 
+      { page <= totalPages && <Button
         onClick={() => setFetching(true)}
         className='d-block m-auto'
       >
         Загрузить еще
-      </Button> }       
+      </Button> }
     </>
   )
 }
-
 export default MarkersGallery;

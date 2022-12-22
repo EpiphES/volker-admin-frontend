@@ -12,7 +12,7 @@ import {
   FloatingLabel,
   Button,
   InputGroup,
-  Image, 
+  Image,
 } from 'react-bootstrap';
 
 import { FaEye } from 'react-icons/fa';
@@ -41,7 +41,7 @@ function Login({onLogin, isLoading}) {
 
   return (
     <main className='login bg-dark d-flex'>
-      <div 
+      <div
         className='login__container w-100 m-auto d-flex flex-column align-items-center justify-content-center'
         >
         <Image src={logoIcon} alt='логотип' className='login__logo mb-4'/>
@@ -65,12 +65,12 @@ function Login({onLogin, isLoading}) {
                 value={formik.values.email}
                 isInvalid={formik.touched.email && formik.errors.email}
                 autoComplete={'off'}
-              /> 
+              />
               <Form.Control.Feedback type="invalid">
                 {formik.errors.email}
-              </Form.Control.Feedback>                         
+              </Form.Control.Feedback>
             </FloatingLabel>
-                      
+
             <InputGroup className='mb-5' >
               <FloatingLabel
                 controlId='floatingPassword'
@@ -83,18 +83,18 @@ function Login({onLogin, isLoading}) {
                   onChange={formik.handleChange}
                   value={formik.values.password}
                   isInvalid={formik.touched.password && formik.errors.password}
-                  autoComplete={'off'} 
+                  autoComplete={'off'}
                 />
                 <Form.Control.Feedback type="invalid">
                   {formik.errors.password}
-                </Form.Control.Feedback>                
+                </Form.Control.Feedback>
               </FloatingLabel>
-              
+
               <InputGroup.Text onClick={togglePasswordVisibility} className='login__input-toggler'>
-                 { isPasswordVisible ? < FaEyeSlash size={20}/> : < FaEye size={20}/> }             
-              </InputGroup.Text>              
+                 { isPasswordVisible ? < FaEyeSlash size={20}/> : < FaEye size={20}/> }
+              </InputGroup.Text>
             </InputGroup>
-            
+
             <Button
               className='w-100'
               variant='primary'
@@ -105,9 +105,9 @@ function Login({onLogin, isLoading}) {
             </Button>
           </fieldset>
         </Form>
-      </div>      
+      </div>
     </main>
   )
 }
 
-export default Login
+export default Login;

@@ -12,9 +12,9 @@ import Message from '../../Message/Message';
 function MarkersPage() {
   const dispatch = useDispatch();
   const [showMessage, setShowMessage] = useState(false);
-  const { 
-    deleteMarkerStatus,  
-    deleteMarkerError, 
+  const {
+    deleteMarkerStatus,
+    deleteMarkerError,
   } = useSelector(state => state.marker);
 
   const {currentCity} = useSelector(state => state.city);
@@ -22,9 +22,9 @@ function MarkersPage() {
   useEffect(() => {
     if(currentCity) {
       dispatch(fetchAllMarkers({
-        cityId: currentCity.id, 
+        cityId: currentCity.id,
         page: 1,
-        search: '', 
+        search: '',
       }));
       dispatch(setFilterActive(false));
       dispatch(resetFilters());
@@ -53,5 +53,6 @@ function MarkersPage() {
       {deleteMarkerStatus === 'resolved' && <Message type='success' text='Маркер удален!' show={showMessage} setShow={setShowMessage} />}
     </>
   );
-};
+}
+
 export default MarkersPage;

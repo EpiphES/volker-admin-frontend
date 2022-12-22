@@ -22,25 +22,25 @@ function StoriesGallery() {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showDeleteBlockMessage, setShowDeleteBlockMessage] = useState(false);
 
-  const { 
-    storiesBlocks, 
+  const {
+    storiesBlocks,
     getStoriesBlocksStatus,
-    getStoriesBlocksError, 
+    getStoriesBlocksError,
     currentStoriesBlock,
     deleteStoriesBlockStatus,
     deleteStoriesBlockError,
   } = useSelector(state => state.story);
-  
+
   const {currentCity} = useSelector(state => state.city);
 
   const storiesBlockCards = storiesBlocks.map((item) => {
     return (
-      <StoriesBlock 
-        key={item.id} 
-        item={item} 
-        onUpdate={handleOpenUpdateModal} 
+      <StoriesBlock
+        key={item.id}
+        item={item}
+        onUpdate={handleOpenUpdateModal}
         onDelete={handleShowConfirmModal}
-      />         
+      />
     )
   });
 
@@ -64,7 +64,7 @@ function StoriesGallery() {
   }
   function handleShowConfirmModal(id) {
     setShowConfirmModal(true);
-    dispatch(setCurrentStoriesBlock({id}));   
+    dispatch(setCurrentStoriesBlock({id}));
   }
 
   function handleDeleteBlock() {
@@ -84,15 +84,15 @@ function StoriesGallery() {
   return (
     <>
       { getStoriesBlocksStatus === 'loading' && <Loader /> }
-      { !currentCity && 
+      { !currentCity &&
       <Alert variant='primary'>
         Город не выбран.
       </Alert> }
-      { getStoriesBlocksStatus ==='resolved' && storiesBlocks.length === 0 && 
+      { getStoriesBlocksStatus ==='resolved' && storiesBlocks.length === 0 &&
       <Alert variant='primary'>
         В текущем городе еще нет ни одной истории.
       </Alert> }
-      { getStoriesBlocksStatus === 'rejected' && 
+      { getStoriesBlocksStatus === 'rejected' &&
         <Alert variant='danger'>
           {getStoriesBlocksError}
         </Alert> }
@@ -109,11 +109,11 @@ function StoriesGallery() {
             >
               <BsPlusCircleDotted size={30} />
             </Button>
-            
+
           </div>
-          
-          {storiesBlockCards}      
-          
+
+          {storiesBlockCards}
+
           <BtnScrollUp />
         </section> }
 
@@ -122,12 +122,12 @@ function StoriesGallery() {
           <Modal.Title as='h5'>{`Редактировать блок`}</Modal.Title>
         </Modal.Header>
         <Modal.Body >
-          <StoriesBlockForm 
+          <StoriesBlockForm
             name='update'
             block={currentStoriesBlock}
             buttonText='Обновить'
             onSubmit={handleUpdateBlock}
-          />        
+          />
         </Modal.Body>
       </Modal>
 
@@ -136,7 +136,7 @@ function StoriesGallery() {
           <Modal.Title as='h5'>Создать новый блок</Modal.Title>
         </Modal.Header>
         <Modal.Body >
-          <StoriesBlockForm 
+          <StoriesBlockForm
             name='create'
             buttonText='Создать'
             onSubmit={handleCreateBlock}
@@ -144,7 +144,7 @@ function StoriesGallery() {
         </Modal.Body>
       </Modal>
 
-      <ConfirmationPopup 
+      <ConfirmationPopup
         text={`Удалить блок "${currentStoriesBlock?.title}"?`}
         show={showConfirmModal}
         onClose={handleCloseConfirmModal}

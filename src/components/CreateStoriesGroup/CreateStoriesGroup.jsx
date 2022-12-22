@@ -12,10 +12,10 @@ function CreateStoriesGroup() {
   const dispatch = useDispatch();
 
   const [showCreateGroupMessage, setShowCreateGroupMessage] = useState(false);
-  
-  const {  
-    createStoriesGroupStatus, 
-    createStoriesGroupError,  
+
+  const {
+    createStoriesGroupStatus,
+    createStoriesGroupError,
   } = useSelector(state => state.story);
 
   function handleCreateGroup({imageUrl, ...values}) {
@@ -30,19 +30,19 @@ function CreateStoriesGroup() {
         values
       }));
       setShowCreateGroupMessage(true);
-    }       
+    }
   }
 
   return (
     <>
       <GoBackButton />
       <Card
-        body 
+        body
         className='shadow-sm mb-3 mt-2 mx-auto'
         style={{maxWidth: '800px'}}
         border='primary'>
-        <StoriesGroupForm 
-          name='create'          
+        <StoriesGroupForm
+          name='create'
           buttonText='Создать группу'
           submitHandler={handleCreateGroup}
         >
@@ -52,9 +52,9 @@ function CreateStoriesGroup() {
       {createStoriesGroupStatus === 'rejected' && <Message type='danger' text={`${createStoriesGroupError}`} show={showCreateGroupMessage} setShow={setShowCreateGroupMessage} />}
 
       {createStoriesGroupStatus === 'resolved' && <Message type='success' text='Группа создана!' show={showCreateGroupMessage} setShow={setShowCreateGroupMessage} />}
- 
+
     </>
   )
 }
 
-export default CreateStoriesGroup
+export default CreateStoriesGroup;

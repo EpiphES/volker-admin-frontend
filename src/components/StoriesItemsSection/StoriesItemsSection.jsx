@@ -16,18 +16,18 @@ function StoriesItemsSection() {
   useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showCreateItemMessage, setShowCreateItemMessage] = useState(false);
-  const [showUpdateItemMessage, setShowUpdateItemMessage] = useState(false);  
+  const [showUpdateItemMessage, setShowUpdateItemMessage] = useState(false);
   const [showDeleteItemMessage, setShowDeleteTypeMessage] = useState(false);
-    
-  const { 
+
+  const {
     currentStoriesGroup,
-    currentStoriesItem, 
-    createStoriesItemStatus, 
+    currentStoriesItem,
+    createStoriesItemStatus,
     createStoriesItemError,
-    updateStoriesItemStatus, 
+    updateStoriesItemStatus,
     updateStoriesItemError,
-    deleteStoriesItemStatus, 
-    deleteStoriesItemError,  
+    deleteStoriesItemStatus,
+    deleteStoriesItemError,
   } = useSelector(state => state.story);
 
   function handleCloseUpdateModal() {
@@ -66,7 +66,7 @@ function StoriesItemsSection() {
         values
       }));
       setShowCreateItemMessage(true);
-    }       
+    }
   }
 
   function handleUpdateItem({imageUrl, ...values}) {
@@ -74,20 +74,20 @@ function StoriesItemsSection() {
       dispatch(updateStoriesItem({
         id: currentStoriesItem.id,
         image: imageUrl,
-        prevImage: currentStoriesItem.image,  
+        prevImage: currentStoriesItem.image,
         ...values
-      }));    
+      }));
       setShowUpdateItemMessage(true);
     } else {
       dispatch(updateStoriesItem({
-        id: currentStoriesItem.id,  
+        id: currentStoriesItem.id,
         image: currentStoriesItem.image,
         ...values
       }));
       setShowUpdateItemMessage(true);
-    }   
+    }
   }
-  
+
   function handleDeleteItem() {
     dispatch(deleteStoriesItem({
         id: currentStoriesItem.id,
@@ -96,11 +96,11 @@ function StoriesItemsSection() {
       dispatch(setCurrentStoriesItem(null));
       handleCloseConfirmModal();
       showDeleteItemMessage(true);
-  } 
+  }
 
   return (
-    <>      
-      <StoriesSlider 
+    <>
+      <StoriesSlider
         onEdit={handleOpenUpdateModal}
         onDelete={handleShowConfirmModal}
       />
@@ -119,12 +119,12 @@ function StoriesItemsSection() {
           <Modal.Title as='h5'>Редактировать слайд</Modal.Title>
         </Modal.Header>
         <Modal.Body >
-          <StoriesItemForm 
+          <StoriesItemForm
             name='update'
             storyItem={currentStoriesItem}
             buttonText='Обновить'
             submitHandler={handleUpdateItem}
-          />        
+          />
         </Modal.Body>
       </Modal>
 
@@ -141,7 +141,7 @@ function StoriesItemsSection() {
         </Modal.Body>
       </Modal>
 
-      <ConfirmationPopup 
+      <ConfirmationPopup
         text={`Удалить слайд?`}
         show={showConfirmModal}
         onClose={handleCloseConfirmModal}
@@ -153,16 +153,15 @@ function StoriesItemsSection() {
 
       {createStoriesItemStatus === 'resolved' && <Message type='success' text='Слайд создан!' show={showCreateItemMessage} setShow={setShowCreateItemMessage} />}
 
-      {updateStoriesItemStatus === 'rejected' && 
+      {updateStoriesItemStatus === 'rejected' &&
       <Message type='danger' text={`${updateStoriesItemError}`} show={showUpdateItemMessage} setShow={setShowUpdateItemMessage} />}
 
-      {updateStoriesItemStatus === 'resolved' && 
+      {updateStoriesItemStatus === 'resolved' &&
       <Message type='success' text='Тип обновлен!' show={showUpdateItemMessage} setShow={setShowUpdateItemMessage} />}
 
       {deleteStoriesItemStatus === 'rejected' && <Message type='danger' text={`${deleteStoriesItemError}`} show={showDeleteItemMessage} setShow={setShowDeleteTypeMessage} />}
 
     </>
-    
   )
 }
 

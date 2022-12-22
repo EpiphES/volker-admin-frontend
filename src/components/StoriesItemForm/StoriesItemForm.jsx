@@ -23,8 +23,8 @@ function StoriesItemForm({name, storyItem, buttonText, submitHandler}) {
 
   const {
     currentStoriesGroup,
-    updateStoriesItemStatus,  
-    createStoriesItemStatus, 
+    updateStoriesItemStatus,
+    createStoriesItemStatus,
   } = useSelector(state => state.story);
 
   const formik = useFormik({
@@ -35,12 +35,12 @@ function StoriesItemForm({name, storyItem, buttonText, submitHandler}) {
       position: storyItem?.position || 0,
       modeId: storyItem?.modeId || null,
       buttonName: storyItem?.buttonName || '',
-      actionLink: storyItem?.actionLink || '', 
+      actionLink: storyItem?.actionLink || '',
     },
     validate: storiesItemFormValidate,
     onSubmit: values => {
       console.log(values);
-      handleSubmit(values);      
+      handleSubmit(values);
     },
   });
 
@@ -76,7 +76,7 @@ function StoriesItemForm({name, storyItem, buttonText, submitHandler}) {
   useEffect(() => {
     if (!imageFile) {
       storyItem ?
-      setItemImage(storyItem.image) 
+      setItemImage(storyItem.image)
       : setItemImage('');
       return
     }
@@ -87,27 +87,27 @@ function StoriesItemForm({name, storyItem, buttonText, submitHandler}) {
 
   return (
     <>
-      <Form 
+      <Form
         name={`group-form-${name}`}
         onSubmit={(e) => {
           formik.handleSubmit(e);
-          setValidated(true);        
+          setValidated(true);
         }}
         noValidate
         className='text-center mx-auto'
         validated={validated}
         >
         <fieldset disabled={(
-          updateStoriesItemStatus === 'loading' || 
-          createStoriesItemStatus === 'loading' || 
+          updateStoriesItemStatus === 'loading' ||
+          createStoriesItemStatus === 'loading' ||
           fileLoading
         )}>
           <FormInput
             title='Название слайда'
             type='text'
             name='title'
-            id={`title-item-${name}`} 
-            placeholder='Введите название' 
+            id={`title-item-${name}`}
+            placeholder='Введите название'
             autoFocus
             onChange={formik.handleChange}
             value={formik.values.title}
@@ -117,13 +117,13 @@ function StoriesItemForm({name, storyItem, buttonText, submitHandler}) {
             <FileInputCard
               name='item'
               onChange={handleImageSelect}
-              imageLink={itemImage}  
+              imageLink={itemImage}
             />
           </div>
 
           <FormInput
             title='Описание'
-            as='textarea'  
+            as='textarea'
             rows={3}
             name='message'
             id={`message-item-${name}`}
@@ -136,20 +136,20 @@ function StoriesItemForm({name, storyItem, buttonText, submitHandler}) {
             title='Позиция в группе'
             type='number'
             name='position'
-            id={`position-item-${name}`} 
+            id={`position-item-${name}`}
             onChange={formik.handleChange}
             value={formik.values.position}
             error={formik.errors.position}
             min='0'
-            step='1'           
+            step='1'
           />
 
           <FormInput
             title='Название кнопки'
             type='text'
             name='buttonName'
-            id={`buttonName-item-${name}`} 
-            placeholder='Введите название' 
+            id={`buttonName-item-${name}`}
+            placeholder='Введите название'
             onChange={formik.handleChange}
             value={formik.values.buttonName}
           />
@@ -158,8 +158,8 @@ function StoriesItemForm({name, storyItem, buttonText, submitHandler}) {
             title='Ссылка на действие'
             type='text'
             name='actionLink'
-            id={`actionLink-item-${name}`} 
-            placeholder='Введите название' 
+            id={`actionLink-item-${name}`}
+            placeholder='Введите название'
             autoFocus
             onChange={formik.handleChange}
             value={formik.values.actionLink}
@@ -189,10 +189,9 @@ function StoriesItemForm({name, storyItem, buttonText, submitHandler}) {
         </fieldset>
       </Form>
 
-      {uploadFileError && <Message type='danger' 
+      {uploadFileError && <Message type='danger'
       title='Не получилось загрузить файл :(' text={`${uploadFileError}`} show={showUploadFileError} setShow={setShowUploadFileError} />}
     </>
-
   )
 }
 

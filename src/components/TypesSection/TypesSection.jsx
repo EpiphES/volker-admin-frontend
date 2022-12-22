@@ -15,28 +15,28 @@ import Message from '../Message/Message';
 
 function TypesSection({modeId}) {
   const dispatch = useDispatch();
-  
-  const [selectedType, setSelectedType] = useState(null); 
+
+  const [selectedType, setSelectedType] = useState(null);
   const [deletedType, setDeletedType] = useState('');
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showCreateModal, setShowCreateModal] =
   useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showCreateTypeMessage, setShowCreateTypeMessage] = useState(false);
-  const [showUpdateTypeMessage, setShowUpdateTypeMessage] = useState(false);  
+  const [showUpdateTypeMessage, setShowUpdateTypeMessage] = useState(false);
   const [showDeleteTypeMessage, setShowDeleteTypeMessage] = useState(false);
   const [showUploadFileError, setShowUploadFileError] = useState(false);
   const [uploadFileError, setUploadFileError] = useState(null);
   const [fileLoading, setFileLoading] = useState(false);
 
-  const { 
-    currentMode, 
-    createTypeStatus, 
+  const {
+    currentMode,
+    createTypeStatus,
     createTypeError,
-    updateTypeStatus, 
+    updateTypeStatus,
     updateTypeError,
-    deleteTypeStatus, 
-    deleteTypeError,  
+    deleteTypeStatus,
+    deleteTypeError,
   } = useSelector(state => state.mode);
 
   function handleCloseUpdateModal() {
@@ -88,7 +88,7 @@ function TypesSection({modeId}) {
         colorOnMap,
       }));
       setShowCreateTypeMessage(true);
-    }    
+    }
   }
 
   function handleUpdateType({id, title, iconFile, colorOnMap, prevIcon}) {
@@ -119,14 +119,14 @@ function TypesSection({modeId}) {
         iconOnMap: prevIcon,
       }));
       setShowUpdateTypeMessage(true);
-    }        
+    }
   }
-  
+
   function handleDeleteType() {
     dispatch(deleteType({id: deletedType.id, prevIcon: deletedType.iconOnMap}));
-    handleCloseConfirmModal();  
+    handleCloseConfirmModal();
     setShowDeleteTypeMessage(true);
-  } 
+  }
 
   return (
     <>
@@ -146,13 +146,13 @@ function TypesSection({modeId}) {
           <Modal.Title as='h5'>Тип "{selectedType?.title}"</Modal.Title>
         </Modal.Header>
         <Modal.Body >
-          <TypeForm 
+          <TypeForm
             name='update'
             type={selectedType}
             buttonText='Обновить'
             onSubmit={handleUpdateType}
             fileLoading={fileLoading}
-          />        
+          />
         </Modal.Body>
       </Modal>
 
@@ -161,7 +161,7 @@ function TypesSection({modeId}) {
           <Modal.Title as='h5'>Создание типа</Modal.Title>
         </Modal.Header>
         <Modal.Body >
-          <TypeForm 
+          <TypeForm
             name='create'
             buttonText='Создать'
             onSubmit={handleCreateType}
@@ -170,7 +170,7 @@ function TypesSection({modeId}) {
         </Modal.Body>
       </Modal>
 
-      <ConfirmationPopup 
+      <ConfirmationPopup
         text={`Удалить "${deletedType?.title}"?`}
         show={showConfirmModal}
         onClose={handleCloseConfirmModal}
@@ -182,15 +182,15 @@ function TypesSection({modeId}) {
 
       {createTypeStatus === 'resolved' && <Message type='success' text='Тип создан!' show={showCreateTypeMessage} setShow={setShowCreateTypeMessage} />}
 
-      {updateTypeStatus === 'rejected' && 
+      {updateTypeStatus === 'rejected' &&
       <Message type='danger' text={`${updateTypeError}`} show={showUpdateTypeMessage} setShow={setShowUpdateTypeMessage} />}
 
-      {updateTypeStatus === 'resolved' && 
+      {updateTypeStatus === 'resolved' &&
       <Message type='success' text='Тип обновлен!' show={showUpdateTypeMessage} setShow={setShowUpdateTypeMessage} />}
 
       {deleteTypeStatus === 'rejected' && <Message type='danger' text={`${deleteTypeError}`} show={showDeleteTypeMessage} setShow={setShowDeleteTypeMessage} />}
 
-      {uploadFileError && <Message type='danger' text={`${uploadFileError}`} show={showUploadFileError} setShow={setShowUploadFileError} />}      
+      {uploadFileError && <Message type='danger' text={`${uploadFileError}`} show={showUploadFileError} setShow={setShowUploadFileError} />}
     </>
   )
 }

@@ -12,17 +12,17 @@ import Loader from '../Loader/Loader';
 function UpdateCity() {
   const {currentCity} = useSelector(state => state.city);
   const dispatch = useDispatch();
-  const { 
-    updateCityStatus, 
-    updateCityError, 
+  const {
+    updateCityStatus,
+    updateCityError,
     removeModeFromCityStatus,
     removeModeFromCityError,
     currentCityStatus,
     currentCityError
   } = useSelector(state => state.city);
-  
-  const [showMessage, setShowMessage] = useState(false);  
-  
+
+  const [showMessage, setShowMessage] = useState(false);
+
   function handleUpdateCity(values) {
     dispatch(updateCity({id: currentCity.id, ...values}));
     setShowMessage(true);
@@ -30,13 +30,13 @@ function UpdateCity() {
 
   return (
     <>
-      <GoBackButton /> 
+      <GoBackButton />
       { currentCityStatus === 'loading' && <Loader />}
-      { currentCityStatus === 'resolved' &&     
+      { currentCityStatus === 'resolved' &&
         <>
-          <CityForm 
-            name='update' 
-            city={currentCity} 
+          <CityForm
+            name='update'
+            city={currentCity}
             buttonText='Сохранить'
             onSubmit={handleUpdateCity}
           />
@@ -44,11 +44,11 @@ function UpdateCity() {
           <GoBackButton />
         </>}
 
-      { currentCityStatus === 'rejected' && 
+      { currentCityStatus === 'rejected' &&
       <Alert variant='danger'>
         {currentCityError}
       </Alert> }
-      
+
       {(updateCityStatus === 'rejected' || removeModeFromCityStatus === 'rejected') && <Message type='danger' text={`${updateCityError || ''} ${removeModeFromCityError || ''}`} show={showMessage} setShow={setShowMessage}/>}
 
       {updateCityStatus === 'resolved' && removeModeFromCityStatus !== 'rejected' && <Message type='success' text='Город обновлен!' show={showMessage} setShow={setShowMessage}/>}

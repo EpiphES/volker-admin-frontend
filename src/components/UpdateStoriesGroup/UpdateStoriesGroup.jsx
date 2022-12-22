@@ -20,12 +20,12 @@ function UpdateStoriesGroup({showDeleteGroupMessage}) {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showUpdateGroupMessage, setShowUpdateGroupMessage] = useState(false);
 
-  const { 
-    currentStoriesGroup, 
-    currentStoriesGroupStatus, 
-    currentStoriesGroupError, 
-    updateStoriesGroupStatus, 
-    updateStoriesGroupError, 
+  const {
+    currentStoriesGroup,
+    currentStoriesGroupStatus,
+    currentStoriesGroupError,
+    updateStoriesGroupStatus,
+    updateStoriesGroupError,
   } = useSelector(state => state.story);
 
   function handleUpdateGroup({imageUrl, ...values}) {
@@ -33,18 +33,18 @@ function UpdateStoriesGroup({showDeleteGroupMessage}) {
       dispatch(updateStoriesGroup({
         id: currentStoriesGroup.id,
         image: imageUrl,
-        prevImage: currentStoriesGroup.image,  
+        prevImage: currentStoriesGroup.image,
         ...values
-      }));    
+      }));
       setShowUpdateGroupMessage(true);
     } else {
       dispatch(updateStoriesGroup({
-        id: currentStoriesGroup.id,  
+        id: currentStoriesGroup.id,
         image: currentStoriesGroup.image,
         ...values
       }));
       setShowUpdateGroupMessage(true);
-    }   
+    }
   }
 
   function handleCloseConfirmModal() {
@@ -69,7 +69,7 @@ function UpdateStoriesGroup({showDeleteGroupMessage}) {
 
   useEffect(() => {
     dispatch(getStoriesGroupById(storiesId));
-    return () => dispatch(setCurrentStoriesGroup(null));    
+    return () => dispatch(setCurrentStoriesGroup(null));
   }, [dispatch, storiesId]);
 
   return (
@@ -83,7 +83,7 @@ function UpdateStoriesGroup({showDeleteGroupMessage}) {
           className='shadow-sm mb-3 mt-2 mx-auto'
           border='primary'
           style={{maxWidth: '800px'}}>
-          <StoriesGroupForm 
+          <StoriesGroupForm
             name='update'
             group={currentStoriesGroup}
             buttonText='Обновить группу'
@@ -96,8 +96,8 @@ function UpdateStoriesGroup({showDeleteGroupMessage}) {
           className='shadow-sm mb-3 mt-2 mx-auto'
           border='primary'
           style={{maxWidth: '800px'}}>
-          <StoriesItemsSection /> 
-        </Card>      
+          <StoriesItemsSection />
+        </Card>
 
         <Button
           variant='danger'
@@ -110,17 +110,17 @@ function UpdateStoriesGroup({showDeleteGroupMessage}) {
           Удалить группу
         </Button>
         { currentStoriesGroup?.storyItems.length > 0 && <p className='text-danger text-center'>Чтобы удалить группу, сначала удалите все элементы</p> }
-          
 
-        <GoBackButton />                
+
+        <GoBackButton />
       </> }
 
-      { currentStoriesGroupStatus === 'rejected' && 
+      { currentStoriesGroupStatus === 'rejected' &&
       <Alert variant='danger'>
         {currentStoriesGroupError}
       </Alert> }
 
-      <ConfirmationPopup 
+      <ConfirmationPopup
         text={`Удалить группу "${currentStoriesGroup?.title}"?`}
         show={showConfirmModal}
         onClose={handleCloseConfirmModal}

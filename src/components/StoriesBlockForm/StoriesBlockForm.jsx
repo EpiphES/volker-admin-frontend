@@ -12,12 +12,12 @@ function StoriesBlockForm({name, block, buttonText, onSubmit}) {
   const [validated, setValidated] = useState(false);
 
   const {
-    updateStoriesBlockStatus,  
-    createStoriesBlockStatus, 
+    updateStoriesBlockStatus,
+    createStoriesBlockStatus,
   } = useSelector(state => state.story);
 
   const {
-    cities, 
+    cities,
     currentCity
   } = useSelector(state => state.city);
 
@@ -32,7 +32,7 @@ function StoriesBlockForm({name, block, buttonText, onSubmit}) {
     validate: storiesBlockFormValidate,
     onSubmit: values => {
       console.log(values);
-      onSubmit(values);      
+      onSubmit(values);
     },
   });
 
@@ -42,11 +42,11 @@ function StoriesBlockForm({name, block, buttonText, onSubmit}) {
 
   return (
     <>
-      <Form 
+      <Form
         name={`block-form-${name}`}
         onSubmit={(e) => {
           formik.handleSubmit(e);
-          setValidated(true);        
+          setValidated(true);
         }}
         noValidate
         className='text-center'
@@ -59,9 +59,9 @@ function StoriesBlockForm({name, block, buttonText, onSubmit}) {
             title='Название блока'
             type='text'
             name='title'
-            id={`title-block-${name}`} 
+            id={`title-block-${name}`}
             placeholder='Введите название'
-            required 
+            required
             autoFocus
             onChange={formik.handleChange}
             value={formik.values.title}
@@ -70,11 +70,11 @@ function StoriesBlockForm({name, block, buttonText, onSubmit}) {
 
           <Form.Group className='mb-3'>
             <Form.Label className='h6 mb-3' htmlFor={`cityId-block-${name}`}>
-              Город              
+              Город
             </Form.Label>
-            
-            <Form.Select 
-              aria-label='выберите город' 
+
+            <Form.Select
+              aria-label='выберите город'
               onChange={(e) => {
                 formik.handleChange(e);
               }}
@@ -95,12 +95,12 @@ function StoriesBlockForm({name, block, buttonText, onSubmit}) {
             title='Позиция блока'
             type='number'
             name='position'
-            id={`position-block-${name}`} 
+            id={`position-block-${name}`}
             onChange={formik.handleChange}
             value={formik.values.position}
             error={formik.errors.position}
             min='0'
-            step='1'           
+            step='1'
           />
 
           <Button
@@ -117,4 +117,4 @@ function StoriesBlockForm({name, block, buttonText, onSubmit}) {
   )
 }
 
-export default StoriesBlockForm
+export default StoriesBlockForm;

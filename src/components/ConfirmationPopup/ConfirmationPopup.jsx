@@ -14,7 +14,7 @@ function ConfirmationPopup({text, show, onClose, onConfirm, onDecline}) {
           className='me-3'>
           Отмена
         </Button>
-        <Button 
+        <Button
           variant='outline-secondary'
           aria-label='подтвердить удаление'
           onClick={onConfirm}>
@@ -25,4 +25,4 @@ function ConfirmationPopup({text, show, onClose, onConfirm, onDecline}) {
   )
 }
 
-export default ConfirmationPopup
+export default ConfirmationPopup;

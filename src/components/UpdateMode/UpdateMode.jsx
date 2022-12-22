@@ -17,34 +17,34 @@ function UpdateMode({showDeleteModeMessage}) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {modeId} = useParams();
-  const [showConfirmModal, setShowConfirmModal] = useState(false);  
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showUpdateModeMessage, setShowUpdateModeMessage] = useState(false);
 
-  const { 
-    currentMode, 
-    currentModeStatus, 
-    currentModeError, 
-    updateModeStatus, 
-    updateModeError, 
-  } = useSelector(state => state.mode); 
+  const {
+    currentMode,
+    currentModeStatus,
+    currentModeError,
+    updateModeStatus,
+    updateModeError,
+  } = useSelector(state => state.mode);
 
   function handleUpdateMode({iconUrl, ...values}) {
     if(iconUrl) {
       dispatch(updateMode({
-        id: modeId, 
-        title: values.title, 
-        icon: iconUrl, 
+        id: modeId,
+        title: values.title,
+        icon: iconUrl,
         prevIcon: currentMode.icon
-      }));      
+      }));
       setShowUpdateModeMessage(true);
     } else {
       dispatch(updateMode({
-        id: modeId, 
-        title: values.title, 
+        id: modeId,
+        title: values.title,
         icon: currentMode.icon
       }));
       setShowUpdateModeMessage(true);
-    }       
+    }
   }
 
   function handleCloseConfirmModal() {
@@ -56,20 +56,20 @@ function UpdateMode({showDeleteModeMessage}) {
   }
 
   function handleDeleteMode() {
-    if(currentMode.markerTypes.length === 0) { 
+    if(currentMode.markerTypes.length === 0) {
       dispatch(deleteMode({id: modeId, prevIcon: currentMode.icon}));
       handleCloseConfirmModal();
       navigate('/modes');
       showDeleteModeMessage(true);
     }
-  } 
+  }
 
   useEffect(() => {
     dispatch(getModeById(modeId));
-    return () => dispatch(setCurrentMode(null));    
-  }, [dispatch, modeId]);  
+    return () => dispatch(setCurrentMode(null));
+  }, [dispatch, modeId]);
 
-  return (    
+  return (
     <>
       <GoBackButton />
       { currentModeStatus === 'loading' && <Loader />}
@@ -80,19 +80,19 @@ function UpdateMode({showDeleteModeMessage}) {
           className='shadow-sm mb-3 mt-2 mx-auto'
           border='primary'
           style={{maxWidth: '800px'}}>
-          <ModeForm 
+          <ModeForm
             name='update'
             mode={currentMode}
             buttonText='Обновить режим'
             submitHandler={handleUpdateMode}
           />
         </Card>
- 
+
         <Card
-          body 
+          body
           className='shadow-sm mb-4 mt-2 mx-auto'
           border='primary'
-          style={{maxWidth: '800px'}}> 
+          style={{maxWidth: '800px'}}>
           <TypesSection modeId={+modeId}/>
         </Card>
 
@@ -107,17 +107,17 @@ function UpdateMode({showDeleteModeMessage}) {
           Удалить режим
         </Button>
         { currentMode?.markerTypes.length > 0 && <p className='text-danger text-center'>Чтобы удалить режим, сначала удалите все типы</p> }
-          
 
-        <GoBackButton />                
+
+        <GoBackButton />
       </> }
 
-      { currentModeStatus === 'rejected' && 
+      { currentModeStatus === 'rejected' &&
       <Alert variant='danger'>
         {currentModeError}
       </Alert> }
 
-      <ConfirmationPopup 
+      <ConfirmationPopup
         text={`Удалить режим "${currentMode?.title}"?`}
         show={showConfirmModal}
         onClose={handleCloseConfirmModal}

@@ -14,11 +14,11 @@ function TypeForm({name, type, buttonText, onSubmit, fileLoading}) {
   const [typeIcon, setTypeIcon] = useState('');
   const [iconFile, setIconFile] = useState(null);
 
-  const { 
-    updateTypeStatus,  
-    createTypeStatus, 
+  const {
+    updateTypeStatus,
+    createTypeStatus,
   } = useSelector(state => state.mode);
-  
+
   const formik = useFormik({
     initialValues: {
       title: type?.title || '',
@@ -29,9 +29,9 @@ function TypeForm({name, type, buttonText, onSubmit, fileLoading}) {
       onSubmit({
         id: type?.id,
         title: values.title,
-        iconFile, 
+        iconFile,
         colorOnMap: values.color,
-        prevIcon: type?.iconOnMap,        
+        prevIcon: type?.iconOnMap,
       });
     },
   });
@@ -47,7 +47,7 @@ function TypeForm({name, type, buttonText, onSubmit, fileLoading}) {
   useEffect(() => {
     if (!iconFile) {
       type ?
-      setTypeIcon(type.iconOnMap) 
+      setTypeIcon(type.iconOnMap)
       : setTypeIcon('');
       return
     }
@@ -55,15 +55,15 @@ function TypeForm({name, type, buttonText, onSubmit, fileLoading}) {
     setTypeIcon(objectUrl);
     return () => URL.revokeObjectURL(objectUrl);
   }, [iconFile, type]);
-  
+
   return (
-    <Form 
+    <Form
       name={`type-form-${name}`}
       onSubmit={(e) => {
         formik.handleSubmit(e);
-        setValidated(true);        
+        setValidated(true);
       }}
-      noValidate 
+      noValidate
       className='text-center'
       validated={validated}>
       <fieldset disabled = {(
@@ -81,8 +81,8 @@ function TypeForm({name, type, buttonText, onSubmit, fileLoading}) {
               onChange={formik.handleChange}
               value={formik.values.color}
             />
-            <InputGroup.Text>Закрыть</InputGroup.Text>            
-          </InputGroup>          
+            <InputGroup.Text>Закрыть</InputGroup.Text>
+          </InputGroup>
         </Form.Group>
 
         <h6 className='mb-3'>Иконка типа</h6>
@@ -90,24 +90,24 @@ function TypeForm({name, type, buttonText, onSubmit, fileLoading}) {
           <FileInputCard
           name='type'
             onChange={handleIconSelect}
-            imageLink={typeIcon} 
+            imageLink={typeIcon}
           />
         </div>
 
         <FormInput
           title='Название типа'
           type='text'
-          name='title' 
+          name='title'
           placeholder='Введите название'
-          required 
+          required
           autoFocus
           onChange={formik.handleChange}
           value={formik.values.title}
           error={formik.errors.title}
-        />             
-      
+        />
+
         <Button
-          variant='dark'        
+          variant='dark'
           type='submit'
           aria-label={buttonText}
           className='me-2'>

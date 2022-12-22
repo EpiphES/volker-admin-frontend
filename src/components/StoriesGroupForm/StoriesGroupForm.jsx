@@ -24,8 +24,8 @@ function StoriesGroupForm({name, group, buttonText, submitHandler}) {
   const {
     storiesBlocks,
     currentStoriesBlock,
-    updateStoriesGroupStatus,  
-    createStoriesGroupStatus, 
+    updateStoriesGroupStatus,
+    createStoriesGroupStatus,
   } = useSelector(state => state.story);
 
   const formik = useFormik({
@@ -37,7 +37,7 @@ function StoriesGroupForm({name, group, buttonText, submitHandler}) {
     },
     validate: storiesGroupFormValidate,
     onSubmit: values => {
-      handleSubmit(values);      
+      handleSubmit(values);
     },
   });
 
@@ -76,7 +76,7 @@ function StoriesGroupForm({name, group, buttonText, submitHandler}) {
   useEffect(() => {
     if (!imageFile) {
       group ?
-      setGroupImage(group.image) 
+      setGroupImage(group.image)
       : setGroupImage('');
       return
     }
@@ -87,11 +87,11 @@ function StoriesGroupForm({name, group, buttonText, submitHandler}) {
 
   return (
     <>
-      <Form 
+      <Form
         name={`group-form-${name}`}
         onSubmit={(e) => {
           formik.handleSubmit(e);
-          setValidated(true);        
+          setValidated(true);
         }}
         noValidate
         className='text-center mx-auto'
@@ -99,17 +99,17 @@ function StoriesGroupForm({name, group, buttonText, submitHandler}) {
         validated={validated}
         >
         <fieldset disabled={(
-          updateStoriesGroupStatus === 'loading' || 
-          createStoriesGroupStatus === 'loading' || 
+          updateStoriesGroupStatus === 'loading' ||
+          createStoriesGroupStatus === 'loading' ||
           fileLoading
         )}>
           <FormInput
             title='Название группы'
             type='text'
             name='title'
-            id={`title-group-${name}`} 
+            id={`title-group-${name}`}
             placeholder='Введите название'
-            required 
+            required
             autoFocus
             onChange={formik.handleChange}
             value={formik.values.title}
@@ -120,17 +120,17 @@ function StoriesGroupForm({name, group, buttonText, submitHandler}) {
             <FileInputCard
               name='group'
               onChange={handleImageSelect}
-              imageLink={groupImage}  
+              imageLink={groupImage}
             />
           </div>
 
           <Form.Group className='mb-3'>
             <Form.Label className='h6 mb-3' htmlFor={`storiesBlockId-group-${name}`}>
-              Блок              
+              Блок
             </Form.Label>
-            
-            <Form.Select 
-              aria-label='выберите блок' 
+
+            <Form.Select
+              aria-label='выберите блок'
               onChange={(e) => {
                 formik.handleChange(e);
               }}
@@ -151,12 +151,12 @@ function StoriesGroupForm({name, group, buttonText, submitHandler}) {
             title='Позиция в блоке'
             type='number'
             name='position'
-            id={`position-group-${name}`} 
+            id={`position-group-${name}`}
             onChange={formik.handleChange}
             value={formik.values.position}
             error={formik.errors.position}
             min='0'
-            step='1'           
+            step='1'
           />
 
           <Button
@@ -181,7 +181,7 @@ function StoriesGroupForm({name, group, buttonText, submitHandler}) {
         </fieldset>
       </Form>
 
-      {uploadFileError && <Message type='danger' 
+      {uploadFileError && <Message type='danger'
       title='Не получилось загрузить файл :(' text={`${uploadFileError}`} show={showUploadFileError} setShow={setShowUploadFileError} />}
     </>
   )

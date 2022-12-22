@@ -13,24 +13,24 @@ import ModalWithSelect from '../ModalWithSelect/ModalWithSelect';
 import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup';
 import AddCard from '../AddCard/AddCard';
 import FormInput from '../FormInput/FormInput';
-import Coordinates from '../Сoordinates/Coordinates';
+import Coordinates from '../Coordinates/Coordinates';
 
 function CityForm({name, city, buttonText, onSubmit}) {
   const dispatch = useDispatch();
   const { modes } = useSelector(state => state.mode);
-  const { 
-    updateCityStatus,  
-    createCityStatus, 
+  const {
+    updateCityStatus,
+    createCityStatus,
     removeModeFromCityStatus,
   } = useSelector(state => state.city);
   const [validated, setValidated] = useState(false);
   const [cityModes, setCityModes] = useState([]);
-  const [filteredModes, setFilteredModes] = useState([]);  
+  const [filteredModes, setFilteredModes] = useState([]);
   const [deletedMode, setDeletedMode] = useState(null);
   const [showModeSelectModal, setShowModeSelectModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  
-  
+
+
   const formik = useFormik({
     initialValues: {
       cityName: city?.cityName || '',
@@ -41,13 +41,13 @@ function CityForm({name, city, buttonText, onSubmit}) {
     validate: cityFormValidate,
     onSubmit: values => {
       if(name === 'update') {
-        removeModes(); 
-      }      
+        removeModes();
+      }
       onSubmit({
         cityName: values.cityName,
-        latitude: values.latitude, 
-        longitude: values.longitude, 
-        description: values.description, 
+        latitude: values.latitude,
+        longitude: values.longitude,
+        description: values.description,
         modes: cityModes,
       });
     },
@@ -58,9 +58,9 @@ function CityForm({name, city, buttonText, onSubmit}) {
 
   const cityModeCards = cityModes.map(item => {
     return (
-      <Col key={item.id}>        
+      <Col key={item.id}>
         <ModeCard item={item} onClick={handleShowConfirmModal} deleteOn/>
-      </Col>  
+      </Col>
     )
   })
 
@@ -69,7 +69,7 @@ function CityForm({name, city, buttonText, onSubmit}) {
   };
   function handleShowModeSelectModal() {
     setShowModeSelectModal(true);
-  }  
+  }
   function handleCloseConfirmModal() {
     setShowConfirmModal(false);
   }
@@ -77,16 +77,16 @@ function CityForm({name, city, buttonText, onSubmit}) {
     setShowConfirmModal(true);
     setDeletedMode(modes.find((item) => item.id === id));
   };
-  
+
   function handleAddMode(id) {
     const mode = modes.find(item => item.id === +id);
-    setCityModes((prevVal) => [...prevVal, mode]);    
-  } 
-  
+    setCityModes((prevVal) => [...prevVal, mode]);
+  }
+
   function handleDeleteMode() {
     setCityModes((prevVal) => prevVal.filter((item) => item.id !== deletedMode.id));
     setDeletedMode(null);
-    setShowConfirmModal(false);    
+    setShowConfirmModal(false);
   }
 
   function removeModes() {
@@ -95,7 +95,7 @@ function CityForm({name, city, buttonText, onSubmit}) {
       })
     modesToDelete.forEach((mode) => {
       dispatch(removeModeFromCity({cityId: city.id, modeId: mode.id}))
-    }) 
+    })
   }
 
   useEffect(() => {
@@ -106,33 +106,33 @@ function CityForm({name, city, buttonText, onSubmit}) {
 
   useEffect(() => {
     const modeItems = modes.filter((mode) => {
-      return !cityModes.some(item => item.id === mode.id) 
+      return !cityModes.some(item => item.id === mode.id)
     });
     setFilteredModes(modeItems);
   },[cityModes, modes]);
 
   return (
-    <>      
-      <Form 
+    <>
+      <Form
         name={`city-form-${name}`}
         onSubmit={(e) => {
           formik.handleSubmit(e);
-          setValidated(true);        
+          setValidated(true);
         }}
-        noValidate 
+        noValidate
         className='pt-3 text-center mb-3 mx-auto'
         style={{maxWidth: '800px'}}
         validated={validated}>
-        
+
         <fieldset disabled={(updateCityStatus === 'loading' || createCityStatus === 'loading' || removeModeFromCityStatus === 'loading')}>
 
           <FormInput
             title='Название города'
             type='text'
-            name='cityName' 
+            name='cityName'
             placeholder='Введите название'
             id={`cityName-city-${name}`}
-            required 
+            required
             autoFocus
             onChange={formik.handleChange}
             value={formik.values.cityName}
@@ -151,15 +151,15 @@ function CityForm({name, city, buttonText, onSubmit}) {
             <h6 className='mb-3'>Pежимы</h6>
             <Row xs={3} sm={4} md={5} className='g-2 h-100 mb-3'>
               {cityModeCards}
-              <Col> 
-                < AddCard minHeight={'100px'} onClick={handleShowModeSelectModal} />       
-              </Col>     
+              <Col>
+                < AddCard minHeight={'100px'} onClick={handleShowModeSelectModal} />
+              </Col>
             </Row>
           </>
 
           <FormInput
             title='Описание'
-            as='textarea' 
+            as='textarea'
             rows={5}
             name='description'
             id={`description-city-${name}`}
@@ -167,7 +167,7 @@ function CityForm({name, city, buttonText, onSubmit}) {
             onChange={formik.handleChange}
             value={formik.values.description}
           />
-          
+
           <Button
             variant='dark'
             type='submit'
@@ -175,7 +175,7 @@ function CityForm({name, city, buttonText, onSubmit}) {
             className='mt-4 me-3'>
             {(updateCityStatus === 'loading' || createCityStatus === 'loading' || removeModeFromCityStatus === 'loading') ? 'Сохранение...' : buttonText}
           </Button>
-          
+
           <Button
             variant='dark'
             type='reset'
@@ -188,7 +188,7 @@ function CityForm({name, city, buttonText, onSubmit}) {
         </fieldset>
       </Form>
 
-      <ModalWithSelect 
+      <ModalWithSelect
         items={filteredModes}
         show={showModeSelectModal}
         onClose={handleCloseModeSelectModal}
@@ -197,7 +197,7 @@ function CityForm({name, city, buttonText, onSubmit}) {
         text='режим'
       />
 
-      <ConfirmationPopup 
+      <ConfirmationPopup
         text={`Удалить режим "${deletedMode?.title}"?`}
         show={showConfirmModal}
         onClose={handleCloseConfirmModal}
@@ -208,4 +208,4 @@ function CityForm({name, city, buttonText, onSubmit}) {
   )
 }
 
-export default CityForm
+export default CityForm;

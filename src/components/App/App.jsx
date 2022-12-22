@@ -23,7 +23,7 @@ import Message from '../Message/Message.jsx';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
   const [isLoginLoading, setIsLoginLoading] = useState(false);
@@ -31,14 +31,14 @@ function App() {
 
   const [loginError, setLoginError] = useState(null);
   const [showLoginError, setShowLoginError] = useState(false);
-  
+
   function handleLogin({email, password, fromPage}) {
     setIsLoginLoading(true);
     api
       .login({ email, password })
       .then((res) => {
         localStorage.setItem('token', res.Data);
-        return api.getUserInfo(res.Data);        
+        return api.getUserInfo(res.Data);
       })
       .then((res) => {
         dispatch(setUser(res));
@@ -58,9 +58,9 @@ function App() {
     setLoggedIn(false);
     localStorage.clear();
     dispatch(setUser(null));
-    dispatch(setCurrentCity(null));   
+    dispatch(setCurrentCity(null));
   }
-  
+
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -81,10 +81,10 @@ function App() {
       dispatch(setUser(null));
       console.log(err);
     })
-    .finally(() => setIsTokenCheckLoading(false))     
+    .finally(() => setIsTokenCheckLoading(false))
   }, [dispatch]);
 
-  useEffect(() => {    
+  useEffect(() => {
     if(!loggedIn) {
       return
     }
@@ -99,11 +99,11 @@ function App() {
         <Route
           path='/login'
           element={
-          loggedIn ? 
+          loggedIn ?
           <Navigate to='/' replace='true' /> :
-          isTokenCheckLoading ? 
+          isTokenCheckLoading ?
           <Loader /> :
-          <Login 
+          <Login
             onLogin={handleLogin}
             isLoading={isLoginLoading}/>}
         />
@@ -150,7 +150,7 @@ function App() {
         />
       </Routes>
 
-      {loginError && <Message type='danger' 
+      {loginError && <Message type='danger'
       title='Ошибка при попытке авторизации' text={`${loginError}`} show={showLoginError} setShow={setShowLoginError} />}
     </div>
   );

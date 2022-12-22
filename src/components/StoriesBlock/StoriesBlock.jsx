@@ -15,15 +15,15 @@ function StoriesBlock({item, onUpdate, onDelete}) {
 
   const storiesGroupCards = item.storiesGroups.map(group => {
     return (
-      <Col key={group.id}>        
+      <Col key={group.id}>
         <StoriesGroup item={group} onClick={handleCardClick} />
-      </Col>  
+      </Col>
     )
   });
 
   function handleCardClick(storiesId) {
-    dispatch(setCurrentStoriesBlock({id: item.id})); 
-    navigate(`${storiesId}`);       
+    dispatch(setCurrentStoriesBlock({id: item.id}));
+    navigate(`${storiesId}`);
   }
 
   function handleAddClick() {
@@ -32,7 +32,7 @@ function StoriesBlock({item, onUpdate, onDelete}) {
   }
 
   return (
-    <Card 
+    <Card
       className='shadow-sm mb-3'
       border='primary'
     >
@@ -62,10 +62,10 @@ function StoriesBlock({item, onUpdate, onDelete}) {
       <Card.Body>
         <Row xs={2} sm={3} md={4} lg={5} className='g-2 h-100 mb-3'>
             <Col>
-              <AddCard minHeight='150px' onClick={handleAddClick} 
+              <AddCard minHeight='150px' onClick={handleAddClick}
             />
             </Col>
-            {storiesGroupCards}      
+            {storiesGroupCards}
           </Row>
       </Card.Body>
 
@@ -73,4 +73,4 @@ function StoriesBlock({item, onUpdate, onDelete}) {
   )
 }
 
-export default StoriesBlock
+export default StoriesBlock;

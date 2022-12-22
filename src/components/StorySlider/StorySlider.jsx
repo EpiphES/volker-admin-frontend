@@ -2,8 +2,8 @@ import { useSelector } from 'react-redux';
 import { Button, Carousel, Dropdown } from 'react-bootstrap';
 
 function StoriesSlider({onDelete, onEdit}) {
-  const { 
-    currentStoriesGroup,  
+  const {
+    currentStoriesGroup,
   } = useSelector(state => state.story);
 
   const storiesItemCards = currentStoriesGroup?.storyItems.map((item) => {
@@ -27,26 +27,26 @@ function StoriesSlider({onDelete, onEdit}) {
           </Dropdown.Menu>
         </Dropdown>
         </div>
-        
+
         <Carousel.Caption>
           <h3>{item.title}</h3>
           <p>{item.message}</p>
-          {item.buttonName && 
+          {item.buttonName &&
             <Button
             variant='light'
             className='opacity-50 mb-3'
             >
               {item.buttonName}
             </Button>
-          }                   
-        </Carousel.Caption>        
+          }
+        </Carousel.Caption>
       </Carousel.Item>
     )
   })
 
-  return (    
-    <Carousel 
-      interval={null} 
+  return (
+    <Carousel
+      interval={null}
       variant='dark'
       className='mb-3'
       style={{minHeight: '50px'}}>

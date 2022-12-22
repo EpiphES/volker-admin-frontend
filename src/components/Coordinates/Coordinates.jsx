@@ -10,9 +10,9 @@ function Coordinates({onChange, latitudeValue, longitudeValue, latitudeError, lo
           <InputGroup.Text>
             Lat:
           </InputGroup.Text>
-          <Form.Control 
+          <Form.Control
             type='text'
-            name='latitude' 
+            name='latitude'
             placeholder='Широта'
             required
             pattern={LAT_REGEX}
@@ -23,24 +23,24 @@ function Coordinates({onChange, latitudeValue, longitudeValue, latitudeError, lo
             {latitudeError}
           </Form.Control.Feedback>
         </InputGroup>
-        
+
         <InputGroup as={Col} hasValidation className='align-items-start'>
           <InputGroup.Text>
             Lon:
           </InputGroup.Text>
-          <Form.Control 
+          <Form.Control
           type='text'
-          name='longitude' 
+          name='longitude'
           placeholder='Долгота'
           required
           pattern={LON_REGEX}
           onChange={onChange}
-          value={longitudeValue} 
+          value={longitudeValue}
           />
           <Form.Control.Feedback type='invalid'>
             {longitudeError}
           </Form.Control.Feedback>
-        </InputGroup>          
+        </InputGroup>
       </Row>
     </>
   )

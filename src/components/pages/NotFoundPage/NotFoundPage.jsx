@@ -7,5 +7,6 @@ function NotFoundPage() {
       <Link to='/'>на главную</Link>
     </>
   );
-};
+}
+
 export default NotFoundPage;

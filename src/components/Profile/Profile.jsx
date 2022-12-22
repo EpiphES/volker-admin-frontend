@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { Card, ListGroup, Form, Button } from 'react-bootstrap';
- 
+
 import { getCurrentCity, deleteCity } from '../../store/citySlice';
 
 import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup';
@@ -15,22 +15,22 @@ function Profile({onLogout}) {
   const {user} = useSelector(state => state.user);
   const [showDeleteCityMessage, setShowDeleteCityMessage] = useState(false);
   const {
-    cities, 
-    currentCity, 
-    currentCityStatus, 
-    currentCityError, 
-    deleteCityStatus, 
-    deleteCityError 
+    cities,
+    currentCity,
+    currentCityStatus,
+    currentCityError,
+    deleteCityStatus,
+    deleteCityError
   } = useSelector(state => state.city);
 
   const citySelect = cities.map(city => {
     return (<option key={city.id} value={city.id}>{city.cityName}</option>)
-  });  
+  });
 
   function handleSelectCity(e) {
     if(e.target.value) {
       dispatch(getCurrentCity(e.target.value));
-    } 
+    }
   }
 
   function handleCloseConfirmModal() {
@@ -48,7 +48,7 @@ function Profile({onLogout}) {
   return (
     <>
       <section className='pt-3'>
-        <Card 
+        <Card
           border='dark' className='text-center mb-3'>
           <Card.Header className='fw-bold'>Данные пользователя:</Card.Header>
           <Card.Body>
@@ -59,7 +59,7 @@ function Profile({onLogout}) {
             </ListGroup>
           </Card.Body>
         </Card>
-        <Card 
+        <Card
           border='dark' className='text-center mb-5'>
           <Card.Header className='fw-bold'>
             Текущий город:
@@ -70,7 +70,7 @@ function Profile({onLogout}) {
             {currentCityStatus === 'rejected' && <small className='text-danger'>{currentCityError}</small>}
           </Card.Header>
           <Card.Body>
-            <Form.Select 
+            <Form.Select
               aria-label='выберите город' onChange={handleSelectCity}
               value={currentCity?.id || ''}
             >
@@ -78,8 +78,8 @@ function Profile({onLogout}) {
               {citySelect}
             </Form.Select>
             <Link to='city/create' className='me-2 mt-3'>
-              <Button 
-                variant='secondary' 
+              <Button
+                variant='secondary'
                 aria-label='создать город'
                 className='mt-3'>
                 Создать
@@ -96,7 +96,7 @@ function Profile({onLogout}) {
             </Link>
             <Button
               type='button'
-              variant='danger' 
+              variant='danger'
               disabled={!currentCity || deleteCityStatus === 'loading'}
               aria-label='удалить город'
               onClick={handleShowConfirmModal}
@@ -105,10 +105,10 @@ function Profile({onLogout}) {
             </Button>
           </Card.Body>
         </Card>
-        <Button variant='dark' size='lg' className='w-100' onClick={onLogout}>Выйти</Button>      
+        <Button variant='dark' size='lg' className='w-100' onClick={onLogout}>Выйти</Button>
       </section>
 
-      <ConfirmationPopup 
+      <ConfirmationPopup
         text={`Удалить ${currentCity?.cityName}?`}
         show={showConfirmModal}
         onClose={handleCloseConfirmModal}
@@ -124,4 +124,4 @@ function Profile({onLogout}) {
   )
 }
 
-export default Profile
+export default Profile;

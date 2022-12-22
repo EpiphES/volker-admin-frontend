@@ -21,14 +21,14 @@ function UpdateMarker({showDeleteMarkerMessage}) {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showUpdateMarkerMessage, setShowUpdateMarkerMessage] = useState(false);
 
-  const { 
-    currentMarker, 
-    currentMarkerStatus, 
-    currentMarkerError, 
-    updateMarkerStatus, 
-    updateMarkerError, 
+  const {
+    currentMarker,
+    currentMarkerStatus,
+    currentMarkerError,
+    updateMarkerStatus,
+    updateMarkerError,
   } = useSelector(state => state.marker);
-  
+
   function handleCloseConfirmModal() {
     setShowConfirmModal(false);
   }
@@ -54,7 +54,7 @@ function UpdateMarker({showDeleteMarkerMessage}) {
     return () => {
       dispatch(setCurrentMode(null));
       dispatch(setCurrentMarker(null));
-    }    
+    }
   }, [dispatch, markerId]);
 
   return (
@@ -69,7 +69,7 @@ function UpdateMarker({showDeleteMarkerMessage}) {
           buttonText='Обновить маркер'
           onSubmit={handleUpdateMarker}
         />
-        
+
         <Button
           variant='danger'
           type='button'
@@ -85,12 +85,12 @@ function UpdateMarker({showDeleteMarkerMessage}) {
         <BtnScrollUp />
       </>
       }
-      { currentMarkerStatus === 'rejected' && 
+      { currentMarkerStatus === 'rejected' &&
       <Alert variant='danger'>
         {currentMarkerError}
       </Alert> }
 
-      <ConfirmationPopup 
+      <ConfirmationPopup
         text={`Удалить маркер "${currentMarker?.title}"?`}
         show={showConfirmModal}
         onClose={handleCloseConfirmModal}

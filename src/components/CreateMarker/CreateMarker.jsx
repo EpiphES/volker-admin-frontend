@@ -10,9 +10,9 @@ function CreateMarker() {
   const dispatch = useDispatch();
   const [showCreateMarkerMessage, setShowCreateMarkerMessage] = useState(false);
 
-  const {  
-    createMarkerStatus, 
-    createMarkerError,  
+  const {
+    createMarkerStatus,
+    createMarkerError,
   } = useSelector(state => state.marker);
 
   function handleCreateMarker(values) {

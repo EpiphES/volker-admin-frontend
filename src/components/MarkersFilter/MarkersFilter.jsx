@@ -6,7 +6,7 @@ import { BsSearch } from 'react-icons/bs';
 
 function MarkersFilter({onSubmit, onReset}) {
   const {
-    fetchMarkersStatus, 
+    fetchMarkersStatus,
   } = useSelector(state => state.marker);
 
   const {currentCity} = useSelector(state => state.city);
@@ -35,19 +35,19 @@ function MarkersFilter({onSubmit, onReset}) {
     if(currentCity) {
       formik.handleReset();
     }
-  }, [currentCity]) 
+  }, [currentCity])
 
   return (
     <Accordion className='mb-3'>
         <Accordion.Item eventKey="0">
           <Accordion.Header>Фильтры</Accordion.Header>
           <Accordion.Body>
-            <Form 
+            <Form
               name={`filter`}
               onSubmit={formik.handleSubmit}
-              noValidate 
+              noValidate
               >
-              <fieldset 
+              <fieldset
                 disabled={fetchMarkersStatus === 'loading'}>
                 <InputGroup className='mb-3'>
                   <InputGroup.Text>
@@ -84,7 +84,7 @@ function MarkersFilter({onSubmit, onReset}) {
                   />
                   <Form.Check
                     inline
-                    label="Все"
+                    label='Все'
                     name='isPublished'
                     type='radio'
                     value='all'
@@ -97,8 +97,8 @@ function MarkersFilter({onSubmit, onReset}) {
                   <Form.Label className='h6 mb-3' htmlFor={`mode-filter`}>
                     Выберите режим
                   </Form.Label>
-                  <Form.Select 
-                    aria-label='выберите режим' 
+                  <Form.Select
+                    aria-label='выберите режим'
                     onChange={(e) => {
                       formik.handleChange(e);
                       formik.values.type = '';
@@ -115,13 +115,13 @@ function MarkersFilter({onSubmit, onReset}) {
                   <Form.Label className='h6 mb-3' htmlFor={`type-filter`}>
                     Выберите тип
                   </Form.Label>
-                  <Form.Select 
-                    aria-label='выберите тип' 
+                  <Form.Select
+                    aria-label='выберите тип'
                     onChange={formik.handleChange}
                     name='type'
                     id={`type-filter`}
                     value={formik.values.type}>
-                    <option value=''>Вcе</option>
+                    <option value=''>Все</option>
                     {typeSelect}
                   </Form.Select>
                 </Form.Group>
@@ -146,11 +146,10 @@ function MarkersFilter({onSubmit, onReset}) {
                 </Button>
 
               </fieldset>
-            </Form>            
+            </Form>
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
   )
 }
-
-export default MarkersFilter
+export default MarkersFilter;

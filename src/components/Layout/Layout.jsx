@@ -12,10 +12,10 @@ function Layout({onLogout}) {
 
   function handleCloseProfile() {
     setShowProfile(false);
-  } 
+  }
   function handleShowProfile() {
     setShowProfile(true);
-  } 
+  }
 
   return (
     <>
@@ -24,12 +24,12 @@ function Layout({onLogout}) {
         <Container className='mt-3'>
           <Outlet />
         </Container>
-      </main>      
+      </main>
       <Footer />
-      <Offcanvas 
-        show={showProfile} 
-        onHide={handleCloseProfile} 
-        scroll={true} 
+      <Offcanvas
+        show={showProfile}
+        onHide={handleCloseProfile}
+        scroll={true}
         placement='end'>
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Профиль</Offcanvas.Title>
@@ -40,5 +40,5 @@ function Layout({onLogout}) {
       </Offcanvas>
     </>
   );
-};
+}
 export default Layout;

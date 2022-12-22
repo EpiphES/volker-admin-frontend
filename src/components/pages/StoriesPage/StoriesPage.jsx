@@ -14,11 +14,11 @@ function StoriesPage() {
   const [showDeleteGroupMessage, setShowDeleteGroupMessage] = useState(false);
 
   const {currentCity} = useSelector(state => state.city);
-  const { 
+  const {
     deleteStoriesGroupStatus,
-    deleteStoriesGroupError, 
+    deleteStoriesGroupError,
   } = useSelector(state => state.story);
-  
+
 
   useEffect(() => {
     if(currentCity) {
@@ -39,7 +39,7 @@ function StoriesPage() {
         />
         <Route
           path=':storiesId'
-          element={<UpdateStoriesGroup 
+          element={<UpdateStoriesGroup
           showDeleteGroupMessage={setShowDeleteGroupMessage} />}
         />
       </Routes>
@@ -49,5 +49,6 @@ function StoriesPage() {
       {deleteStoriesGroupStatus === 'resolved' && <Message type='success' text='Группа удалена!' show={showDeleteGroupMessage} setShow={setShowDeleteGroupMessage} />}
     </>
   );
-};
+}
+
 export default StoriesPage;

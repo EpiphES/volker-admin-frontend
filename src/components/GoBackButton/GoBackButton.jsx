@@ -9,13 +9,13 @@ function GoBackButton() {
   function goBack() {
     navigate(-1);
   }
-  
+
   return (
     <Button variant='light' className='d-flex align-items-center gap-2' onClick={goBack}>
       <BsArrowLeft />
-      Назад     
+      Назад
     </Button>
   )
 }
 
-export default GoBackButton
+export default GoBackButton;

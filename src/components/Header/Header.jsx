@@ -18,9 +18,6 @@ function Header({onProfileClick}) {
             to='/'
             className='p-0'>
             <Image src={logo} className='header__logo' alt='логотип' style={{height: '43px'}}/>
-            {/* <GiWolfHead className='header__logo'/>
-            {' '}
-            VOLKER */}
           </Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse>
@@ -42,8 +39,8 @@ function Header({onProfileClick}) {
                 to='/stories'
                 eventKey='/stories'>
                 Истории
-              </Nav.Link>              
-            </Nav>            
+              </Nav.Link>
+            </Nav>
           </Navbar.Collapse>
           <Button
             variant='outline-light'
@@ -57,4 +54,4 @@ function Header({onProfileClick}) {
   )
 }
 
-export default Header
+export default Header;

@@ -21,11 +21,11 @@ function ModeForm({name, mode, buttonText, submitHandler}) {
   const [uploadFileError, setUploadFileError] = useState(null);
   const [fileLoading, setFileLoading] = useState(false);
 
-  const { 
-    updateModeStatus,  
-    createModeStatus, 
+  const {
+    updateModeStatus,
+    createModeStatus,
   } = useSelector(state => state.mode);
-  
+
   const formik = useFormik({
     initialValues: {
       title: mode?.title || '',
@@ -36,8 +36,8 @@ function ModeForm({name, mode, buttonText, submitHandler}) {
 
   function handleIconSelect(event) {
     setIconFile(event.target.files[0]);
-  } 
-  
+  }
+
   function handleIconReset() {
     setIconFile(null);
   }
@@ -64,8 +64,8 @@ function ModeForm({name, mode, buttonText, submitHandler}) {
 
   useEffect(() => {
     if (!iconFile) {
-      mode ? 
-      setModeIcon(mode.icon) 
+      mode ?
+      setModeIcon(mode.icon)
       : setModeIcon('');
       return
     }
@@ -76,11 +76,11 @@ function ModeForm({name, mode, buttonText, submitHandler}) {
 
   return (
     <>
-      <Form 
+      <Form
         name={`mode-form-${name}`}
         onSubmit={(e) => {
           formik.handleSubmit(e);
-          setValidated(true);        
+          setValidated(true);
         }}
         noValidate
         validated={validated}
@@ -96,26 +96,26 @@ function ModeForm({name, mode, buttonText, submitHandler}) {
             title='Название режима'
             type='text'
             name='title'
-            id={`title-mode-${name}`} 
+            id={`title-mode-${name}`}
             placeholder='Введите название'
-            required 
+            required
             autoFocus
             onChange={formik.handleChange}
             value={formik.values.title}
             error={formik.errors.title}
           />
-          
+
           <h6 className='mb-2'>Иконка режима</h6>
           <div style={{width: '120px'}} className='mx-auto'>
-            <FileInputCard 
+            <FileInputCard
               name='mode'
               onChange={handleIconSelect}
               imageLink={modeIcon}
             />
           </div>
-            
+
           <Button
-            variant='dark'        
+            variant='dark'
             type='submit'
             aria-label={buttonText}
             className='mt-3'>
@@ -136,10 +136,10 @@ function ModeForm({name, mode, buttonText, submitHandler}) {
         </fieldset>
       </Form>
 
-      {uploadFileError && <Message type='danger' 
+      {uploadFileError && <Message type='danger'
       title='Не получилось загрузить файл :(' text={`${uploadFileError}`} show={showUploadFileError} setShow={setShowUploadFileError} />}
     </>
   )
 }
 
-export default ModeForm
+export default ModeForm;
