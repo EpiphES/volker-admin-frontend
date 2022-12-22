@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { fetchMarkers } from '../../../store/markerSlice';
+import { fetchAllMarkers, resetFilters, setFilterActive } from '../../../store/markerSlice';
 
 import MarkersGallery from '../../MarkersGallery/MarkersGallery';
 import CreateMarker from '../../CreateMarker/CreateMarker';
@@ -12,12 +12,7 @@ import Message from '../../Message/Message';
 function MarkersPage() {
   const dispatch = useDispatch();
   const [showMessage, setShowMessage] = useState(false);
-  const [fetching, setFetching] = useState(false);
-  const {
-    searchQuery,
-    isPublished,
-    mode,
-    type, 
+  const { 
     deleteMarkerStatus,  
     deleteMarkerError, 
   } = useSelector(state => state.marker);
@@ -26,23 +21,15 @@ function MarkersPage() {
 
   useEffect(() => {
     if(currentCity) {
-      setFetching(true);
-    }
-  }, [currentCity])
-
-  useEffect(() => {
-    if(fetching) {
-      dispatch(fetchMarkers({
+      dispatch(fetchAllMarkers({
         cityId: currentCity.id, 
-        page: 1, 
-        search: searchQuery,
-        isPublished: isPublished === 'all' ? null : isPublished === 'true' ? true : false,
-        mode,
-        type, 
+        page: 1,
+        search: '', 
       }));
-      setFetching(false);
+      dispatch(setFilterActive(false));
+      dispatch(resetFilters());
     }
-  }, [currentCity, dispatch, fetching, isPublished, mode, searchQuery, type]);
+  }, [currentCity, dispatch]);
 
   return (
     <>
