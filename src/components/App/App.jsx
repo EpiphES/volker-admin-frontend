@@ -82,7 +82,7 @@ function App() {
       console.log(err);
     })
     .finally(() => setIsTokenCheckLoading(false))     
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {    
     if(!loggedIn) {
