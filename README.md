@@ -63,7 +63,7 @@ Volker - это лайфстайл-приложение для современ�
 
   git clone https://github.com/EpiphES/volker-admin-frontend
 
-  npm install
+  npm ci
 
   npm start
 
