@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import * as api from '../utils/api';
 
-export const fetchMarkers = createAsyncThunk(
-  'markers/fetchMarkers',
+export const fetchAllMarkers = createAsyncThunk(
+  'markers/fetchAllMarkers',
   async (values, {rejectWithValue, dispatch}) => {
     try {
-      const res = await api.GetMarkers(values);
+      const res = await api.getPaginatedMarkers(values);
       dispatch(setMarkers(res.data))
       dispatch(setTotalPages(res.allPageCount));
       dispatch(setPage(2));
@@ -16,11 +16,40 @@ export const fetchMarkers = createAsyncThunk(
   }
 );
 
-export const uploadMarkers = createAsyncThunk(
-  'markers/uploadMarkers',
+export const uploadAllMarkers = createAsyncThunk(
+  'markers/uploadAllMarkers',
   async (values, {rejectWithValue, dispatch}) => {
     try {
-      const res = await api.GetMarkers(values);
+      const res = await api.getPaginatedMarkers(values);
+      dispatch(addMarkers(res.data));
+      dispatch(increasePage());
+      return res;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const fetchFilteredMarkers = createAsyncThunk(
+  'markers/fetchFilteredMarkers',
+  async (values, {rejectWithValue, dispatch}) => {
+    try {
+      const res = await api.getFilteredPaginatedMarkers(values);
+      dispatch(setMarkers(res.data))
+      dispatch(setTotalPages(res.allPageCount));
+      dispatch(setPage(2));
+      return res;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const uploadFilteredMarkers = createAsyncThunk(
+  'markers/uploadFilteredMarkers',
+  async (values, {rejectWithValue, dispatch}) => {
+    try {
+      const res = await api.getFilteredPaginatedMarkers(values);
       dispatch(addMarkers(res.data));
       dispatch(increasePage());
       return res;
@@ -87,10 +116,11 @@ const markerSlice = createSlice({
     markers: [],
     page: 1,
     totalPages: 0,
+    filterActive: false,
     searchQuery: '', 
     isPublished: 'all',
-    mode: null,
-    type: null,
+    mode: '',
+    type: '',
     currentMarker: null,
     currentMarkerStatus: null,
     currentMarkerError: null,
@@ -112,8 +142,23 @@ const markerSlice = createSlice({
     },
     setPage: (state, action) => {
       state.page = action.payload;
+    },    
+    setFilters: (state, action) => {
+      state.isPublished = action.payload.isPublished;
+      state.searchQuery = action.payload.searchQuery;
+      state.mode = action.payload.mode;
+      state.type = action.payload.type;
     },
-    increasePage: (state,action) => {
+    resetFilters: (state) => {
+      state.isPublished = 'all';
+      state.searchQuery = '';
+      state.mode = '';
+      state.type = '';
+    },
+    setFilterActive: (state, action) => {
+      state.filterActive = action.payload;
+    },
+    increasePage: (state ) => {
       state.page = state.page + 1;
     },
     setTotalPages: ((state, action) => {
@@ -135,27 +180,49 @@ const markerSlice = createSlice({
     },
   },
   extraReducers: {
-    [fetchMarkers.pending]: (state) => { 
+    [fetchAllMarkers.pending]: (state) => { 
       state.fetchMarkersStatus = 'loading';
       state.fetchMarkersError = null;
     },
-    [fetchMarkers.fulfilled]: (state, action) => { 
+    [fetchFilteredMarkers.pending]: (state) => { 
+      state.fetchMarkersStatus = 'loading';
+      state.fetchMarkersError = null;
+    },
+    [uploadAllMarkers.pending]: (state) => { 
+      state.fetchMarkersStatus = 'loading';
+      state.fetchMarkersError = null;
+    },
+    [uploadFilteredMarkers.pending]: (state) => { 
+      state.fetchMarkersStatus = 'loading';
+      state.fetchMarkersError = null;
+    },
+    [fetchAllMarkers.fulfilled]: (state) => { 
       state.fetchMarkersStatus = 'resolved';
     },
-    [fetchMarkers.rejected]: (state, action) => {
+    [fetchFilteredMarkers.fulfilled]: (state) => { 
+      state.fetchMarkersStatus = 'resolved';
+    },
+    [uploadAllMarkers.fulfilled]: (state) => { 
+      state.fetchMarkersStatus = 'resolved';
+    },
+    [uploadFilteredMarkers.fulfilled]: (state) => { 
+      state.fetchMarkersStatus = 'resolved';
+    },
+    [fetchAllMarkers.rejected]: (state, action) => {
       state.fetchMarkersStatus = 'rejected';
       state.fetchMarkersError = action.payload;
     },
-    [uploadMarkers.pending]: (state) => { 
-      state.uploadMarkersStatus = 'loading';
-      state.uploadMarkersError = null;
+    [fetchFilteredMarkers.rejected]: (state, action) => {
+      state.fetchMarkersStatus = 'rejected';
+      state.fetchMarkersError = action.payload;
     },
-    [uploadMarkers.fulfilled]: (state, action) => { 
-      state.uploadMarkersStatus = 'resolved';
+    [uploadAllMarkers.rejected]: (state, action) => {
+      state.fetchMarkersStatus = 'rejected';
+      state.fetchMarkersError = action.payload;
     },
-    [uploadMarkers.rejected]: (state, action) => {
-      state.uploadMarkersStatus = 'rejected';
-      state.uploadMarkersError = action.payload;
+    [uploadFilteredMarkers.rejected]: (state, action) => {
+      state.fetchMarkersStatus = 'rejected';
+      state.fetchMarkersError = action.payload;
     },
     [getMarkerById.pending]: (state) => { 
       state.currentMarkerStatus = 'loading';
@@ -204,6 +271,6 @@ const markerSlice = createSlice({
     },
   },
 });
-export const { setMarkers, addMarkers, setPage, increasePage, setTotalPages, setCurrentMarker, addMarker, changeMarker, removeMarker } = markerSlice.actions;
+export const { setMarkers, addMarkers, setPage, increasePage, setTotalPages, setFilters, resetFilters, setFilterActive, setCurrentMarker, addMarker, changeMarker, removeMarker } = markerSlice.actions;
 
 export default markerSlice.reducer;
