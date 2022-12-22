@@ -209,7 +209,7 @@ export function deleteFile(fileName) {
   .then(checkEmptyResponse); 
 }
 
-export function GetMarkers(values) {
+export function getFilteredPaginatedMarkers(values) {
   return fetch(`${BASE_URL}Marker/GetMarkersOfPaging?cityId=${values.cityId}&page=${values.page}&search=${values.search}`, {
     method: 'POST',
     headers: {
@@ -221,6 +221,16 @@ export function GetMarkers(values) {
       isPublished: values.isPublished,
       type: values.type,
     }),
+  })
+  .then(checkResponse);
+}
+
+export function getPaginatedMarkers(values) {
+  return fetch(`${BASE_URL}Marker/GetMarkersOfPagingByCityId?cityId=${values.cityId}&page=${values.page}&search=${values.search}`, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    },
   })
   .then(checkResponse);
 }
