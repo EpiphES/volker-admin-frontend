@@ -10,7 +10,7 @@ import Loader from '../Loader/Loader';
 import AddCard from '../AddCard/AddCard';
 import BtnScrollUp from '../BtnScrollUp/BtnScrollUp';
 import MarkersFilter from '../MarkersFilter/MarkersFilter';
-import { uploadMarkers } from '../../store/markerSlice';
+import { fetchAllMarkers, uploadAllMarkers, fetchFilteredMarkers, uploadFilteredMarkers, setFilters, resetFilters, setFilterActive } from '../../store/markerSlice';
 
 function MarkersGallery() {
   const navigate = useNavigate();
@@ -23,7 +23,8 @@ function MarkersGallery() {
     searchQuery,
     isPublished,
     mode, 
-    type, 
+    type,
+    filterActive, 
     fetchMarkersStatus,
     fetchMarkersError,
     uploadMarkersStatus,
@@ -48,24 +49,54 @@ function MarkersGallery() {
     navigate('create');
   }
 
+  function handleFilter({searchQuery, isPublished, mode, type}) {
+    
+    dispatch(fetchFilteredMarkers({
+      cityId: currentCity.id, 
+      page: 1, 
+      search: searchQuery,
+      isPublished: isPublished === 'all' ? null : isPublished === 'true' ? true : false,
+      mode: mode ? mode : null,
+      type: type ? type : null, 
+    }));
+    dispatch(setFilters({searchQuery, isPublished, mode, type} ));
+    dispatch(setFilterActive(true));
+  }
+
+  function handleResetFilter() {
+    dispatch(resetFilters());
+    dispatch(fetchAllMarkers({
+      cityId: currentCity.id, 
+      page: 1,
+      search: '', 
+    }));
+    dispatch(setFilterActive(false));
+  }
+
   useEffect(() => {
     if(fetching && page <= totalPages) {
-      dispatch(uploadMarkers({
+      filterActive ?
+      dispatch(uploadFilteredMarkers({
         cityId: currentCity.id, 
         page: page, 
         search: searchQuery,
-        isPublished,
-        mode,
-        type,
+        isPublished: isPublished === 'all' ? null : isPublished === 'true' ? true : false,
+        mode: mode ? mode : null,
+        type: type ? type : null, 
+      })) :
+      dispatch(uploadAllMarkers({
+        cityId: currentCity.id, 
+        page: page, 
+        search: '',
       }));
-      setFetching(false);
+      setFetching(false);      
     }
-  },[fetching, page, totalPages, currentCity, dispatch, searchQuery, isPublished, mode, type])
+  },[fetching, page, totalPages, currentCity, dispatch, filterActive, searchQuery, isPublished, mode, type])
 
   return (
     <>
       { currentCity ? 
-      (<MarkersFilter />) :
+      (<MarkersFilter onSubmit={handleFilter} onReset={handleResetFilter}/>) :
       (<Alert variant='primary'>
         Город не выбран.
       </Alert>) }
@@ -73,17 +104,18 @@ function MarkersGallery() {
       <Alert variant='primary'>
         Маркеры не найдены.
       </Alert> }
-      { (fetchMarkersStatus ==='resolved' || !currentCity) &&
-        <section>
-          <Row xs={2} sm={3} md={4} lg={5} className='g-2 h-100 mb-3'>
-            <Col>
-              <AddCard minHeight='150px' onClick={handleAddClick} />
-            </Col>
-            {markerCards}      
-          </Row> 
-          
-          <BtnScrollUp />
-        </section> } 
+      
+      <section>
+        <Row xs={2} sm={3} md={4} lg={5} className='g-2 h-100 mb-3'>
+          <Col>
+            <AddCard minHeight='150px' onClick={handleAddClick} />
+          </Col>
+          {markerCards}      
+        </Row> 
+        
+        <BtnScrollUp /> 
+      </section> 
+        
       { (fetchMarkersStatus === 'loading' || uploadMarkersStatus === 'loading') && <Loader /> }
       { fetchMarkersStatus === 'rejected' && 
         <Alert variant='danger'>
@@ -93,7 +125,12 @@ function MarkersGallery() {
         <Alert variant='danger'>
           {uploadMarkersError}
         </Alert> }
-      <Button onClick={() => setFetching(true)}>Еще</Button>        
+      { page <= totalPages && <Button 
+        onClick={() => setFetching(true)}
+        className='d-block m-auto'
+      >
+        Загрузить еще
+      </Button> }       
     </>
   )
 }
