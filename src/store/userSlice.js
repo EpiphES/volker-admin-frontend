@@ -1,4 +1,5 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk,createSlice } from '@reduxjs/toolkit';
+
 import * as api from '../utils/api';
 
 export const getUserInfo = createAsyncThunk(
@@ -13,7 +14,7 @@ export const getUserInfo = createAsyncThunk(
   }
 );
 
-const userSlice = createSlice({ 
+const userSlice = createSlice({
   name: 'user',
   initialState: {
     user: null,
@@ -26,7 +27,7 @@ const userSlice = createSlice({
     },
   },
   extraReducers: {
-    [getUserInfo.pending]: (state) => { 
+    [getUserInfo.pending]: (state) => {
       state.status = 'loading';
       state.error = null;
     },

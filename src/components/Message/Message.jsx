@@ -1,6 +1,5 @@
-import { MdError, MdDone } from 'react-icons/md';
-
 import { Toast, ToastContainer } from 'react-bootstrap';
+import { MdDone,MdError } from 'react-icons/md';
 
 function Message({type, title, text, show, setShow}) {
 
@@ -25,4 +24,5 @@ function Message({type, title, text, show, setShow}) {
     </ToastContainer>
   )
 }
+
 export default Message;

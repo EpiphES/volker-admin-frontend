@@ -1,24 +1,23 @@
-import { useState, useEffect } from 'react';
-import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
+import { useEffect,useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Navigate, Route, Routes, useLocation,useNavigate } from 'react-router-dom';
 
-import * as api from '../../utils/api.js';
-import { setUser } from '../../store/userSlice';
 import { getCities, setCurrentCity } from '../../store/citySlice';
 import { getModes } from '../../store/modeSlice';
-
-import Login from '../Login/Login';
-import NotFoundPage from '../pages/NotFoundPage/NotFoundPage';
-import Loader from '../Loader/Loader.jsx';
-import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import { setUser } from '../../store/userSlice';
+import * as api from '../../utils/api.js';
+import CreateCity from '../CreateCity/CreateCity';
 import Layout from '../Layout/Layout';
+import Loader from '../Loader/Loader.jsx';
+import Login from '../Login/Login';
+import Message from '../Message/Message.jsx';
 import Main from '../pages/MainPage/MainPage';
 import MarkersPage from '../pages/MarkersPage/MarkersPage';
 import ModesPage from '../pages/ModesPage/ModesPage';
+import NotFoundPage from '../pages/NotFoundPage/NotFoundPage';
 import StoriesPage from '../pages/StoriesPage/StoriesPage';
-import CreateCity from '../CreateCity/CreateCity';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import UpdateCity from '../UpdateCity/UpdateCity';
-import Message from '../Message/Message.jsx';
 
 
 function App() {

@@ -1,12 +1,11 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Card } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { createMode } from '../../store/modeSlice';
-
 import GoBackButton from '../GoBackButton/GoBackButton';
-import ModeForm from '../ModeForm/ModeForm';
 import Message from '../Message/Message';
+import ModeForm from '../ModeForm/ModeForm';
 
 function CreateMode() {
   const dispatch = useDispatch();

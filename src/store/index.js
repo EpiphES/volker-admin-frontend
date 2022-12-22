@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import userReducer from './userSlice';
 import cityReducer from './citySlice';
-import modeReducer from './modeSlice';
 import markerReducer from './markerSlice';
+import modeReducer from './modeSlice';
 import storyReducer from './storySlice';
+import userReducer from './userSlice';
 
 const store = configureStore({
   reducer: {

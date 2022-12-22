@@ -1,11 +1,9 @@
 import { useState } from 'react';
+import { Button,Card, Form, ListGroup } from 'react-bootstrap';
+import { useDispatch,useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
 
-import { Card, ListGroup, Form, Button } from 'react-bootstrap';
-
-import { getCurrentCity, deleteCity } from '../../store/citySlice';
-
+import { deleteCity,getCurrentCity } from '../../store/citySlice';
 import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup';
 import Message from '../Message/Message';
 
@@ -38,7 +36,7 @@ function Profile({onLogout}) {
   }
   function handleShowConfirmModal() {
     setShowConfirmModal(true);
-  };
+  }
 
   function handleDeleteCity() {
     dispatch(deleteCity(currentCity.id));

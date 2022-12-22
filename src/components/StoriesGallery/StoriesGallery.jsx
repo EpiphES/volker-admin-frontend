@@ -1,16 +1,14 @@
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { Alert, Button, Modal } from 'react-bootstrap';
-
-import { createStoriesBlock, updateStoriesBlock, deleteStoriesBlock, setCurrentStoriesBlock } from '../../store/storySlice';
-
 import { BsPlusCircleDotted } from 'react-icons/bs';
+import { useDispatch,useSelector } from 'react-redux';
 
-import StoriesBlock from '../StoriesBlock/StoriesBlock';
-import Loader from '../Loader/Loader';
+import { createStoriesBlock, deleteStoriesBlock, setCurrentStoriesBlock,updateStoriesBlock } from '../../store/storySlice';
 import BtnScrollUp from '../BtnScrollUp/BtnScrollUp';
 import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup';
+import Loader from '../Loader/Loader';
 import Message from '../Message/Message';
+import StoriesBlock from '../StoriesBlock/StoriesBlock';
 import StoriesBlockForm from '../StoriesBlockForm/StoriesBlockForm';
 
 function StoriesGallery() {

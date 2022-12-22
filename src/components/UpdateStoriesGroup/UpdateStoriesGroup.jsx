@@ -1,17 +1,16 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Alert, Button,Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import { Alert, Card, Button } from 'react-bootstrap';
 
-import { getStoriesGroupById, setCurrentStoriesGroup, updateStoriesGroup, deleteStoriesGroup } from '../../store/storySlice';
-
+import { deleteStoriesGroup,getStoriesGroupById, setCurrentStoriesGroup, updateStoriesGroup } from '../../store/storySlice';
+import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup';
 import GoBackButton from "../GoBackButton/GoBackButton";
 import Loader from "../Loader/Loader";
-import StoriesGroupForm from '../StoriesGroupForm/StoriesGroupForm';
-import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup';
-import StoriesItemsSection from '../StoriesItemsSection/StoriesItemsSection';
 import Message from '../Message/Message';
+import StoriesGroupForm from '../StoriesGroupForm/StoriesGroupForm';
+import StoriesItemsSection from '../StoriesItemsSection/StoriesItemsSection';
 
 function UpdateStoriesGroup({showDeleteGroupMessage}) {
   const dispatch = useDispatch();

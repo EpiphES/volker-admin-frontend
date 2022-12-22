@@ -1,7 +1,7 @@
-import { Row, Col } from 'react-bootstrap';
+import { Col,Row } from 'react-bootstrap';
 
-import TypeCard from '../TypeCard/TypeCard';
 import AddCard from '../AddCard/AddCard';
+import TypeCard from '../TypeCard/TypeCard';
 
 function TypesGallery({markerTypes, onUpdate, onDelete, onAddClick, place}) {
 

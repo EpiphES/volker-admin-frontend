@@ -1,4 +1,5 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk,createSlice } from '@reduxjs/toolkit';
+
 import * as api from '../utils/api';
 
 export const fetchAllMarkers = createAsyncThunk(
@@ -110,14 +111,14 @@ export const deleteMarker = createAsyncThunk(
   }
 );
 
-const markerSlice = createSlice({ 
+const markerSlice = createSlice({
   name: 'markers',
   initialState: {
     markers: [],
     page: 1,
     totalPages: 0,
     filterActive: false,
-    searchQuery: '', 
+    searchQuery: '',
     isPublished: 'all',
     mode: '',
     type: '',
@@ -142,7 +143,7 @@ const markerSlice = createSlice({
     },
     setPage: (state, action) => {
       state.page = action.payload;
-    },    
+    },
     setFilters: (state, action) => {
       state.isPublished = action.payload.isPublished;
       state.searchQuery = action.payload.searchQuery;
@@ -180,32 +181,32 @@ const markerSlice = createSlice({
     },
   },
   extraReducers: {
-    [fetchAllMarkers.pending]: (state) => { 
+    [fetchAllMarkers.pending]: (state) => {
       state.fetchMarkersStatus = 'loading';
       state.fetchMarkersError = null;
     },
-    [fetchFilteredMarkers.pending]: (state) => { 
+    [fetchFilteredMarkers.pending]: (state) => {
       state.fetchMarkersStatus = 'loading';
       state.fetchMarkersError = null;
     },
-    [uploadAllMarkers.pending]: (state) => { 
+    [uploadAllMarkers.pending]: (state) => {
       state.fetchMarkersStatus = 'loading';
       state.fetchMarkersError = null;
     },
-    [uploadFilteredMarkers.pending]: (state) => { 
+    [uploadFilteredMarkers.pending]: (state) => {
       state.fetchMarkersStatus = 'loading';
       state.fetchMarkersError = null;
     },
-    [fetchAllMarkers.fulfilled]: (state) => { 
+    [fetchAllMarkers.fulfilled]: (state) => {
       state.fetchMarkersStatus = 'resolved';
     },
-    [fetchFilteredMarkers.fulfilled]: (state) => { 
+    [fetchFilteredMarkers.fulfilled]: (state) => {
       state.fetchMarkersStatus = 'resolved';
     },
-    [uploadAllMarkers.fulfilled]: (state) => { 
+    [uploadAllMarkers.fulfilled]: (state) => {
       state.fetchMarkersStatus = 'resolved';
     },
-    [uploadFilteredMarkers.fulfilled]: (state) => { 
+    [uploadFilteredMarkers.fulfilled]: (state) => {
       state.fetchMarkersStatus = 'resolved';
     },
     [fetchAllMarkers.rejected]: (state, action) => {
@@ -224,7 +225,7 @@ const markerSlice = createSlice({
       state.fetchMarkersStatus = 'rejected';
       state.fetchMarkersError = action.payload;
     },
-    [getMarkerById.pending]: (state) => { 
+    [getMarkerById.pending]: (state) => {
       state.currentMarkerStatus = 'loading';
       state.currentMarkerError = null;
     },
@@ -236,7 +237,7 @@ const markerSlice = createSlice({
       state.currentMarkerStatus = 'rejected';
       state.currentMarkerError = action.payload;
     },
-    [createMarker.pending]: (state) => { 
+    [createMarker.pending]: (state) => {
       state.createMarkerStatus = 'loading';
       state.createMarkerError = null;
     },
@@ -247,7 +248,7 @@ const markerSlice = createSlice({
       state.createMarkerStatus = 'rejected';
       state.createMarkerError = action.payload;
     },
-    [updateMarker.pending]: (state) => { 
+    [updateMarker.pending]: (state) => {
       state.updateMarkerStatus = 'loading';
       state.updateMarkerError = null;
     },
@@ -257,11 +258,11 @@ const markerSlice = createSlice({
     [updateMarker.rejected]: (state, action) => {
       state.updateMarkerStatus = 'rejected';
       state.updateMarkerError = action.payload;
-    },    
-    [deleteMarker.pending]: (state) => { 
+    },
+    [deleteMarker.pending]: (state) => {
       state.deleteMarkerStatus = 'loading';
       state.deleteMarkerError = null;
-    },    
+    },
     [deleteMarker.fulfilled]: (state) => {
       state.deleteMarkerStatus = 'resolved';
     },

@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { useFormik } from 'formik';
 import { Accordion, Button, Form, InputGroup } from 'react-bootstrap';
 import { BsSearch } from 'react-icons/bs';
+import { useSelector } from 'react-redux';
+import { useFormik } from 'formik';
 
 function MarkersFilter({onSubmit, onReset}) {
   const {

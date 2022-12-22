@@ -1,13 +1,12 @@
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { Button, Modal } from 'react-bootstrap';
+import { useDispatch,useSelector } from 'react-redux';
 
-import { setCurrentStoriesItem, createStoriesItem, updateStoriesItem, deleteStoriesItem } from '../../store/storySlice';
-
-import StoriesSlider from '../StorySlider/StorySlider';
-import StoriesItemForm from '../StoriesItemForm/StoriesItemForm';
+import { createStoriesItem, deleteStoriesItem,setCurrentStoriesItem, updateStoriesItem } from '../../store/storySlice';
 import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup';
 import Message from '../Message/Message';
+import StoriesItemForm from '../StoriesItemForm/StoriesItemForm';
+import StoriesSlider from '../StorySlider/StorySlider';
 
 function StoriesItemsSection() {
   const dispatch = useDispatch();
@@ -20,7 +19,6 @@ function StoriesItemsSection() {
   const [showDeleteItemMessage, setShowDeleteTypeMessage] = useState(false);
 
   const {
-    currentStoriesGroup,
     currentStoriesItem,
     createStoriesItemStatus,
     createStoriesItemError,
@@ -37,13 +35,13 @@ function StoriesItemsSection() {
   function handleOpenUpdateModal(item) {
     setShowUpdateModal(true);
     dispatch(setCurrentStoriesItem(item));
-  };
+  }
   function handleCloseCreateModal() {
     setShowCreateModal(false);
   }
   function handleOpenCreateModal() {
     setShowCreateModal(true);
-  };
+  }
 
   function handleCloseConfirmModal() {
     setShowConfirmModal(false);
@@ -52,7 +50,7 @@ function StoriesItemsSection() {
   function handleShowConfirmModal(item) {
     setShowConfirmModal(true);
     dispatch(setCurrentStoriesItem(item));
-  };
+  }
 
   function handleCreateItem({imageUrl, ...values}) {
     if(imageUrl) {

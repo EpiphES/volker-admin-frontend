@@ -1,4 +1,5 @@
-import { Row, Col, InputGroup, Form} from 'react-bootstrap';
+import { Col, Form,InputGroup, Row } from 'react-bootstrap';
+
 import { LAT_REGEX, LON_REGEX } from '../../utils/constants';
 
 function Coordinates({onChange, latitudeValue, longitudeValue, latitudeError, longitudeError}) {

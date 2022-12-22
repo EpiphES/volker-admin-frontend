@@ -1,11 +1,9 @@
-import { useNavigate } from 'react-router-dom';
+import { Button, Card, Col,Row } from 'react-bootstrap';
+import { MdDelete,MdEdit } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
-import { Card, Button, Row, Col } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 import { setCurrentStoriesBlock } from '../../store/storySlice';
-
-import { MdEdit, MdDelete } from 'react-icons/md';
-
 import AddCard from '../AddCard/AddCard';
 import StoriesGroup from '../StoriesGroup/StoriesGroup';
 

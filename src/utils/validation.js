@@ -12,16 +12,16 @@ const loginFormValidate = values => {
     errors.email = 'Поле должно быть заполнено';
   } else if (!emailRegexp.test(values.email)) {
     errors.email = 'Некорректный адрес электронной почты';
-  } 
-  
+  }
+
   if (!values.password) {
     errors.password = 'Поле должно быть заполнено';
-  } 
-  
+  }
+
   return errors;
 };
 
-const cityFormValidate = values => {  
+const cityFormValidate = values => {
   const errors = {};
 
   if (!values.cityName) {
@@ -38,12 +38,12 @@ const cityFormValidate = values => {
     errors.longitude = 'Введите координаты';
   } else if (!lonRegex.test(values.longitude)) {
     errors.longitude = 'Некорректное значение';
-  } 
+  }
 
   return errors;
  };
 
- const modeFormValidate = values => {  
+ const modeFormValidate = values => {
   const errors = {};
 
   if (!values.title) {
@@ -67,7 +67,7 @@ const typeFormValidate = values => {
   return errors;
 };
 
-const markerFormValidate = values => {  
+const markerFormValidate = values => {
   const errors = {};
 
   if (!values.title) {
@@ -99,7 +99,7 @@ const storiesBlockFormValidate = values => {
   if (!values.title) {
     errors.title = 'Поле должно быть заполнено';
   }
-  
+
   if(values.cityId === '') {
     errors.cityId = 'Необходимо выбрать город';
   }
@@ -121,7 +121,7 @@ const storiesGroupFormValidate = values => {
   if(values.storiesBlockId === '') {
     errors.storiesBlockId = 'Необходимо выбрать блок';
   }
-  
+
   if(!Number.isInteger(values.position)) {
     errors.position = 'Введите целое число'
   }
@@ -131,7 +131,7 @@ const storiesGroupFormValidate = values => {
 
 const storiesItemFormValidate = values => {
   const errors = {};
-  
+
   if(!Number.isInteger(values.position)) {
     errors.position = 'Введите целое число'
   }
@@ -140,12 +140,12 @@ const storiesItemFormValidate = values => {
 };
 
 export {
-  loginFormValidate,
   cityFormValidate,
-  modeFormValidate,
-  typeFormValidate,
+  loginFormValidate,
   markerFormValidate,
-  storiesBlockFormValidate, 
+  modeFormValidate,
+  storiesBlockFormValidate,
   storiesGroupFormValidate,
   storiesItemFormValidate,
+  typeFormValidate,
 }

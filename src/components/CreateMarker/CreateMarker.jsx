@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createMarker } from '../../store/markerSlice';
 
+import { createMarker } from '../../store/markerSlice';
 import GoBackButton from '../GoBackButton/GoBackButton';
 import MarkerForm from '../MarkerForm/MarkerForm';
 import Message from '../Message/Message';

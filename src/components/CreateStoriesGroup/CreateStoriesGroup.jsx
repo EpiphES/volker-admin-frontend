@@ -1,12 +1,11 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Card } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { createStoriesGroup } from '../../store/storySlice';
-
 import GoBackButton from '../GoBackButton/GoBackButton';
-import StoriesGroupForm from '../StoriesGroupForm/StoriesGroupForm';
 import Message from '../Message/Message';
+import StoriesGroupForm from '../StoriesGroupForm/StoriesGroupForm';
 
 function CreateStoriesGroup() {
   const dispatch = useDispatch();

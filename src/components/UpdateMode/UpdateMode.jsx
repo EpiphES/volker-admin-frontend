@@ -1,17 +1,16 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Alert, Button,Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import { Alert, Card, Button } from 'react-bootstrap';
 
-import { getModeById, updateMode, deleteMode, setCurrentMode} from '../../store/modeSlice';
-
+import { deleteMode, getModeById, setCurrentMode,updateMode} from '../../store/modeSlice';
+import ConfirmationPopup from "../ConfirmationPopup/ConfirmationPopup";
 import GoBackButton from "../GoBackButton/GoBackButton";
+import Loader from "../Loader/Loader";
+import Message from '../Message/Message';
 import ModeForm from "../ModeForm/ModeForm";
 import TypesSection from "../TypesSection/TypesSection";
-import Loader from "../Loader/Loader";
-import ConfirmationPopup from "../ConfirmationPopup/ConfirmationPopup";
-import Message from '../Message/Message';
 
 function UpdateMode({showDeleteModeMessage}) {
   const dispatch = useDispatch();

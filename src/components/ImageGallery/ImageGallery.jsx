@@ -1,4 +1,4 @@
-import { Row, Col, Card } from 'react-bootstrap';
+import { Card,Col, Row } from 'react-bootstrap';
 import { MdDelete } from 'react-icons/md';
 
 import FileInputCard from '../FileInputCard/FileInputCard';

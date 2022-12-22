@@ -10,8 +10,8 @@ const LON_REGEX = '^[-+]?(180(\\.0+)?|((1[0-7]\\d)|([1-9]?\\d))(\\.\\d+)?)$';
 
 export {
   BASE_URL,
-  UPLOAD_FOLDER,
   EMAIL_REGEX,
   LAT_REGEX,
-  LON_REGEX
+  LON_REGEX,
+  UPLOAD_FOLDER,
 }

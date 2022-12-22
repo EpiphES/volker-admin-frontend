@@ -1,6 +1,6 @@
 import { Card, Form } from 'react-bootstrap';
-import { MdEdit } from 'react-icons/md';
 import { BsPlusCircleDotted } from 'react-icons/bs';
+import { MdEdit } from 'react-icons/md';
 
 function FileInputCard({name, onChange, imageLink}) {
   return (

@@ -1,7 +1,6 @@
-import { useNavigate } from 'react-router-dom';
-
 import { Button } from 'react-bootstrap';
 import { BsArrowLeft } from 'react-icons/bs';
+import { useNavigate } from 'react-router-dom';
 
 function GoBackButton() {
   const navigate = useNavigate();

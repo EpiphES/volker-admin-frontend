@@ -1,16 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useEffect,useState } from 'react';
+import { Button,Form } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 
-import { Form, Button } from 'react-bootstrap';
-
 import * as api from '../../utils/api';
 import { BASE_URL } from '../../utils/constants';
-import { storiesGroupFormValidate } from '../../utils/validation';
 import { handleCompressImage } from '../../utils/utils';
-
-import FormInput from '../FormInput/FormInput';
+import { storiesGroupFormValidate } from '../../utils/validation';
 import FileInputCard from '../FileInputCard/FileInputCard';
+import FormInput from '../FormInput/FormInput';
 import Message from '../Message/Message';
 
 function StoriesGroupForm({name, group, buttonText, submitHandler}) {

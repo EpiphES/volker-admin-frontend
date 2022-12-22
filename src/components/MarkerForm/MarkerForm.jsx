@@ -1,23 +1,20 @@
-import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useEffect,useState } from 'react';
+import { Button, Card,Form } from 'react-bootstrap';
+import { useDispatch,useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-
-import { Form, Button, Card } from 'react-bootstrap';
 
 import { getCurrentCity } from '../../store/citySlice';
 import { getModeById, setCurrentMode } from '../../store/modeSlice';
-
 import * as api from '../../utils/api';
 import { BASE_URL } from '../../utils/constants';
-import { markerFormValidate } from '../../utils/validation';
 import { getFileNameFromUrl, handleCompressImage } from '../../utils/utils';
-
-import TypesGallery from '../TypesGallery/TypesGallery';
-import ModalWithSelect from '../ModalWithSelect/ModalWithSelect';
+import { markerFormValidate } from '../../utils/validation';
+import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup';
 import Coordinates from '../Coordinates/Coordinates';
 import FormInput from '../FormInput/FormInput';
 import ImageGallery from '../ImageGallery/ImageGallery';
-import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup';
+import ModalWithSelect from '../ModalWithSelect/ModalWithSelect';
+import TypesGallery from '../TypesGallery/TypesGallery';
 
 function MarkerForm({name, marker, buttonText, onSubmit}) {
   const [validated, setValidated] = useState(false);
@@ -147,7 +144,7 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
 
   function handleCloseTypeSelectModal() {
     setShowTypeSelectModal(false);
-  };
+  }
   function handleShowTypeSelectModal() {
     setShowTypeSelectModal(true);
   }
@@ -182,7 +179,7 @@ function MarkerForm({name, marker, buttonText, onSubmit}) {
   function handleShowConfirmModal(url) {
     setShowConfirmModal(true);
     setDeletedImage(url);
-  };
+  }
 
   function handleDeleteImage() {
     const fileName = getFileNameFromUrl(deletedImage);

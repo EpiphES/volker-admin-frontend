@@ -1,13 +1,12 @@
-import { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useEffect,useState } from 'react';
+import { useDispatch,useSelector } from 'react-redux';
+import { Route,Routes } from 'react-router-dom';
 
 import { fetchAllMarkers, resetFilters, setFilterActive } from '../../../store/markerSlice';
-
-import MarkersGallery from '../../MarkersGallery/MarkersGallery';
 import CreateMarker from '../../CreateMarker/CreateMarker';
-import UpdateMarker from '../../UpdateMarker/UpdateMarker';
+import MarkersGallery from '../../MarkersGallery/MarkersGallery';
 import Message from '../../Message/Message';
+import UpdateMarker from '../../UpdateMarker/UpdateMarker';
 
 function MarkersPage() {
   const dispatch = useDispatch();

@@ -1,10 +1,9 @@
 import { useState } from 'react';
-
-import { Outlet } from 'react-router-dom';
 import { Container, Offcanvas } from 'react-bootstrap';
+import { Outlet } from 'react-router-dom';
 
-import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
+import Header from '../Header/Header';
 import Profile from '../Profile/Profile';
 
 function Layout({onLogout}) {

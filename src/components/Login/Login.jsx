@@ -1,23 +1,15 @@
-import './Login.css';
-
 import { useState } from 'react';
+import { Button, FloatingLabel, Form, Image, InputGroup } from 'react-bootstrap';
+import { FaEye } from 'react-icons/fa';
+import { FaEyeSlash } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
 import { useFormik } from 'formik';
 
-import { loginFormValidate } from '../../utils/validation';
-import { EMAIL_REGEX } from '../../utils/constants';
-
-import {
-  Form,
-  FloatingLabel,
-  Button,
-  InputGroup,
-  Image,
-} from 'react-bootstrap';
-
-import { FaEye } from 'react-icons/fa';
-import { FaEyeSlash } from 'react-icons/fa';
 import logoIcon from '../../images/icon-colored.svg'
+import { EMAIL_REGEX } from '../../utils/constants';
+import { loginFormValidate } from '../../utils/validation';
+
+import './Login.css';
 
 function Login({onLogin, isLoading}) {
   const [isPasswordVisible, setPasswordVisible] = useState(false);

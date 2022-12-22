@@ -1,11 +1,11 @@
-import { useNavigate } from 'react-router-dom';
+import { Alert,Col, Row } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
-import { Row, Col, Alert } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
-import ModeCard from '../ModeCard/ModeCard';
-import Loader from '../Loader/Loader';
 import AddCard from '../AddCard/AddCard';
 import BtnScrollUp from '../BtnScrollUp/BtnScrollUp';
+import Loader from '../Loader/Loader';
+import ModeCard from '../ModeCard/ModeCard';
 
 function ModesGallery() {
   const navigate = useNavigate();

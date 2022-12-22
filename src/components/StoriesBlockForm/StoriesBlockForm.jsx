@@ -1,11 +1,9 @@
 import { useState } from 'react';
+import { Button,Form } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 
-import { Form, Button } from 'react-bootstrap';
-
 import { storiesBlockFormValidate } from '../../utils/validation';
-
 import FormInput from '../FormInput/FormInput';
 
 function StoriesBlockForm({name, block, buttonText, onSubmit}) {

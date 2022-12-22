@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 
 import { createCity } from '../../store/citySlice';
-
 import CityForm from '../CityForm/CityForm';
 import GoBackButton from '../GoBackButton/GoBackButton';
 import Message from '../Message/Message';

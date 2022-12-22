@@ -1,5 +1,6 @@
-import './MarkerCard.css';
 import { Card } from 'react-bootstrap';
+
+import './MarkerCard.css';
 
 function MarkerCard({item, onClick}) {
   const markerTypesString = (item.markerTypes || item.markerToTypes).map(i => i.title).join(', ');

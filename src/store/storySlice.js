@@ -1,4 +1,5 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk,createSlice } from '@reduxjs/toolkit';
+
 import * as api from '../utils/api';
 import { getFileNameFromUrl } from '../utils/utils';
 
@@ -79,7 +80,7 @@ export const deleteStoriesBlock = createAsyncThunk(
 export const createStoriesGroup = createAsyncThunk(
   'stories/createStoriesGroup',
   async (values, {rejectWithValue, dispatch}) => {
-    try {      
+    try {
       const res = await api.createStoriesGroup(values);
       dispatch(addStoriesGroup(res.Data));
       return res;
@@ -98,7 +99,7 @@ export const updateStoriesGroup = createAsyncThunk(
       if(prevImage) {
         const prevImageFileName = getFileNameFromUrl(prevImage);
         await api.deleteFile(prevImageFileName);
-      }       
+      }
       return res;
     } catch (err) {
       return rejectWithValue(err);
@@ -115,7 +116,7 @@ export const deleteStoriesGroup = createAsyncThunk(
       if(prevImage) {
         const prevImageFileName = getFileNameFromUrl(prevImage);
         await api.deleteFile(prevImageFileName);
-      }       
+      }
     } catch (err) {
       return rejectWithValue(err);
     }
@@ -144,7 +145,7 @@ export const updateStoriesItem = createAsyncThunk(
       if(prevImage) {
         const prevImageFileName = getFileNameFromUrl(prevImage);
         await api.deleteFile(prevImageFileName);
-      }       
+      }
       return values;
     } catch (err) {
       return rejectWithValue(err);
@@ -161,14 +162,14 @@ export const deleteStoriesItem = createAsyncThunk(
       if(prevImage) {
         const prevImageFileName = getFileNameFromUrl(prevImage);
         await api.deleteFile(prevImageFileName);
-      }       
+      }
     } catch (err) {
       return rejectWithValue(err);
     }
   }
 );
 
-const storySlice = createSlice({ 
+const storySlice = createSlice({
   name: 'stories',
   initialState: {
     storiesBlocks: [],
@@ -181,22 +182,22 @@ const storySlice = createSlice({
     currentStoriesGroupStatus: null,
     currentStoriesGroupError: null,
     createStoriesBlockStatus: null,
-    createStoriesBlockError: null,   
+    createStoriesBlockError: null,
     updateStoriesBlockStatus: null,
-    updateStoriesBlockError: null,    
+    updateStoriesBlockError: null,
     deleteStoriesBlockStatus: null,
     deleteStoriesBlockError: null,
     createStoriesGroupStatus: null,
     createStoriesGroupError: null,
     updateStoriesGroupStatus: null,
-    updateStoriesGroupError: null,    
+    updateStoriesGroupError: null,
     deleteStoriesGroupStatus: null,
     deleteStoriesGroupError: null,
     currentStoriesItem: null,
     createStoriesItemStatus: null,
     createStoriesItemError: null,
     updateStoriesItemStatus: null,
-    updateStoriesItemError: null,    
+    updateStoriesItemError: null,
     deleteStoriesItemStatus: null,
     deleteStoriesItemError: null,
   },
@@ -222,14 +223,14 @@ const storySlice = createSlice({
     },
     changeStoriesBlock: (state, action) => {
       state.storiesBlocks = state.storiesBlocks.map((item) => item.id === action.payload.id ? action.payload : item);
-      state.currentStoriesBlock = action.payload;       
+      state.currentStoriesBlock = action.payload;
     },
     addStoriesGroup: (state, action) => {
       state.storiesBlocks = state.storiesBlocks.map((item) => {
         if(item.id === action.payload.storiesBlockId) {
           item.storiesGroups.push(action.payload);
         }
-        return item;  
+        return item;
       });
       state.currentStoriesBlock.storiesGroups.push(action.payload);
       state.currentStoriesGroup = action.payload;
@@ -239,7 +240,7 @@ const storySlice = createSlice({
         if(item.id === action.payload.storiesBlockId) {
           item.storiesGroups = item.storiesGroups.map((group) => group.id === action.payload.id ? action.payload : group);
         }
-        return item;  
+        return item;
       });
       state.currentStoriesGroup = action.payload;
     },
@@ -249,8 +250,8 @@ const storySlice = createSlice({
         if(item.id === state.currentStoriesBlock.id) {
           item.storiesGroups = item.storiesGroups.filter((group) => group.id !== action.payload);
         }
-        return item;  
-      });      
+        return item;
+      });
       state.currentStoriesGroup = null;
     },
     addStoriesItem: (state, action) => {
@@ -264,7 +265,7 @@ const storySlice = createSlice({
     }
   },
   extraReducers: {
-    [getStoriesBlocks.pending]: (state) => { 
+    [getStoriesBlocks.pending]: (state) => {
       state.getStoriesBlocksStatus = 'loading';
       state.getStoriesBlocksError = null;
     },
@@ -276,7 +277,7 @@ const storySlice = createSlice({
       state.getStoriesBlocksStatus = 'rejected';
       state.getStoriesBlocksError = action.payload;
     },
-    [getStoriesBlockById.pending]: (state) => { 
+    [getStoriesBlockById.pending]: (state) => {
       state.currentStoriesBlockStatus = 'loading';
       state.currentStoriesBlockError = null;
     },
@@ -288,7 +289,7 @@ const storySlice = createSlice({
       state.currentStoriesBlockStatus = 'rejected';
       state.currentStoriesBlockError = action.payload;
     },
-    [getStoriesGroupById.pending]: (state) => { 
+    [getStoriesGroupById.pending]: (state) => {
       state.currentStoriesGroupStatus = 'loading';
       state.currentStoriesGroupError = null;
     },
@@ -300,7 +301,7 @@ const storySlice = createSlice({
       state.currentStoriesGroupStatus = 'rejected';
       state.currentStoriesGroupError = action.payload;
     },
-    [createStoriesBlock.pending]: (state) => { 
+    [createStoriesBlock.pending]: (state) => {
       state.createStoriesBlockStatus = 'loading';
       state.createStoriesBlockError = null;
     },
@@ -311,7 +312,7 @@ const storySlice = createSlice({
       state.createStoriesBlockStatus = 'rejected';
       state.createStoriesBlockError = action.payload;
     },
-    [updateStoriesBlock.pending]: (state) => { 
+    [updateStoriesBlock.pending]: (state) => {
       state.updateStoriesBlockStatus = 'loading';
       state.updateStoriesBlockError = null;
     },
@@ -321,11 +322,11 @@ const storySlice = createSlice({
     [updateStoriesBlock.rejected]: (state, action) => {
       state.updateStoriesBlockStatus = 'rejected';
       state.updateStoriesBlockError = action.payload;
-    },    
-    [deleteStoriesBlock.pending]: (state) => { 
+    },
+    [deleteStoriesBlock.pending]: (state) => {
       state.deleteStoriesBlockStatus = 'loading';
       state.deleteStoriesBlockError = null;
-    },    
+    },
     [deleteStoriesBlock.fulfilled]: (state) => {
       state.deleteStoriesBlockStatus = 'resolved';
     },
@@ -333,7 +334,7 @@ const storySlice = createSlice({
       state.deleteStoriesBlockStatus = 'rejected';
       state.deleteStoriesBlockError = action.payload;
     },
-    [createStoriesGroup.pending]: (state) => { 
+    [createStoriesGroup.pending]: (state) => {
       state.createStoriesGroupStatus = 'loading';
       state.createStoriesGroupError = null;
     },
@@ -344,7 +345,7 @@ const storySlice = createSlice({
       state.createStoriesGroupStatus = 'rejected';
       state.createStoriesGroupError = action.payload;
     },
-    [updateStoriesGroup.pending]: (state) => { 
+    [updateStoriesGroup.pending]: (state) => {
       state.updateStoriesGroupStatus = 'loading';
       state.updateStoriesGroupError = null;
     },
@@ -355,10 +356,10 @@ const storySlice = createSlice({
       state.updateStoriesGroupStatus = 'rejected';
       state.updateStoriesGroupError = action.payload;
     },
-    [deleteStoriesGroup.pending]: (state) => { 
+    [deleteStoriesGroup.pending]: (state) => {
       state.deleteStoriesGroupStatus = 'loading';
       state.deleteStoriesGroupError = null;
-    },    
+    },
     [deleteStoriesGroup.fulfilled]: (state) => {
       state.deleteStoriesGroupStatus = 'resolved';
     },
@@ -366,7 +367,7 @@ const storySlice = createSlice({
       state.deleteStoriesGroupStatus = 'rejected';
       state.deleteStoriesGroupError = action.payload;
     },
-    [createStoriesItem.pending]: (state) => { 
+    [createStoriesItem.pending]: (state) => {
       state.createStoriesItemStatus = 'loading';
       state.createStoriesItemError = null;
     },
@@ -377,7 +378,7 @@ const storySlice = createSlice({
       state.createStoriesItemStatus = 'rejected';
       state.createStoriesItemError = action.payload;
     },
-    [updateStoriesItem.pending]: (state) => { 
+    [updateStoriesItem.pending]: (state) => {
       state.updateStoriesItemStatus = 'loading';
       state.updateStoriesItemError = null;
     },
@@ -388,10 +389,10 @@ const storySlice = createSlice({
       state.updateStoriesItemStatus = 'rejected';
       state.updateStoriesItemError = action.payload;
     },
-    [deleteStoriesItem.pending]: (state) => { 
+    [deleteStoriesItem.pending]: (state) => {
       state.deleteStoriesItemStatus = 'loading';
       state.deleteStoriesItemError = null;
-    },    
+    },
     [deleteStoriesItem.fulfilled]: (state) => {
       state.deleteStoriesItemStatus = 'resolved';
     },

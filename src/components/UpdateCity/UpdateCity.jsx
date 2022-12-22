@@ -1,13 +1,12 @@
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { Alert } from 'react-bootstrap';
+import { useDispatch,useSelector } from 'react-redux';
 
 import { updateCity } from '../../store/citySlice';
-
 import CityForm from '../CityForm/CityForm';
 import GoBackButton from '../GoBackButton/GoBackButton';
-import Message from '../Message/Message';
 import Loader from '../Loader/Loader';
+import Message from '../Message/Message';
 
 function UpdateCity() {
   const {currentCity} = useSelector(state => state.city);

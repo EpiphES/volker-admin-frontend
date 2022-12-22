@@ -1,17 +1,15 @@
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { Modal } from 'react-bootstrap';
+import { useDispatch,useSelector } from 'react-redux';
 
-import { createType, updateType, deleteType } from '../../store/modeSlice';
-
+import { createType, deleteType,updateType } from '../../store/modeSlice';
 import * as api from '../../utils/api';
 import { BASE_URL } from '../../utils/constants';
 import { handleCompressImage } from '../../utils/utils';
-
-import TypesGallery from '../TypesGallery/TypesGallery';
-import TypeForm from '../TypeForm/TypeForm';
 import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup';
 import Message from '../Message/Message';
+import TypeForm from '../TypeForm/TypeForm';
+import TypesGallery from '../TypesGallery/TypesGallery';
 
 function TypesSection({modeId}) {
   const dispatch = useDispatch();
@@ -47,13 +45,13 @@ function TypesSection({modeId}) {
     const type = currentMode.markerTypes.find(item => item.id === typeId);
     setSelectedType(type);
     setShowUpdateModal(true);
-  };
+  }
   function handleCloseCreateModal() {
     setShowCreateModal(false);
   }
   function handleOpenCreateModal() {
     setShowCreateModal(true);
-  };
+  }
 
   function handleCloseConfirmModal() {
     setShowConfirmModal(false);
@@ -62,7 +60,7 @@ function TypesSection({modeId}) {
   function handleShowConfirmModal(id) {
     setShowConfirmModal(true);
     setDeletedType(currentMode.markerTypes.find((item) => item.id === id));
-  };
+  }
 
   function handleCreateType({title, colorOnMap, iconFile}) {
     if(iconFile) {
@@ -143,7 +141,7 @@ function TypesSection({modeId}) {
 
       <Modal show={showUpdateModal} onHide={handleCloseUpdateModal}>
         <Modal.Header closeButton className='py-2 '>
-          <Modal.Title as='h5'>Тип "{selectedType?.title}"</Modal.Title>
+          <Modal.Title as='h5'>Тип &ldquo;{selectedType?.title}&rdquo;</Modal.Title>
         </Modal.Header>
         <Modal.Body >
           <TypeForm

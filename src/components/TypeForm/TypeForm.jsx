@@ -1,11 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useEffect,useState } from 'react';
+import { Button, Form, InputGroup } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 
-import { Form, Button, InputGroup } from 'react-bootstrap';
-
 import { typeFormValidate } from '../../utils/validation';
-
 import FileInputCard from '../FileInputCard/FileInputCard';
 import FormInput from '../FormInput/FormInput';
 

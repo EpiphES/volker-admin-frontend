@@ -1,5 +1,6 @@
+import { Button, Container, Image,Nav, Navbar } from 'react-bootstrap';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { Container, Navbar, Nav, Button, Image } from 'react-bootstrap';
+
 import logo from '../../images/logo-dark.png';
 
 function Header({onProfileClick}) {

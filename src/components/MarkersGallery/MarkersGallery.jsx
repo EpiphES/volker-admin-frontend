@@ -1,16 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useEffect,useState } from 'react';
+import { Alert, Button,Col, Row } from 'react-bootstrap';
+import { useDispatch,useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
 
-
-import { Row, Col, Alert, Button } from 'react-bootstrap';
-
-import MarkerCard from '../MarkerCard/MarkerCard';
-import Loader from '../Loader/Loader';
+import { fetchAllMarkers, fetchFilteredMarkers, resetFilters, setFilterActive,setFilters, uploadAllMarkers, uploadFilteredMarkers } from '../../store/markerSlice';
 import AddCard from '../AddCard/AddCard';
 import BtnScrollUp from '../BtnScrollUp/BtnScrollUp';
+import Loader from '../Loader/Loader';
+import MarkerCard from '../MarkerCard/MarkerCard';
 import MarkersFilter from '../MarkersFilter/MarkersFilter';
-import { fetchAllMarkers, uploadAllMarkers, fetchFilteredMarkers, uploadFilteredMarkers, setFilters, resetFilters, setFilterActive } from '../../store/markerSlice';
 
 function MarkersGallery() {
   const navigate = useNavigate();

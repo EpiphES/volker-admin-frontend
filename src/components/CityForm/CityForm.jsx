@@ -1,19 +1,16 @@
-import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useEffect,useState } from 'react';
+import { Button,Col, Form, Row } from 'react-bootstrap';
+import { useDispatch,useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 
-import { Form, Row, Col, Button } from 'react-bootstrap';
-
-import { cityFormValidate } from '../../utils/validation';
-
 import { removeModeFromCity } from '../../store/citySlice';
-
-import ModeCard from '../ModeCard/ModeCard';
-import ModalWithSelect from '../ModalWithSelect/ModalWithSelect';
-import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup';
+import { cityFormValidate } from '../../utils/validation';
 import AddCard from '../AddCard/AddCard';
-import FormInput from '../FormInput/FormInput';
+import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup';
 import Coordinates from '../Coordinates/Coordinates';
+import FormInput from '../FormInput/FormInput';
+import ModalWithSelect from '../ModalWithSelect/ModalWithSelect';
+import ModeCard from '../ModeCard/ModeCard';
 
 function CityForm({name, city, buttonText, onSubmit}) {
   const dispatch = useDispatch();
@@ -66,7 +63,7 @@ function CityForm({name, city, buttonText, onSubmit}) {
 
   function handleCloseModeSelectModal() {
     setShowModeSelectModal(false);
-  };
+  }
   function handleShowModeSelectModal() {
     setShowModeSelectModal(true);
   }
@@ -76,19 +73,16 @@ function CityForm({name, city, buttonText, onSubmit}) {
   function handleShowConfirmModal(id) {
     setShowConfirmModal(true);
     setDeletedMode(modes.find((item) => item.id === id));
-  };
-
+  }
   function handleAddMode(id) {
     const mode = modes.find(item => item.id === +id);
     setCityModes((prevVal) => [...prevVal, mode]);
   }
-
   function handleDeleteMode() {
     setCityModes((prevVal) => prevVal.filter((item) => item.id !== deletedMode.id));
     setDeletedMode(null);
     setShowConfirmModal(false);
   }
-
   function removeModes() {
     const modesToDelete = city.modes.filter((mode) => {
         return !cityModes.some((item) => item.id === mode.id);

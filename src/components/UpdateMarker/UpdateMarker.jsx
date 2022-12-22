@@ -1,18 +1,17 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
 import { Alert, Button } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
-import { getMarkerById, updateMarker, deleteMarker, setCurrentMarker } from '../../store/markerSlice';
+import { deleteMarker, getMarkerById, setCurrentMarker,updateMarker } from '../../store/markerSlice';
 import { setCurrentMode } from '../../store/modeSlice';
-
+import BtnScrollUp from '../BtnScrollUp/BtnScrollUp';
+import ConfirmationPopup from "../ConfirmationPopup/ConfirmationPopup";
 import GoBackButton from "../GoBackButton/GoBackButton";
 import Loader from "../Loader/Loader";
 import MarkerForm from '../MarkerForm/MarkerForm';
-import ConfirmationPopup from "../ConfirmationPopup/ConfirmationPopup";
 import Message from '../Message/Message';
-import BtnScrollUp from '../BtnScrollUp/BtnScrollUp';
 
 function UpdateMarker({showDeleteMarkerMessage}) {
   const dispatch = useDispatch();

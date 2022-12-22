@@ -1,4 +1,5 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk,createSlice } from '@reduxjs/toolkit';
+
 import * as api from '../utils/api';
 import { getFileNameFromUrl } from '../utils/utils';
 
@@ -75,7 +76,7 @@ export const deleteMode = createAsyncThunk(
 export const createType = createAsyncThunk(
   'modes/createType',
   async (values, {rejectWithValue, dispatch}) => {
-    try {      
+    try {
       const res = await api.createType(values);
       dispatch(addType(res.Data));
       return res;
@@ -90,11 +91,11 @@ export const updateType = createAsyncThunk(
   async ({prevIcon, ...values}, {rejectWithValue, dispatch}) => {
     try {
       const res = await api.updateType(values);
-      dispatch(changeType(res.Data));       
+      dispatch(changeType(res.Data));
       if(prevIcon) {
         const prevIconFileName = getFileNameFromUrl(prevIcon);
         await api.deleteFile(prevIconFileName);
-      };
+      }
       return values;
     } catch (err) {
       return rejectWithValue(err);
@@ -111,14 +112,14 @@ export const deleteType = createAsyncThunk(
       if(prevIcon) {
         const prevIconFileName = getFileNameFromUrl(prevIcon);
         await api.deleteFile(prevIconFileName);
-      };
+      }
     } catch (err) {
       return rejectWithValue(err);
     }
   }
 );
 
-const modeSlice = createSlice({ 
+const modeSlice = createSlice({
   name: 'modes',
   initialState: {
     modes: [],
@@ -169,7 +170,7 @@ const modeSlice = createSlice({
     }
   },
   extraReducers: {
-    [getModes.pending]: (state) => { 
+    [getModes.pending]: (state) => {
       state.getModesStatus = 'loading';
       state.getModesError = null;
     },
@@ -181,7 +182,7 @@ const modeSlice = createSlice({
       state.getModesStatus = 'rejected';
       state.getModesError = action.payload;
     },
-    [getModeById.pending]: (state) => { 
+    [getModeById.pending]: (state) => {
       state.currentModeStatus = 'loading';
       state.currentModeError = null;
     },
@@ -193,7 +194,7 @@ const modeSlice = createSlice({
       state.currentModeStatus = 'rejected';
       state.currentModeError = action.payload;
     },
-    [createMode.pending]: (state) => { 
+    [createMode.pending]: (state) => {
       state.createModeStatus = 'loading';
       state.createModeError = null;
     },
@@ -204,7 +205,7 @@ const modeSlice = createSlice({
       state.createModeStatus = 'rejected';
       state.createModeError = action.payload;
     },
-    [updateMode.pending]: (state) => { 
+    [updateMode.pending]: (state) => {
       state.updateModeStatus = 'loading';
       state.updateModeError = null;
     },
@@ -214,11 +215,11 @@ const modeSlice = createSlice({
     [updateMode.rejected]: (state, action) => {
       state.updateModeStatus = 'rejected';
       state.updateModeError = action.payload;
-    },    
-    [deleteMode.pending]: (state) => { 
+    },
+    [deleteMode.pending]: (state) => {
       state.deleteModeStatus = 'loading';
       state.deleteModeError = null;
-    },    
+    },
     [deleteMode.fulfilled]: (state) => {
       state.deleteModeStatus = 'resolved';
     },
@@ -226,7 +227,7 @@ const modeSlice = createSlice({
       state.deleteModeStatus = 'rejected';
       state.deleteModeError = action.payload;
     },
-    [createType.pending]: (state) => { 
+    [createType.pending]: (state) => {
       state.createTypeStatus = 'loading';
       state.createTypeError = null;
     },
@@ -237,7 +238,7 @@ const modeSlice = createSlice({
       state.createTypeStatus = 'rejected';
       state.createTypeError = action.payload;
     },
-    [updateType.pending]: (state) => { 
+    [updateType.pending]: (state) => {
       state.updateTypeStatus = 'loading';
       state.updateTypeError = null;
     },
@@ -248,10 +249,10 @@ const modeSlice = createSlice({
       state.updateTypeStatus = 'rejected';
       state.updateTypeError = action.payload;
     },
-    [deleteType.pending]: (state) => { 
+    [deleteType.pending]: (state) => {
       state.deleteTypeStatus = 'loading';
       state.deleteTypeError = null;
-    },    
+    },
     [deleteType.fulfilled]: (state) => {
       state.deleteTypeStatus = 'resolved';
     },

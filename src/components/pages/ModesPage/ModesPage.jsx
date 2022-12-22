@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { Route,Routes } from 'react-router-dom';
 
-import ModesGallery from '../../ModesGallery/ModesGallery';
-import UpdateMode from '../../UpdateMode/UpdateMode';
 import CreateMode from '../../CreateMode/CreateMode';
 import Message from '../../Message/Message';
+import ModesGallery from '../../ModesGallery/ModesGallery';
+import UpdateMode from '../../UpdateMode/UpdateMode';
 
 
 function ModesPage() {

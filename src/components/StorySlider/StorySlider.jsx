@@ -1,5 +1,5 @@
-import { useSelector } from 'react-redux';
 import { Button, Carousel, Dropdown } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 
 function StoriesSlider({onDelete, onEdit}) {
   const {
