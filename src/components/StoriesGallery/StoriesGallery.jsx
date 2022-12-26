@@ -8,10 +8,10 @@ import {
 } from '../../store/storySlice';
 import BtnScrollUp from '../BtnScrollUp/BtnScrollUp.jsx';
 import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup.jsx';
+import StoriesBlockForm from '../forms/StoriesBlockForm/StoriesBlockForm.jsx';
 import Loader from '../Loader/Loader.jsx';
 import Message from '../Message/Message.jsx';
 import StoriesBlock from '../StoriesBlock/StoriesBlock.jsx';
-import StoriesBlockForm from '../StoriesBlockForm/StoriesBlockForm.jsx';
 
 function StoriesGallery() {
   const dispatch = useDispatch();

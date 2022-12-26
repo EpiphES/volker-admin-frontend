@@ -3,13 +3,13 @@ import { Button, Form } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 
-import * as api from '../../utils/api';
-import { BASE_URL } from '../../utils/constants';
-import { handleCompressImage } from '../../utils/utils';
-import { modeFormValidate } from '../../utils/validation';
-import FileInputCard from '../FileInputCard/FileInputCard.jsx';
-import FormInput from '../FormInput/FormInput.jsx';
-import Message from '../Message/Message.jsx';
+import * as api from '../../../utils/api';
+import { BASE_URL } from '../../../utils/constants';
+import { handleCompressImage } from '../../../utils/utils';
+import { modeFormValidate } from '../../../utils/validation';
+import FileInputCard from '../../FileInputCard/FileInputCard.jsx';
+import FormInput from '../../FormInput/FormInput.jsx';
+import Message from '../../Message/Message.jsx';
 
 function ModeForm({
   name, mode, buttonText, submitHandler,
@@ -64,16 +64,13 @@ function ModeForm({
 
   useEffect(() => {
     if (!iconFile) {
-      mode
-      ? setModeIcon(mode.icon)
-      : setModeIcon('');
-      return;
+      return mode
+        ? setModeIcon(mode.icon)
+        : setModeIcon('');
     }
     const objectUrl = URL.createObjectURL(iconFile);
     setModeIcon(objectUrl);
-    return () => {
-      URL.revokeObjectURL(objectUrl);
-    };
+    return () => URL.revokeObjectURL(objectUrl);
   }, [iconFile, mode]);
 
   return (

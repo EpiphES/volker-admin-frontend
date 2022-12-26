@@ -3,8 +3,8 @@ import { Button, Form } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 
-import { storiesBlockFormValidate } from '../../utils/validation';
-import FormInput from '../FormInput/FormInput.jsx';
+import { storiesBlockFormValidate } from '../../../utils/validation';
+import FormInput from '../../FormInput/FormInput.jsx';
 
 function StoriesBlockForm({
   name, block, buttonText, onSubmit,
@@ -24,7 +24,7 @@ function StoriesBlockForm({
   const formik = useFormik({
     initialValues: {
       title: block?.title || '',
-      cityId: block? (block?.cityId || '') : currentCity ? currentCity.id : '',
+      cityId: block ? (block?.cityId || '') : currentCity ? currentCity.id : '',
       position: block?.position || 0,
       isPublished: block?.isPublished || false,
       storiesGroups: block?.storiesGroups || [],

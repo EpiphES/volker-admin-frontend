@@ -7,8 +7,8 @@ import * as api from '../../utils/api';
 import { BASE_URL } from '../../utils/constants';
 import { handleCompressImage } from '../../utils/utils';
 import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup.jsx';
+import TypeForm from '../forms/TypeForm/TypeForm.jsx';
 import Message from '../Message/Message.jsx';
-import TypeForm from '../TypeForm/TypeForm.jsx';
 import TypesGallery from '../TypesGallery/TypesGallery.jsx';
 
 function TypesSection({ modeId }) {

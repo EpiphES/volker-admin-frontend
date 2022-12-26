@@ -3,13 +3,13 @@ import { Button, Form } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 
-import * as api from '../../utils/api';
-import { BASE_URL } from '../../utils/constants';
-import { handleCompressImage } from '../../utils/utils';
-import { storiesGroupFormValidate } from '../../utils/validation';
-import FileInputCard from '../FileInputCard/FileInputCard.jsx';
-import FormInput from '../FormInput/FormInput.jsx';
-import Message from '../Message/Message.jsx';
+import * as api from '../../../utils/api';
+import { BASE_URL } from '../../../utils/constants';
+import { handleCompressImage } from '../../../utils/utils';
+import { storiesGroupFormValidate } from '../../../utils/validation';
+import FileInputCard from '../../FileInputCard/FileInputCard.jsx';
+import FormInput from '../../FormInput/FormInput.jsx';
+import Message from '../../Message/Message.jsx';
 
 function StoriesGroupForm({
   name, group, buttonText, submitHandler,
@@ -73,10 +73,9 @@ function StoriesGroupForm({
 
   useEffect(() => {
     if (!imageFile) {
-      group
-      ? setGroupImage(group.image)
-      : setGroupImage('');
-      return;
+      return group
+        ? setGroupImage(group.image)
+        : setGroupImage('');
     }
     const objectUrl = URL.createObjectURL(imageFile);
     setGroupImage(objectUrl);
@@ -93,7 +92,7 @@ function StoriesGroupForm({
         }}
         noValidate
         className='text-center mx-auto'
-        style={{maxWidth: '800px'}}
+        style={{ maxWidth: '800px' }}
         validated={validated}
         >
         <fieldset disabled={(

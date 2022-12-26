@@ -9,8 +9,8 @@ import {
   updateStoriesItem,
 } from '../../store/storySlice';
 import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup.jsx';
+import StoriesItemForm from '../forms/StoriesItemForm/StoriesItemForm.jsx';
 import Message from '../Message/Message.jsx';
-import StoriesItemForm from '../StoriesItemForm/StoriesItemForm.jsx';
 import StoriesSlider from '../StorySlider/StorySlider.jsx';
 
 function StoriesItemsSection() {

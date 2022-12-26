@@ -10,10 +10,10 @@ import {
   updateMode,
 } from '../../store/modeSlice';
 import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup.jsx';
+import ModeForm from '../forms/ModeForm/ModeForm.jsx';
 import GoBackButton from '../GoBackButton/GoBackButton.jsx';
 import Loader from '../Loader/Loader.jsx';
 import Message from '../Message/Message.jsx';
-import ModeForm from '../ModeForm/ModeForm.jsx';
 import TypesSection from '../TypesSection/TypesSection.jsx';
 
 function UpdateMode({ showDeleteModeMessage }) {

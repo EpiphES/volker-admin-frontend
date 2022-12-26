@@ -3,9 +3,9 @@ import { Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { createMode } from '../../store/modeSlice';
+import ModeForm from '../forms/ModeForm/ModeForm.jsx';
 import GoBackButton from '../GoBackButton/GoBackButton.jsx';
 import Message from '../Message/Message.jsx';
-import ModeForm from '../ModeForm/ModeForm.jsx';
 
 function CreateMode() {
   const dispatch = useDispatch();

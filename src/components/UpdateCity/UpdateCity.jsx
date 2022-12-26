@@ -3,7 +3,7 @@ import { Alert } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { updateCity } from '../../store/citySlice';
-import CityForm from '../CityForm/CityForm.jsx';
+import CityForm from '../forms/CityForm/CityForm.jsx';
 import GoBackButton from '../GoBackButton/GoBackButton.jsx';
 import Loader from '../Loader/Loader.jsx';
 import Message from '../Message/Message.jsx';

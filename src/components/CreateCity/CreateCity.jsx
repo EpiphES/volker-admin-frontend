@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { createCity } from '../../store/citySlice';
-import CityForm from '../CityForm/CityForm.jsx';
+import CityForm from '../forms/CityForm/CityForm.jsx';
 import GoBackButton from '../GoBackButton/GoBackButton.jsx';
 import Message from '../Message/Message.jsx';
 

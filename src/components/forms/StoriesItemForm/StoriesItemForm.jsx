@@ -3,13 +3,13 @@ import { Button, Form } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 
-import * as api from '../../utils/api';
-import { BASE_URL } from '../../utils/constants';
-import { handleCompressImage } from '../../utils/utils';
-import { storiesItemFormValidate } from '../../utils/validation';
-import FileInputCard from '../FileInputCard/FileInputCard.jsx';
-import FormInput from '../FormInput/FormInput.jsx';
-import Message from '../Message/Message.jsx';
+import * as api from '../../../utils/api';
+import { BASE_URL } from '../../../utils/constants';
+import { handleCompressImage } from '../../../utils/utils';
+import { storiesItemFormValidate } from '../../../utils/validation';
+import FileInputCard from '../../FileInputCard/FileInputCard.jsx';
+import FormInput from '../../FormInput/FormInput.jsx';
+import Message from '../../Message/Message.jsx';
 
 function StoriesItemForm({
   name, storyItem, buttonText, submitHandler,
@@ -72,10 +72,9 @@ function StoriesItemForm({
 
   useEffect(() => {
     if (!imageFile) {
-      storyItem
-      ? setItemImage(storyItem.image)
-      : setItemImage('');
-      return;
+      return storyItem
+        ? setItemImage(storyItem.image)
+        : setItemImage('');
     }
     const objectUrl = URL.createObjectURL(imageFile);
     setItemImage(objectUrl);

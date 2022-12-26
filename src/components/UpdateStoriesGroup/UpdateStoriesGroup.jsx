@@ -10,10 +10,10 @@ import {
   updateStoriesGroup,
 } from '../../store/storySlice';
 import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup.jsx';
+import StoriesGroupForm from '../forms/StoriesGroupForm/StoriesGroupForm.jsx';
 import GoBackButton from '../GoBackButton/GoBackButton.jsx';
 import Loader from '../Loader/Loader.jsx';
 import Message from '../Message/Message.jsx';
-import StoriesGroupForm from '../StoriesGroupForm/StoriesGroupForm.jsx';
 import StoriesItemsSection from '../StoriesItemsSection/StoriesItemsSection.jsx';
 
 function UpdateStoriesGroup({ showDeleteGroupMessage }) {

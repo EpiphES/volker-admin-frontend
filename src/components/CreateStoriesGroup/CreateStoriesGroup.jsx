@@ -3,9 +3,9 @@ import { Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { createStoriesGroup } from '../../store/storySlice';
+import StoriesGroupForm from '../forms/StoriesGroupForm/StoriesGroupForm.jsx';
 import GoBackButton from '../GoBackButton/GoBackButton.jsx';
 import Message from '../Message/Message.jsx';
-import StoriesGroupForm from '../StoriesGroupForm/StoriesGroupForm.jsx';
 
 function CreateStoriesGroup() {
   const dispatch = useDispatch();

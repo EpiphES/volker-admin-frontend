@@ -5,14 +5,14 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 
-import { removeModeFromCity } from '../../store/citySlice';
-import { cityFormValidate } from '../../utils/validation';
-import AddCard from '../AddCard/AddCard.jsx';
-import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup.jsx';
-import Coordinates from '../Coordinates/Coordinates.jsx';
-import FormInput from '../FormInput/FormInput.jsx';
-import ModalWithSelect from '../ModalWithSelect/ModalWithSelect.jsx';
-import ModeCard from '../ModeCard/ModeCard.jsx';
+import { removeModeFromCity } from '../../../store/citySlice';
+import { cityFormValidate } from '../../../utils/validation';
+import AddCard from '../../AddCard/AddCard.jsx';
+import ConfirmationPopup from '../../ConfirmationPopup/ConfirmationPopup.jsx';
+import Coordinates from '../../Coordinates/Coordinates.jsx';
+import FormInput from '../../FormInput/FormInput.jsx';
+import ModalWithSelect from '../../ModalWithSelect/ModalWithSelect.jsx';
+import ModeCard from '../../ModeCard/ModeCard.jsx';
 
 function CityForm({
   name, city, buttonText, onSubmit,

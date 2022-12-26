@@ -12,9 +12,9 @@ import {
 import { setCurrentMode } from '../../store/modeSlice';
 import BtnScrollUp from '../BtnScrollUp/BtnScrollUp.jsx';
 import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup.jsx';
+import MarkerForm from '../forms/MarkerForm/MarkerForm.jsx';
 import GoBackButton from '../GoBackButton/GoBackButton.jsx';
 import Loader from '../Loader/Loader.jsx';
-import MarkerForm from '../MarkerForm/MarkerForm.jsx';
 import Message from '../Message/Message.jsx';
 
 function UpdateMarker({ showDeleteMarkerMessage }) {

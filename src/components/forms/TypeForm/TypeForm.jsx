@@ -3,9 +3,9 @@ import { Button, Form, InputGroup } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 
-import { typeFormValidate } from '../../utils/validation';
-import FileInputCard from '../FileInputCard/FileInputCard.jsx';
-import FormInput from '../FormInput/FormInput.jsx';
+import { typeFormValidate } from '../../../utils/validation';
+import FileInputCard from '../../FileInputCard/FileInputCard.jsx';
+import FormInput from '../../FormInput/FormInput.jsx';
 
 function TypeForm({
   name, type, buttonText, onSubmit, fileLoading,
@@ -46,10 +46,9 @@ function TypeForm({
 
   useEffect(() => {
     if (!iconFile) {
-      type
-      ? setTypeIcon(type.iconOnMap)
-      : setTypeIcon('');
-      return;
+      return type
+        ? setTypeIcon(type.iconOnMap)
+        : setTypeIcon('');
     }
     const objectUrl = URL.createObjectURL(iconFile);
     setTypeIcon(objectUrl);

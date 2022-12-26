@@ -3,18 +3,18 @@ import { Button, Card, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 
-import { getCurrentCity } from '../../store/citySlice';
-import { getModeById, setCurrentMode } from '../../store/modeSlice';
-import * as api from '../../utils/api';
-import { BASE_URL } from '../../utils/constants';
-import { getFileNameFromUrl, handleCompressImage } from '../../utils/utils';
-import { markerFormValidate } from '../../utils/validation';
-import ConfirmationPopup from '../ConfirmationPopup/ConfirmationPopup.jsx';
-import Coordinates from '../Coordinates/Coordinates.jsx';
-import FormInput from '../FormInput/FormInput.jsx';
-import ImageGallery from '../ImageGallery/ImageGallery.jsx';
-import ModalWithSelect from '../ModalWithSelect/ModalWithSelect.jsx';
-import TypesGallery from '../TypesGallery/TypesGallery.jsx';
+import { getCurrentCity } from '../../../store/citySlice';
+import { getModeById, setCurrentMode } from '../../../store/modeSlice';
+import * as api from '../../../utils/api';
+import { BASE_URL } from '../../../utils/constants';
+import { getFileNameFromUrl, handleCompressImage } from '../../../utils/utils';
+import { markerFormValidate } from '../../../utils/validation';
+import ConfirmationPopup from '../../ConfirmationPopup/ConfirmationPopup.jsx';
+import Coordinates from '../../Coordinates/Coordinates.jsx';
+import FormInput from '../../FormInput/FormInput.jsx';
+import ImageGallery from '../../ImageGallery/ImageGallery.jsx';
+import ModalWithSelect from '../../ModalWithSelect/ModalWithSelect.jsx';
+import TypesGallery from '../../TypesGallery/TypesGallery.jsx';
 
 function MarkerForm({
   name, marker, buttonText, onSubmit,
@@ -52,7 +52,7 @@ function MarkerForm({
   const formik = useFormik({
     initialValues: {
       title: marker?.title || '',
-      cityId: marker? (marker?.cityId || '') : currentCity ? currentCity.id : '',
+      cityId: marker ? (marker?.cityId || '') : (currentCity ? currentCity.id : ''),
       latitude: marker?.latitude || '',
       longitude: marker?.longitude || '',
       description: marker?.description || '',
@@ -277,8 +277,8 @@ function MarkerForm({
               {' '}
               { !formik.values.cityId ? 'Не выбран'
                 : currentCityStatus === 'loading' ? <small className='text-primary'>Идет загрузка...</small>
-                : currentCityStatus === 'rejected' ? <small className='text-danger'>{currentCityError}</small>
-                : currentCity?.cityName }
+                  : currentCityStatus === 'rejected' ? <small className='text-danger'>{currentCityError}</small>
+                    : currentCity?.cityName }
             </Form.Label>
             <Form.Check
               type='checkbox'
@@ -347,9 +347,9 @@ function MarkerForm({
                 Режим отображения:
                 {' '}
                 { !formik.values.modeType ? 'Не выбран'
-                : currentModeStatus === 'loading' ? <small className='text-primary'>Идет загрузка...</small>
-                : currentModeStatus === 'rejected' ? <small className='text-danger'>{currentModeError}</small>
-                : currentMode?.title }
+                  : currentModeStatus === 'loading' ? <small className='text-primary'>Идет загрузка...</small>
+                    : currentModeStatus === 'rejected' ? <small className='text-danger'>{currentModeError}</small>
+                      : currentMode?.title }
               </Form.Label>
               <Form.Select
                 aria-label='выберите режим'
