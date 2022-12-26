@@ -1,410 +1,226 @@
-import { BASE_URL, UPLOAD_FOLDER } from "./constants";
-import { changeFileName } from "./utils";
+/* eslint-disable prefer-promise-reject-errors */
+import { BASE_URL, UPLOAD_FOLDER } from './constants';
+import { changeFileName } from './utils';
 
 function checkResponse(res) {
   return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}, ${res.statusText}`);
 }
 
 function checkSuccess(res) {
-  if(res.IsSuccess === false) {
+  if (res.isSuccess === false) {
     return Promise.reject(`Ошибка: ${res.Error}`);
   }
-  return res;  
+  return res;
 }
 
-function checkEmptyResponse(res) {
-  return res.ok ? res : Promise.reject(`Ошибка: ${res.status}, ${res.statusText}`);
-}
-
-function request(url, options) {
-  return fetch(url, options)
-  .then(checkResponse)
-  .then(checkSuccess);
- }
-
+const api = {
+  get(url) {
+    return fetch(`${BASE_URL}${url}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
+      .then(checkResponse);
+  },
+  post(url, values) {
+    return fetch(`${BASE_URL}${url}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify(values),
+    })
+      .then(checkResponse)
+      .then(checkSuccess);
+  },
+  delete(url) {
+    return fetch(`${BASE_URL}${url}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
+      .then(checkResponse)
+      .then(checkSuccess);
+  },
+};
 
 export function login({ email, password }) {
-  return request(`${BASE_URL}Login/Login`, {
+  return fetch(`${BASE_URL}Login/Login`, {
     method: 'POST',
-    headers: { 
+    headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ email, password })
-  });  
+    body: JSON.stringify({ email, password }),
+  })
+    .then(checkResponse)
+    .then(checkSuccess);
 }
 
 export function getUserInfo(token) {
-  return request(`${BASE_URL}User/GetUserInfo`, {
+  return fetch(`${BASE_URL}User/GetUserInfo`, {
     method: 'GET',
     headers: {
-      'Authorization': `Bearer ${token}`,
-    }
-  });
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then(checkResponse)
+    .then(checkSuccess);
 }
 
 export function getAllCities(isPublished) {
-  return fetch(`${BASE_URL}City/GetAllCities?isPublished=${isPublished}`, {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
-    }
-  })
-  .then(checkResponse);
+  return api.get(`City/GetAllCities?isPublished=${isPublished}`);
 }
 
 export function getCityById(id) {
-  return fetch(`${BASE_URL}City/GetCityById?id=${id}`, {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
-    }
-  })
-  .then(checkResponse);
+  return api.get(`City/GetCityById?id=${id}`);
 }
 
 export function createCity(values) {
-  return request(`${BASE_URL}City/Create`, {
-    method: 'POST',
-    headers: { 
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    },
-    body: JSON.stringify(values)
-  });  
+  return api.post('City/Create', values);
 }
 
 export function updateCity(values) {
-  return request(`${BASE_URL}City/Update?id=${values.id}`, {
-    method: 'POST',
-    headers: { 
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    },
-    body: JSON.stringify(values)
-  });
+  return api.post(`City/Update?id=${values.id}`, values);
 }
 
 export function deleteCity(id) {
-  return request(`${BASE_URL}City/Delete?id=${id}`, {
-    method: 'DELETE',
-    headers: { 
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    }
-  });
+  return api.delete(`City/Delete?id=${id}`);
 }
 
 export function removeModeFromCity(cityId, modeId) {
-  return request(`${BASE_URL}City/RemoveModeFromCity?cityId=${cityId}&modeId=${modeId}`, {
-    method: 'DELETE',
-    headers: { 
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    }
-  }); 
+  return api.delete(`City/RemoveModeFromCity?cityId=${cityId}&modeId=${modeId}`);
 }
 
 export function getAllModes() {
-  return fetch(`${BASE_URL}Mode/GetAllMarkerModes`, {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
-    }
-  })
-  .then(checkResponse);
+  return api.get('Mode/GetAllMarkerModes');
 }
 
 export function getModeById(modeId) {
-  return fetch(`${BASE_URL}Mode/GetMarkerModeById?modeId=${modeId}`, {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
-    }
-  })
-  .then(checkResponse);
+  return api.get(`Mode/GetMarkerModeById?modeId=${modeId}`);
 }
 
 export function createMode(values) {
-  return request(`${BASE_URL}Mode/CreateMode`, {
-    method: 'POST',
-    headers: { 
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    },
-    body: JSON.stringify(values)
-  });
+  return api.post('Mode/CreateMode', values);
 }
 
 export function updateMode(values) {
-  return request(`${BASE_URL}Mode/UpdateMode?id=${values.id}`, {
-    method: 'POST',
-    headers: { 
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    },
-    body: JSON.stringify(values)
-  });
+  return api.post(`Mode/UpdateMode?id=${values.id}`, values);
 }
 
 export function deleteMode(id) {
-  return request(`${BASE_URL}Mode/DeleteMode?id=${id}`, {
-    method: 'DELETE',
-    headers: { 
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    }
-  });
+  return api.delete(`Mode/DeleteMode?id=${id}`);
 }
 
 export function createType(values) {
-  return request(`${BASE_URL}Mode/CreateType`, {
-    method: 'POST',
-    headers: { 
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    },
-    body: JSON.stringify(values)
-  });
+  return api.post('Mode/CreateType', values);
 }
 
-export function updateType({id, ...values}) {
-  return request(`${BASE_URL}Mode/UpdateType?id=${id}`, {
-    method: 'POST',
-    headers: { 
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    },
-    body: JSON.stringify(values)
-  });
+export function updateType(values) {
+  return api.post(`Mode/UpdateType?id=${values.id}`, values);
 }
 
 export function deleteType(id) {
-  return request(`${BASE_URL}Mode/DeleteType?id=${id}`, {
-    method: 'DELETE',
-    headers: { 
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    }
-  });
+  return api.delete(`Mode/DeleteType?id=${id}`);
 }
 
 export function uploadFile(file) {
   const formData = new FormData();
-  const newFileName = changeFileName(file.name);  
+  const newFileName = changeFileName(file.name);
   formData.append('file', file, newFileName);
   formData.append('folder', UPLOAD_FOLDER);
   return fetch(`${BASE_URL}File/Upload`, {
     method: 'POST',
-    headers: { 
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
     },
     body: formData,
   })
-  .then(checkResponse);  
+    .then(checkResponse);
 }
 
 export function deleteFile(fileName) {
   return fetch(`${BASE_URL}File/Delete?folder=${UPLOAD_FOLDER}&fileName=${fileName}`, {
     method: 'POST',
-    headers: { 
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
     },
   })
-  .then(checkEmptyResponse); 
+    .then(checkResponse);
 }
 
-export function getFilteredPaginatedMarkers(values) {
-  return fetch(`${BASE_URL}Marker/GetMarkersOfPaging?cityId=${values.cityId}&page=${values.page}&search=${values.search}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
-    },
-    body: JSON.stringify({
-      mode: values.mode,
-      isPublished: values.isPublished,
-      type: values.type,
-    }),
-  })
-  .then(checkResponse);
+export function getFilteredPaginatedMarkers({
+  cityId, page, search, ...values
+}) {
+  return api.post(`Marker/GetMarkersOfPaging?cityId=${cityId}&page=${page}&search=${search}`, values);
 }
 
-export function getPaginatedMarkers(values) {
-  return fetch(`${BASE_URL}Marker/GetMarkersOfPagingByCityId?cityId=${values.cityId}&page=${values.page}&search=${values.search}`, {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
-    },
-  })
-  .then(checkResponse);
+export function getPaginatedMarkers({ cityId, page, search }) {
+  return api.get(`Marker/GetMarkersOfPagingByCityId?cityId=${cityId}&page=${page}&search=${search}`);
 }
 
 export function getMarkerById(id) {
-  return fetch(`${BASE_URL}Marker/GetMarkerById?id=${id}`, {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
-    },
-  })
-  .then(checkResponse);
+  return api.get(`Marker/GetMarkerById?id=${id}`);
 }
 
 export function createMarker(values) {
-  return request(`${BASE_URL}Marker/Create`, {
-    method: 'POST',
-    headers: { 
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    },
-    body: JSON.stringify(values),
-  }); 
+  return api.post('Marker/Create', values);
 }
 
-export function updateMarker({id, ...values}) {
-  return fetch(`${BASE_URL}Marker/Update?id=${id}`, {
-    method: 'POST',
-    headers: { 
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    },
-    body: JSON.stringify(values)
-  })
-  .then(checkEmptyResponse); 
+export function updateMarker(values) {
+  return api.post(`Marker/Update?id=${values.id}`, values);
 }
 
 export function deleteMarker(id) {
-  return fetch(`${BASE_URL}Marker/Delete?id=${id}`, {
-    method: 'DELETE',
-    headers: { 
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    }
-  })
-  .then(checkEmptyResponse);
+  return api.delete(`Marker/Delete?id=${id}`);
 }
 
 export function getStoriesBlockById(id) {
-  return fetch(`${BASE_URL}Stories/GetStoryBlockById?id=${id}`, {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
-    }
-  })
-  .then(checkResponse);
+  return api.get(`Stories/GetStoryBlockById?id=${id}`);
 }
 
 export function getStoriesGroupById(id) {
-  return fetch(`${BASE_URL}Stories/GetStoriesByGroupId?id=${id}`, {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
-    }
-  })
-  .then(checkResponse);
+  return api.get(`Stories/GetStoriesByGroupId?id=${id}`);
 }
 
 export function getAllStoriesBlocksByCityId(cityId) {
-  return fetch(`${BASE_URL}Stories/GetAllStoriesBlockByCityId?cityId=${cityId}`, {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
-    }
-  })
-  .then(checkResponse);
+  return api.get(`Stories/GetAllStoriesBlockByCityId?cityId=${cityId}`);
 }
 
 export function createStoriesBlock(values) {
-  return request(`${BASE_URL}Stories/CreateStoriesBlock`, {
-    method: 'POST',
-    headers: { 
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    },
-    body: JSON.stringify(values),
-  });
+  return api.post('Stories/CreateStoriesBlock', values);
 }
 
 export function createStoriesGroup(values) {
-  return request(`${BASE_URL}Stories/CreateStoriesGroup`, {
-    method: 'POST',
-    headers: { 
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    },
-    body: JSON.stringify(values),
-  });  
+  return api.post('Stories/CreateStoriesGroup', values);
 }
 
 export function createStoriesItem(values) {
-  return request(`${BASE_URL}Stories/CreateStoryItem`, {
-    method: 'POST',
-    headers: { 
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    },
-    body: JSON.stringify(values),
-  });  
+  return api.post('Stories/CreateStoryItem', values);
 }
 
-export function updateStoriesBlock({id, ...values}) {
-  return fetch(`${BASE_URL}Stories/UpdateStoriesBlock?Id=${id}`, {
-    method: 'POST',
-    headers: { 
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    },
-    body: JSON.stringify(values)
-  })
-  .then(checkEmptyResponse); 
+export function updateStoriesBlock(values) {
+  return api.post(`Stories/UpdateStoriesBlock?Id=${values.id}`, values);
 }
 
-export function updateStoriesGroup({id, ...values}) {
-  return fetch(`${BASE_URL}Stories/UpdateStoriesGroup?Id=${id}`, {
-    method: 'POST',
-    headers: { 
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    },
-    body: JSON.stringify(values)
-  })
-  .then(checkEmptyResponse); 
+export function updateStoriesGroup(values) {
+  return api.post(`${BASE_URL}Stories/UpdateStoriesGroup?Id=${values.id}`, values);
 }
 
-export function updateStoriesItem({id, ...values}) {
-  return fetch(`${BASE_URL}Stories/UpdateStoryItem?Id=${id}`, {
-    method: 'POST',
-    headers: { 
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    },
-    body: JSON.stringify(values)
-  })
-  .then(checkEmptyResponse); 
+export function updateStoriesItem(values) {
+  return api.post(`Stories/UpdateStoryItem?Id=${values.id}`, values);
 }
 
 export function deleteStoriesBlock(id) {
-  return fetch(`${BASE_URL}Stories/DeleteStoriesBlock?id=${id}`, {
-    method: 'DELETE',
-    headers: { 
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    }
-  })
-  .then(checkEmptyResponse);
+  return api.delete(`Stories/DeleteStoriesBlock?id=${id}`);
 }
 
 export function deleteStoriesGroup(id) {
-  return fetch(`${BASE_URL}Stories/DeleteStoriesGroup?id=${id}`, {
-    method: 'DELETE',
-    headers: { 
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    }
-  })
-  .then(checkEmptyResponse);
+  return api.delete(`Stories/DeleteStoriesGroup?id=${id}`);
 }
 
 export function deleteStoriesItem(id) {
-  return fetch(`${BASE_URL}Stories/DeleteStoriesItem?id=${id}`, {
-    method: 'DELETE',
-    headers: { 
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    }
-  })
-  .then(checkEmptyResponse);
+  return api.delete(`Stories/DeleteStoriesItem?id=${id}`);
 }
-
-
