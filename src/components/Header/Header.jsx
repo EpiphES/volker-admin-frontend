@@ -3,7 +3,7 @@ import {
 } from 'react-bootstrap';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 
-import logo from '../../images/logo-dark.png';
+import logo from '../../images/logo-transparent.svg';
 
 function Header({ onProfileClick }) {
   const location = useLocation();
@@ -25,6 +25,12 @@ function Header({ onProfileClick }) {
           <Navbar.Toggle />
           <Navbar.Collapse>
             <Nav className='m-auto' activeKey={location.pathname}>
+              <Nav.Link
+                as={NavLink}
+                to='/'
+                eventKey='/'>
+                Главная
+              </Nav.Link>
               <Nav.Link
                 as={NavLink}
                 to='/markers'
