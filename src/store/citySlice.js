@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-use-before-define */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import * as api from '../utils/api';
@@ -31,7 +33,7 @@ export const createCity = createAsyncThunk(
   async (values, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.createCity(values);
-      dispatch(addCity(res.Data));
+      dispatch(addCity(res.data));
       return res;
     } catch (err) {
       return rejectWithValue(err);
@@ -44,7 +46,7 @@ export const updateCity = createAsyncThunk(
   async (values, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.updateCity(values);
-      dispatch(changeCity(res.Data));
+      dispatch(changeCity(res.data));
       return res;
     } catch (err) {
       return rejectWithValue(err);
@@ -57,7 +59,7 @@ export const deleteCity = createAsyncThunk(
   async (id, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.deleteCity(id);
-      dispatch(removeCity(res.Data));
+      dispatch(removeCity(res.data));
       return res;
     } catch (err) {
       return rejectWithValue(err);

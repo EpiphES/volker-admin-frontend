@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-use-before-define */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import * as api from '../utils/api';
@@ -32,7 +34,7 @@ export const createMode = createAsyncThunk(
   async (values, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.createMode(values);
-      dispatch(addMode(res.Data));
+      dispatch(addMode(res.data));
       return res;
     } catch (err) {
       return rejectWithValue(err);
@@ -45,7 +47,7 @@ export const updateMode = createAsyncThunk(
   async ({ prevIcon, ...values }, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.updateMode(values);
-      dispatch(changeMode(res.Data));
+      dispatch(changeMode(res.data));
       if (prevIcon) {
         const prevIconFileName = getFileNameFromUrl(prevIcon);
         await api.deleteFile(prevIconFileName);
@@ -62,7 +64,7 @@ export const deleteMode = createAsyncThunk(
   async ({ prevIcon, ...values }, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.deleteMode(values.id);
-      dispatch(removeMode(res.Data));
+      dispatch(removeMode(res.data));
       if (prevIcon) {
         const prevIconFileName = getFileNameFromUrl(prevIcon);
         await api.deleteFile(prevIconFileName);
@@ -79,7 +81,7 @@ export const createType = createAsyncThunk(
   async (values, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.createType(values);
-      dispatch(addType(res.Data));
+      dispatch(addType(res.data));
       return res;
     } catch (err) {
       return rejectWithValue(err);
@@ -92,7 +94,7 @@ export const updateType = createAsyncThunk(
   async ({ prevIcon, ...values }, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.updateType(values);
-      dispatch(changeType(res.Data));
+      dispatch(changeType(res.data));
       if (prevIcon) {
         const prevIconFileName = getFileNameFromUrl(prevIcon);
         await api.deleteFile(prevIconFileName);
@@ -109,7 +111,7 @@ export const deleteType = createAsyncThunk(
   async ({ prevIcon, ...values }, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.deleteType(values.id);
-      dispatch(removeType(res.Data));
+      dispatch(removeType(res.data));
       if (prevIcon) {
         const prevIconFileName = getFileNameFromUrl(prevIcon);
         await api.deleteFile(prevIconFileName);
@@ -154,7 +156,7 @@ const modeSlice = createSlice({
       state.modes.unshift(action.payload);
     },
     removeMode: (state, action) => {
-      state.modes = state.modes.filter(mode => mode.id !== action.payload);
+      state.modes = state.modes.filter((mode) => mode.id !== action.payload);
       state.currentMode = null;
     },
     changeMode: (state, action) => {
@@ -172,7 +174,7 @@ const modeSlice = createSlice({
     removeType: (state, action) => {
       state.currentMode.markerTypes = state.currentMode.markerTypes.filter((type) => (
         type.id !== action.payload));
-    }
+    },
   },
   extraReducers: {
     [getModes.pending]: (state) => {

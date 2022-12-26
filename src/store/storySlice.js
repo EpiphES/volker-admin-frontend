@@ -1,3 +1,5 @@
+/* eslint-disable no-use-before-define */
+/* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import * as api from '../utils/api';
@@ -44,7 +46,7 @@ export const createStoriesBlock = createAsyncThunk(
   async (values, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.createStoriesBlock(values);
-      dispatch(addStoriesBlock(res.Data));
+      dispatch(addStoriesBlock(res.data));
       return res;
     } catch (err) {
       return rejectWithValue(err);
@@ -57,7 +59,7 @@ export const updateStoriesBlock = createAsyncThunk(
   async (values, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.updateStoriesBlock(values);
-      dispatch(changeStoriesBlock(res.Data));
+      dispatch(changeStoriesBlock(res.data));
       return res;
     } catch (err) {
       return rejectWithValue(err);
@@ -70,7 +72,7 @@ export const deleteStoriesBlock = createAsyncThunk(
   async (id, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.deleteStoriesBlock(id);
-      dispatch(removeStoriesBlock(res.Data));
+      dispatch(removeStoriesBlock(res.data));
       return res;
     } catch (err) {
       return rejectWithValue(err);
@@ -83,7 +85,7 @@ export const createStoriesGroup = createAsyncThunk(
   async (values, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.createStoriesGroup(values);
-      dispatch(addStoriesGroup(res.Data));
+      dispatch(addStoriesGroup(res.data));
       return res;
     } catch (err) {
       return rejectWithValue(err);
@@ -96,7 +98,7 @@ export const updateStoriesGroup = createAsyncThunk(
   async ({ prevImage, ...values }, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.updateStoriesGroup(values);
-      dispatch(changeStoriesGroup(res.Data));
+      dispatch(changeStoriesGroup(res.data));
       if (prevImage) {
         const prevImageFileName = getFileNameFromUrl(prevImage);
         await api.deleteFile(prevImageFileName);
@@ -113,7 +115,7 @@ export const deleteStoriesGroup = createAsyncThunk(
   async ({ prevImage, ...values }, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.deleteStoriesGroup(values.id);
-      dispatch(removeStoriesGroup(res.Data));
+      dispatch(removeStoriesGroup(res.data));
       if (prevImage) {
         const prevImageFileName = getFileNameFromUrl(prevImage);
         await api.deleteFile(prevImageFileName);
@@ -130,7 +132,7 @@ export const createStoriesItem = createAsyncThunk(
   async (values, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.createStoriesItem(values);
-      dispatch(addStoriesItem(res.Data));
+      dispatch(addStoriesItem(res.data));
       return res;
     } catch (err) {
       return rejectWithValue(err);
@@ -143,7 +145,7 @@ export const updateStoriesItem = createAsyncThunk(
   async ({ prevImage, ...values }, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.updateStoriesItem(values);
-      dispatch(changeStoriesItem(res.Data));
+      dispatch(changeStoriesItem(res.data));
       if (prevImage) {
         const prevImageFileName = getFileNameFromUrl(prevImage);
         await api.deleteFile(prevImageFileName);
@@ -160,7 +162,7 @@ export const deleteStoriesItem = createAsyncThunk(
   async ({ prevImage, ...values }, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.deleteStoriesItem(values.id);
-      dispatch(removeStoriesItem(res.Data));
+      dispatch(removeStoriesItem(res.data));
       if (prevImage) {
         const prevImageFileName = getFileNameFromUrl(prevImage);
         await api.deleteFile(prevImageFileName);
@@ -215,7 +217,7 @@ const storySlice = createSlice({
     setCurrentStoriesGroup: (state, action) => {
       state.currentStoriesGroup = action.payload;
     },
-    setCurrentStoriesItem:(state, action) => {
+    setCurrentStoriesItem: (state, action) => {
       state.currentStoriesItem = action.payload;
     },
     addStoriesBlock: (state, action) => {
@@ -254,7 +256,7 @@ const storySlice = createSlice({
     },
     removeStoriesGroup: (state, action) => {
       state.storiesBlocks = state.storiesBlocks.map((item) => {
-        if(item.id === state.currentStoriesBlock.id) {
+        if (item.id === state.currentStoriesBlock.id) {
           item.storiesGroups = item.storiesGroups.filter((group) => group.id !== action.payload);
         }
         return item;

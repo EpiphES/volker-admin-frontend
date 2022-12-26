@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-use-before-define */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import * as api from '../utils/api';
@@ -77,7 +79,7 @@ export const createMarker = createAsyncThunk(
   async (values, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.createMarker(values);
-      dispatch(addMarker(res.Data));
+      dispatch(addMarker(res.data));
       return res;
     } catch (err) {
       return rejectWithValue(err);
@@ -90,7 +92,7 @@ export const updateMarker = createAsyncThunk(
   async (values, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.updateMarker(values);
-      dispatch(changeMarker(res.Data));
+      dispatch(changeMarker(res.data));
       return res;
     } catch (err) {
       return rejectWithValue(err);
@@ -103,7 +105,7 @@ export const deleteMarker = createAsyncThunk(
   async (id, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.deleteMarker(id);
-      dispatch(removeMarker(res.Data));
+      dispatch(removeMarker(res.data));
       return res;
     } catch (err) {
       return rejectWithValue(err);
