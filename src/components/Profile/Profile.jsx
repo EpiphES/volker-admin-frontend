@@ -64,9 +64,12 @@ function Profile({ onLogout }) {
           <Card.Header className='fw-bold'>
             Текущий город:
             {' '}
-            {!currentCity && !currentCityStatus && 'Не выбран'}
+            {!currentCity
+              && currentCityStatus !== 'loading'
+              && currentCityStatus !== 'rejected'
+              && 'Не выбран'}
             {currentCityStatus === 'loading' && <small className='text-primary'>Идет загрузка...</small>}
-            {currentCityStatus === 'resolved' && currentCity?.cityName}
+            {currentCity && currentCity.cityName}
             {currentCityStatus === 'rejected' && <small className='text-danger'>{currentCityError}</small>}
           </Card.Header>
           <Card.Body>
