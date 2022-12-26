@@ -41,8 +41,8 @@ function App() {
     api
       .login({ email, password })
       .then((res) => {
-        localStorage.setItem('token', res.Data);
-        return api.getUserInfo(res.Data);
+        localStorage.setItem('token', res.data);
+        return api.getUserInfo(res.data);
       })
       .then((res) => {
         dispatch(setUser(res));
@@ -103,10 +103,10 @@ function App() {
           path='/login'
           element={
             loggedIn
-            ? <Navigate to='/' replace='true' />
-            : isTokenCheckLoading
-            ? <Loader />
-            : <Login
+              ? <Navigate to='/' replace='true' />
+              : isTokenCheckLoading
+                ? <Loader />
+                : <Login
               onLogin={handleLogin}
               isLoading={isLoginLoading} />
           }
@@ -120,6 +120,7 @@ function App() {
               onLogout={handleLogout}>
             </ProtectedRoute>
           }>
+
           <Route
           index
           element={<Main />}
@@ -150,6 +151,7 @@ function App() {
             element={ <UpdateCity /> }
           />
         </Route>
+
         <Route
           path='*'
           element={<NotFoundPage />}

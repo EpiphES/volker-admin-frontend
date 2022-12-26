@@ -60,7 +60,7 @@ function MarkersGallery() {
       cityId: currentCity.id,
       page: 1,
       search: values.searchQuery,
-      isPublished: values.isPublished === 'all' ? null : values.isPublished === 'true' ? true : false,
+      isPublished: values.isPublished === 'all' ? null : values.isPublished === 'true',
       mode: values.mode ? values.mode : null,
       type: values.type ? values.type : null,
     }));
@@ -85,24 +85,25 @@ function MarkersGallery() {
 
   useEffect(() => {
     if (fetching && page <= totalPages) {
-      filterActive ?
-      dispatch(uploadFilteredMarkers({
-        cityId: currentCity.id,
-        page: page,
-        search: searchQuery,
-        isPublished: isPublished === 'all' ? null : isPublished === 'true' ? true : false,
-        mode: mode ? mode : null,
-        type: type ? type : null,
-      }))
-      : dispatch(uploadAllMarkers({
-        cityId: currentCity.id,
-        page: page,
-        search: '',
-      }));
-      return setFetching(false);
+      // eslint-disable-next-line no-unused-expressions
+      filterActive
+        ? dispatch(uploadFilteredMarkers({
+          cityId: currentCity.id,
+          page,
+          search: searchQuery,
+          isPublished: isPublished === 'all' ? null : isPublished === 'true',
+          mode: mode || null,
+          type: type || null,
+        }))
+        : dispatch(uploadAllMarkers({
+          cityId: currentCity.id,
+          page,
+          search: '',
+        }));
     }
+    return setFetching(false);
   }, [
-    currentCity.id,
+    currentCity,
     dispatch,
     fetching,
     filterActive,

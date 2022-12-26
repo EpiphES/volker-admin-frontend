@@ -1,17 +1,17 @@
 import { Card } from 'react-bootstrap';
 import { MdEdit } from 'react-icons/md';
 
-function StoriesGroup({item, onClick}) {
+function StoriesGroup({ item, onClick }) {
   return (
     <Card
       className='shadow-sm w-100 h-100'
       border='success'
       onClick={() => onClick(item.id)}
-      style={{cursor: 'pointer'}}
+      style={{ cursor: 'pointer' }}
       >
       <Card.Img
         src={item.image}
-        style={{minHeight: '150px', objectFit: 'cover'}}
+        style={{ minHeight: '150px', objectFit: 'cover' }}
       />
       <Card.ImgOverlay className='text-center d-flex justify-content-center'>
         <MdEdit className='position-absolute top-0 end-0 p-1 text-dark' size={30} />
@@ -20,7 +20,7 @@ function StoriesGroup({item, onClick}) {
         </Card.Title>
       </Card.ImgOverlay>
     </Card>
-  )
+  );
 }
 
 export default StoriesGroup;

@@ -47,7 +47,8 @@
     "rules": {
       "react/prop-types": 0,
       "simple-import-sort/imports": "error",
-      "simple-import-sort/exports": "error"
-      // "import/extensions": "never"
+      "simple-import-sort/exports": "error",
+      "no-nested-ternary": "off"
+
     }
 }
