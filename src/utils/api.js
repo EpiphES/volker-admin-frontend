@@ -224,3 +224,7 @@ export function deleteStoriesGroup(id) {
 export function deleteStoriesItem(id) {
   return api.delete(`Stories/DeleteStoriesItem?id=${id}`);
 }
+
+export function sendPush(values) {
+  return api.post('Login/SendPushNotification', values);
+}
