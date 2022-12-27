@@ -9,10 +9,15 @@ function StoriesSlider({ onDelete, onEdit }) {
   const storiesItemCards = currentStoriesGroup?.storyItems.map((item) => (
       <Carousel.Item key={item.id} >
         <img
-          className='d-block m-auto'
+          className='d-block m-auto bg-secondary'
           src={item.image}
           alt='слайд истории'
-          style={{ width: '280px', borderRadius: '0.375rem', overflow: 'hidden' }}
+          style={{
+            width: '280px',
+            borderRadius: '0.375rem',
+            overflow: 'hidden',
+            minHeight: '498px',
+          }}
         />
         <div className='position-absolute top-0 mt-3 start-0 end-0 d-flex justify-content-center'>
         <Dropdown >
