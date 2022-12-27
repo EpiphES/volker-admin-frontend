@@ -63,7 +63,7 @@ function UpdateMarker({ showDeleteMarkerMessage }) {
       <GoBackButton />
       { currentMarkerStatus === 'loading' && <Loader />}
       { currentMarkerStatus === 'resolved'
-      && <>
+      && currentMarker && <>
         <MarkerForm
           name='update'
           marker={currentMarker}
