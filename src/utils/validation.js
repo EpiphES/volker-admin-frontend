@@ -138,11 +138,22 @@ const storiesItemFormValidate = (values) => {
   return errors;
 };
 
+const pushFormValidate = (values) => {
+  const errors = {};
+
+  if (values.cityId === '') {
+    errors.cityId = 'Необходимо выбрать город';
+  }
+
+  return errors;
+};
+
 export {
   cityFormValidate,
   loginFormValidate,
   markerFormValidate,
   modeFormValidate,
+  pushFormValidate,
   storiesBlockFormValidate,
   storiesGroupFormValidate,
   storiesItemFormValidate,
