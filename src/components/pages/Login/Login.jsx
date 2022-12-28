@@ -6,9 +6,9 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
 import { useFormik } from 'formik';
 
-import logoIcon from '../../images/icon-colored.svg';
-import { EMAIL_REGEX } from '../../utils/constants';
-import { loginFormValidate } from '../../utils/validation';
+import logoIcon from '../../../images/icon-colored.svg';
+import { EMAIL_REGEX } from '../../../utils/constants';
+import { loginFormValidate } from '../../../utils/validation';
 
 import './Login.css';
 
