@@ -7,7 +7,7 @@ import * as api from '../../../utils/api';
 import { BASE_URL } from '../../../utils/constants';
 import { handleCompressImage } from '../../../utils/utils';
 import { storiesItemFormValidate } from '../../../utils/validation';
-import FileInputCard from '../../FileInputCard/FileInputCard.jsx';
+import FileInputCard from '../../cards/FileInputCard/FileInputCard.jsx';
 import FormInput from '../../FormInput/FormInput.jsx';
 import Message from '../../Message/Message.jsx';
 

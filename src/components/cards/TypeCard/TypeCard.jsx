@@ -9,6 +9,7 @@ function TypeCard({
       className='shadow-sm w-100 h-100'
       border='success'
       style={place === 'marker' ? { cursor: 'pointer' } : {}}
+      // eslint-disable-next-line consistent-return
       onClick={() => {
         if (place === 'marker') {
           return onDelete(item.id);

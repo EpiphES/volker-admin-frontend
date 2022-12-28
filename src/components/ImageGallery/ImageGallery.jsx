@@ -1,7 +1,7 @@
 import { Card, Col, Row } from 'react-bootstrap';
 import { MdDelete } from 'react-icons/md';
 
-import FileInputCard from '../FileInputCard/FileInputCard.jsx';
+import FileInputCard from '../cards/FileInputCard/FileInputCard.jsx';
 
 function ImageGallery({ images, onDelete, onAddClick }) {
   const imageCards = images.map((item) => (

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 
 import { typeFormValidate } from '../../../utils/validation';
-import FileInputCard from '../../FileInputCard/FileInputCard.jsx';
+import FileInputCard from '../../cards/FileInputCard/FileInputCard.jsx';
 import FormInput from '../../FormInput/FormInput.jsx';
 
 function TypeForm({

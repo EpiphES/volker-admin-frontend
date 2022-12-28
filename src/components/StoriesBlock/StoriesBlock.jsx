@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { setCurrentStoriesBlock } from '../../store/storySlice';
-import AddCard from '../AddCard/AddCard.jsx';
+import AddCard from '../cards/AddCard/AddCard.jsx';
 import StoriesGroup from '../StoriesGroup/StoriesGroup.jsx';
 
 function StoriesBlock({ item, onUpdate, onDelete }) {

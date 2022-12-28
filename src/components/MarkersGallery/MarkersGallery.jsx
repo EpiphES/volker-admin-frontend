@@ -14,10 +14,10 @@ import {
   uploadAllMarkers,
   uploadFilteredMarkers,
 } from '../../store/markerSlice';
-import AddCard from '../AddCard/AddCard.jsx';
 import BtnScrollUp from '../BtnScrollUp/BtnScrollUp.jsx';
+import AddCard from '../cards/AddCard/AddCard.jsx';
+import MarkerCard from '../cards/MarkerCard/MarkerCard.jsx';
 import Loader from '../Loader/Loader.jsx';
-import MarkerCard from '../MarkerCard/MarkerCard.jsx';
 import MarkersFilter from '../MarkersFilter/MarkersFilter.jsx';
 
 function MarkersGallery() {
