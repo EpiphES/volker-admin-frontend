@@ -141,8 +141,12 @@ const storiesItemFormValidate = (values) => {
 const pushFormValidate = (values) => {
   const errors = {};
 
-  if (values.cityId === '') {
-    errors.cityId = 'Необходимо выбрать город';
+  if (!values.title) {
+    errors.title = 'Поле должно быть заполнено';
+  }
+
+  if (!values.body) {
+    errors.body = 'Поле должно быть заполнено';
   }
 
   return errors;
