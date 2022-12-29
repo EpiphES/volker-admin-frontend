@@ -69,7 +69,7 @@ function Profile({ onLogout }) {
               && currentCityStatus !== 'rejected'
               && 'Не выбран'}
             {currentCityStatus === 'loading' && <small className='text-primary'>Идет загрузка...</small>}
-            {currentCity && currentCity.cityName}
+            {currentCity && currentCityStatus === 'resolved' && currentCity.cityName}
             {currentCityStatus === 'rejected' && <small className='text-danger'>{currentCityError}</small>}
           </Card.Header>
           <Card.Body>
@@ -119,7 +119,7 @@ function Profile({ onLogout }) {
         onDecline={handleCloseConfirmModal}
       />
 
-      {deleteCityStatus === 'rejected' && <Message type='danger' text={`${deleteCityError}`} show={showDeleteCityMessage} setShow={setShowDeleteCityMessage} />}
+      {deleteCityStatus === 'rejected' && <Message type='danger' text={deleteCityError} show={showDeleteCityMessage} setShow={setShowDeleteCityMessage} />}
 
       {deleteCityStatus === 'resolved' && <Message type='success' text='Режим удален!' show={showDeleteCityMessage} setShow={setShowDeleteCityMessage} />}
 
