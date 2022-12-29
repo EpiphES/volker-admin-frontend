@@ -9,7 +9,7 @@ function Message({
       <Toast
         onClose={() => setShow(false)}
         show={show}
-        delay={5000}
+        delay={3000}
         autohide
         bg={type}>
         <Toast.Header className='d-flex justify-content-between'>
