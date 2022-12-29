@@ -78,11 +78,10 @@ function App() {
         setLoggedIn(true);
         navigate(path);
       })
-      .catch((err) => {
+      .catch(() => {
         setLoggedIn(false);
         localStorage.clear();
         dispatch(setUser(null));
-        console.log(err);
       })
       .finally(() => setIsTokenCheckLoading(false));
   }, [dispatch]);
@@ -159,7 +158,7 @@ function App() {
       </Routes>
 
       {loginError && <Message type='danger'
-      title='Ошибка при попытке авторизации' text={`${loginError}`} show={showLoginError} setShow={setShowLoginError} />}
+      title='Ошибка при попытке авторизации' text={loginError} show={showLoginError} setShow={setShowLoginError} />}
     </div>
   );
 }
