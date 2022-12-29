@@ -148,7 +148,7 @@ export function deleteFile(fileName) {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     },
   })
-    .then(checkResponse);
+    .then((res) => (res.ok ? res : Promise.reject(`Ошибка: ${res.status}, ${res.statusText}`)));
 }
 
 export function getAllMarkers({ cityId, ...values }) {
