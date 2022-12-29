@@ -148,19 +148,19 @@ function StoriesItemsSection() {
       />
 
       {createStoriesItemStatus === 'rejected'
-      && <Message type='danger' text={`${createStoriesItemError}`} show={showCreateItemMessage} setShow={setShowCreateItemMessage} />}
+      && <Message type='danger' text={createStoriesItemError} show={showCreateItemMessage} setShow={setShowCreateItemMessage} />}
 
       {createStoriesItemStatus === 'resolved'
       && <Message type='success' text='Слайд создан!' show={showCreateItemMessage} setShow={setShowCreateItemMessage} />}
 
       {updateStoriesItemStatus === 'rejected'
-      && <Message type='danger' text={`${updateStoriesItemError}`} show={showUpdateItemMessage} setShow={setShowUpdateItemMessage} />}
+      && <Message type='danger' text={updateStoriesItemError} show={showUpdateItemMessage} setShow={setShowUpdateItemMessage} />}
 
       {updateStoriesItemStatus === 'resolved'
       && <Message type='success' text='Тип обновлен!' show={showUpdateItemMessage} setShow={setShowUpdateItemMessage} />}
 
       {deleteStoriesItemStatus === 'rejected'
-      && <Message type='danger' text={`${deleteStoriesItemError}`} show={showDeleteItemMessage} setShow={setShowDeleteTypeMessage} />}
+      && <Message type='danger' text={deleteStoriesItemError} show={showDeleteItemMessage} setShow={setShowDeleteTypeMessage} />}
     </>
   );
 }

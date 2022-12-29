@@ -129,7 +129,7 @@ function UpdateStoriesGroup({ showDeleteGroupMessage }) {
         onDecline={handleCloseConfirmModal}
       />
 
-      {updateStoriesGroupStatus === 'rejected' && <Message type='danger' text={`${updateStoriesGroupError}`} show={showUpdateGroupMessage} setShow={setShowUpdateGroupMessage} />}
+      {updateStoriesGroupStatus === 'rejected' && <Message type='danger' text={updateStoriesGroupError} show={showUpdateGroupMessage} setShow={setShowUpdateGroupMessage} />}
 
       {updateStoriesGroupStatus === 'resolved' && <Message type='success' text='Группа обновлена!' show={showUpdateGroupMessage} setShow={setShowUpdateGroupMessage} />}
     </>

@@ -47,7 +47,7 @@ function MarkersPage() {
         />
       </Routes>
 
-      {deleteMarkerStatus === 'rejected' && <Message type='danger' text={`${deleteMarkerError}`} show={showMessage} setShow={setShowMessage} />}
+      {deleteMarkerStatus === 'rejected' && <Message type='danger' text={deleteMarkerError} show={showMessage} setShow={setShowMessage} />}
 
       {deleteMarkerStatus === 'resolved' && <Message type='success' text='Маркер удален!' show={showMessage} setShow={setShowMessage} />}
     </>

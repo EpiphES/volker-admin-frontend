@@ -48,7 +48,7 @@ function CreateMode() {
         </ModeForm>
       </Card>
 
-      {createModeStatus === 'rejected' && <Message type='danger' text={`${createModeError}`} show={showCreateModeMessage} setShow={setShowCreateModeMessage} />}
+      {createModeStatus === 'rejected' && <Message type='danger' text={createModeError} show={showCreateModeMessage} setShow={setShowCreateModeMessage} />}
 
       {createModeStatus === 'resolved' && <Message type='success' text='Режим создан!' show={showCreateModeMessage} setShow={setShowCreateModeMessage} />}
 

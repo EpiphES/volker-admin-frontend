@@ -29,7 +29,7 @@ function CreateMarker() {
       onSubmit={handleCreateMarker}
     />
 
-    {createMarkerStatus === 'rejected' && <Message type='danger' text={`${createMarkerError}`} show={showCreateMarkerMessage} setShow={setShowCreateMarkerMessage} />}
+    {createMarkerStatus === 'rejected' && <Message type='danger' text={createMarkerError} show={showCreateMarkerMessage} setShow={setShowCreateMarkerMessage} />}
 
     {createMarkerStatus === 'resolved' && <Message type='success' text='Маркер создан!' show={showCreateMarkerMessage} setShow={setShowCreateMarkerMessage} />}
   </>

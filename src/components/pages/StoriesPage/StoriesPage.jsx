@@ -42,7 +42,7 @@ function StoriesPage() {
         />
       </Routes>
 
-      {deleteStoriesGroupStatus === 'rejected' && <Message type='danger' text={`${deleteStoriesGroupError}`} show={showDeleteGroupMessage} setShow={setShowDeleteGroupMessage} />}
+      {deleteStoriesGroupStatus === 'rejected' && <Message type='danger' text={deleteStoriesGroupError} show={showDeleteGroupMessage} setShow={setShowDeleteGroupMessage} />}
 
       {deleteStoriesGroupStatus === 'resolved' && <Message type='success' text='Группа удалена!' show={showDeleteGroupMessage} setShow={setShowDeleteGroupMessage} />}
     </>

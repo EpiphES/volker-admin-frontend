@@ -46,7 +46,7 @@ function CreateStoriesGroup() {
         </StoriesGroupForm>
       </Card>
 
-      {createStoriesGroupStatus === 'rejected' && <Message type='danger' text={`${createStoriesGroupError}`} show={showCreateGroupMessage} setShow={setShowCreateGroupMessage} />}
+      {createStoriesGroupStatus === 'rejected' && <Message type='danger' text={createStoriesGroupError} show={showCreateGroupMessage} setShow={setShowCreateGroupMessage} />}
 
       {createStoriesGroupStatus === 'resolved' && <Message type='success' text='Группа создана!' show={showCreateGroupMessage} setShow={setShowCreateGroupMessage} />}
 

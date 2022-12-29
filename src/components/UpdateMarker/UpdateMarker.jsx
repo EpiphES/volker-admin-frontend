@@ -99,7 +99,7 @@ function UpdateMarker({ showDeleteMarkerMessage }) {
         onDecline={handleCloseConfirmModal}
       />
 
-      {updateMarkerStatus === 'rejected' && <Message type='danger' text={`${updateMarkerError}`} show={showUpdateMarkerMessage} setShow={setShowUpdateMarkerMessage} />}
+      {updateMarkerStatus === 'rejected' && <Message type='danger' text={updateMarkerError} show={showUpdateMarkerMessage} setShow={setShowUpdateMarkerMessage} />}
 
       {updateMarkerStatus === 'resolved' && <Message type='success' text='Маркер обновлен!' show={showUpdateMarkerMessage} setShow={setShowUpdateMarkerMessage} />}
     </>

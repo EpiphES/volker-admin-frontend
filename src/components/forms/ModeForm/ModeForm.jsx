@@ -136,7 +136,7 @@ function ModeForm({
       </Form>
 
       {uploadFileError && <Message type='danger'
-      title='Не получилось загрузить файл :(' text={`${uploadFileError}`} show={showUploadFileError} setShow={setShowUploadFileError} />}
+      title='Не получилось загрузить файл :(' text={uploadFileError} show={showUploadFileError} setShow={setShowUploadFileError} />}
     </>
   );
 }

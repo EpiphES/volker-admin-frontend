@@ -147,7 +147,7 @@ function StoriesGallery() {
         onDecline={handleCloseConfirmModal}
       />
 
-      {deleteStoriesBlockStatus === 'rejected' && <Message type='danger' text={`${deleteStoriesBlockError}`} show={showDeleteBlockMessage} setShow={setShowDeleteBlockMessage} />}
+      {deleteStoriesBlockStatus === 'rejected' && <Message type='danger' text={deleteStoriesBlockError} show={showDeleteBlockMessage} setShow={setShowDeleteBlockMessage} />}
     </>
   );
 }

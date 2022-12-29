@@ -31,7 +31,7 @@ function ModesPage() {
         />
       </Routes>
 
-      {deleteModeStatus === 'rejected' && <Message type='danger' text={`${deleteModeError}`} show={showMessage} setShow={setShowMessage} />}
+      {deleteModeStatus === 'rejected' && <Message type='danger' text={deleteModeError} show={showMessage} setShow={setShowMessage} />}
 
       {deleteModeStatus === 'resolved' && <Message type='success' text='Режим удален!' show={showMessage} setShow={setShowMessage} />}
     </>

@@ -178,22 +178,22 @@ function TypesSection({ modeId }) {
       />
 
       {createTypeStatus === 'rejected'
-      && <Message type='danger' text={`${createTypeError}`} show={showCreateTypeMessage} setShow={setShowCreateTypeMessage} />}
+      && <Message type='danger' text={createTypeError} show={showCreateTypeMessage} setShow={setShowCreateTypeMessage} />}
 
       {createTypeStatus === 'resolved'
       && <Message type='success' text='Тип создан!' show={showCreateTypeMessage} setShow={setShowCreateTypeMessage} />}
 
       {updateTypeStatus === 'rejected'
-      && <Message type='danger' text={`${updateTypeError}`} show={showUpdateTypeMessage} setShow={setShowUpdateTypeMessage} />}
+      && <Message type='danger' text={updateTypeError} show={showUpdateTypeMessage} setShow={setShowUpdateTypeMessage} />}
 
       {updateTypeStatus === 'resolved'
       && <Message type='success' text='Тип обновлен!' show={showUpdateTypeMessage} setShow={setShowUpdateTypeMessage} />}
 
       {deleteTypeStatus === 'rejected'
-      && <Message type='danger' text={`${deleteTypeError}`} show={showDeleteTypeMessage} setShow={setShowDeleteTypeMessage} />}
+      && <Message type='danger' text={deleteTypeError} show={showDeleteTypeMessage} setShow={setShowDeleteTypeMessage} />}
 
       {uploadFileError
-      && <Message type='danger' text={`${uploadFileError}`} show={showUploadFileError} setShow={setShowUploadFileError} />}
+      && <Message type='danger' text={uploadFileError} show={showUploadFileError} setShow={setShowUploadFileError} />}
     </>
   );
 }

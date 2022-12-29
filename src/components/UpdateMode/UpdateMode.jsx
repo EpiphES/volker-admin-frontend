@@ -125,7 +125,7 @@ function UpdateMode({ showDeleteModeMessage }) {
         onDecline={handleCloseConfirmModal}
       />
 
-      {updateModeStatus === 'rejected' && <Message type='danger' text={`${updateModeError}`} show={showUpdateModeMessage} setShow={setShowUpdateModeMessage} />}
+      {updateModeStatus === 'rejected' && <Message type='danger' text={updateModeError} show={showUpdateModeMessage} setShow={setShowUpdateModeMessage} />}
 
       {updateModeStatus === 'resolved' && <Message type='success' text='Режим обновлен!' show={showUpdateModeMessage} setShow={setShowUpdateModeMessage} />}
     </>
