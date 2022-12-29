@@ -127,18 +127,20 @@ function MarkersGallery() {
         Маркеры не найдены.
       </Alert> }
 
-      <section>
-        <Row xs={2} sm={3} md={4} lg={5} className='g-2 h-100 mb-3'>
-          <Col>
-            <AddCard minHeight='150px' onClick={handleAddClick} />
-          </Col>
-          {markerCards}
-        </Row>
+      { fetchMarkersStatus !== 'loading'
+      && <section>
+            <Row xs={2} sm={3} md={4} lg={5} className='g-2 h-100 mb-3'>
+              <Col>
+                <AddCard minHeight='150px' onClick={handleAddClick} />
+              </Col>
+              {markerCards}
+            </Row>
 
-        <BtnScrollUp />
-      </section>
+            <BtnScrollUp />
+          </section>
+      }
 
-      { (fetchMarkersStatus === 'loading' || uploadMarkersStatus === 'loading') && <Loader /> }
+      { (uploadMarkersStatus === 'loading' || fetchMarkersStatus === 'loading') && <Loader /> }
       { fetchMarkersStatus === 'rejected'
         && <Alert variant='danger'>
           {fetchMarkersError}
