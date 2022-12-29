@@ -13,17 +13,17 @@ function PushSection() {
     setIsLoading(true);
     setError('');
     api.sendPush(values)
-      .catch(() => setError('Ошибка!'))
+      .catch((err) => setError(err))
       .finally(() => {
         setShowMessage(true);
         setIsLoading(false);
       });
   }
 
-  console.log(error, showMessage);
-
   return (
-    <>
+    <section>
+      <h5 className='mb-3 text-center'> Push-уведомления</h5>
+
       <PushForm handleSubmit={handleSendPush} isLoading={isLoading}/>
 
       { error
@@ -31,7 +31,7 @@ function PushSection() {
 
         : <Message
         type='success' text='Пуш отправлен!' show={showMessage} setShow={setShowMessage} />}
-    </>
+    </ section>
   );
 }
 
