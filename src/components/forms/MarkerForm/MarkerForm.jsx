@@ -517,9 +517,7 @@ function MarkerForm({
             variant='dark'
             type='reset'
             aria-label='очистить изменения'
-            onClick={() => {
-              formik.handleReset();
-            }}
+            onClick={formik.handleReset}
             className='ms-2 mt-4'>
             Очистить изменения
           </Button>

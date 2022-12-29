@@ -116,8 +116,8 @@ function TypeForm({
           variant='dark'
           type='reset'
           aria-label='очистить'
-          onClick={() => {
-            formik.handleReset();
+          onClick={(e) => {
+            formik.handleReset(e);
             handleIconReset();
           }}>
           Очистить

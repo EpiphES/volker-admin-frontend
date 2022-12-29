@@ -168,8 +168,8 @@ function StoriesGroupForm({
             variant='dark'
             type='reset'
             aria-label='очистить изменения'
-            onClick={() => {
-              formik.handleReset();
+            onClick={(e) => {
+              formik.handleReset(e);
               handleImageReset();
             }}
             className='ms-2 mt-3'>
