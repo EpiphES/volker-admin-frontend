@@ -136,9 +136,8 @@ const citySlice = createSlice({
       state.createCityStatus = 'loading';
       state.createCityError = null;
     },
-    [createCity.fulfilled]: (state, action) => {
+    [createCity.fulfilled]: (state) => {
       state.createCityStatus = 'resolved';
-      state.currentCity = action.payload;
     },
     [createCity.rejected]: (state, action) => {
       state.createCityStatus = 'rejected';
@@ -148,9 +147,8 @@ const citySlice = createSlice({
       state.updateCityStatus = 'loading';
       state.updateCityError = null;
     },
-    [updateCity.fulfilled]: (state, action) => {
+    [updateCity.fulfilled]: (state) => {
       state.updateCityStatus = 'resolved';
-      state.currentCity = action.payload;
     },
     [updateCity.rejected]: (state, action) => {
       state.updateCityStatus = 'rejected';
@@ -162,7 +160,6 @@ const citySlice = createSlice({
     },
     [deleteCity.fulfilled]: (state) => {
       state.deleteCityStatus = 'resolved';
-      state.currentCity = null;
     },
     [deleteCity.rejected]: (state, action) => {
       state.deleteCityStatus = 'rejected';
