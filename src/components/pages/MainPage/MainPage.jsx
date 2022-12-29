@@ -1,6 +1,8 @@
+import PushSection from '../../PushSection/PushSection.jsx';
+
 function Main() {
   return (
-    <div>Main</div>
+    <PushSection />
   );
 }
 
