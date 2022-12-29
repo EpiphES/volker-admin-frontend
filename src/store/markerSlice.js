@@ -4,6 +4,19 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import * as api from '../utils/api';
 
+export const getAllMarkers = createAsyncThunk(
+  'markers/getAllMarkers',
+  async (values, { rejectWithValue, dispatch }) => {
+    try {
+      const res = await api.getAllMarkers(values);
+      dispatch(setMarkers(res));
+      return res;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  },
+);
+
 export const fetchAllMarkers = createAsyncThunk(
   'markers/fetchAllMarkers',
   async (values, { rejectWithValue, dispatch }) => {
@@ -193,12 +206,12 @@ const markerSlice = createSlice({
       state.fetchMarkersError = null;
     },
     [uploadAllMarkers.pending]: (state) => {
-      state.fetchMarkersStatus = 'loading';
-      state.fetchMarkersError = null;
+      state.uploadMarkersStatus = 'loading';
+      state.uploadMarkersError = null;
     },
     [uploadFilteredMarkers.pending]: (state) => {
-      state.fetchMarkersStatus = 'loading';
-      state.fetchMarkersError = null;
+      state.uploadMarkersStatus = 'loading';
+      state.uploadMarkersError = null;
     },
     [fetchAllMarkers.fulfilled]: (state) => {
       state.fetchMarkersStatus = 'resolved';
@@ -207,10 +220,10 @@ const markerSlice = createSlice({
       state.fetchMarkersStatus = 'resolved';
     },
     [uploadAllMarkers.fulfilled]: (state) => {
-      state.fetchMarkersStatus = 'resolved';
+      state.uploadMarkersStatus = 'resolved';
     },
     [uploadFilteredMarkers.fulfilled]: (state) => {
-      state.fetchMarkersStatus = 'resolved';
+      state.uploadMarkersStatus = 'resolved';
     },
     [fetchAllMarkers.rejected]: (state, action) => {
       state.fetchMarkersStatus = 'rejected';
@@ -221,12 +234,12 @@ const markerSlice = createSlice({
       state.fetchMarkersError = action.payload;
     },
     [uploadAllMarkers.rejected]: (state, action) => {
-      state.fetchMarkersStatus = 'rejected';
-      state.fetchMarkersError = action.payload;
+      state.uploadMarkersStatus = 'rejected';
+      state.uploadMarkersError = action.payload;
     },
     [uploadFilteredMarkers.rejected]: (state, action) => {
-      state.fetchMarkersStatus = 'rejected';
-      state.fetchMarkersError = action.payload;
+      state.uploadMarkersStatus = 'rejected';
+      state.uploadMarkersError = action.payload;
     },
     [getMarkerById.pending]: (state) => {
       state.currentMarkerStatus = 'loading';

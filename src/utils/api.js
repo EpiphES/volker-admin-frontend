@@ -151,6 +151,10 @@ export function deleteFile(fileName) {
     .then(checkResponse);
 }
 
+export function getAllMarkers({ cityId, ...values }) {
+  return api.post(`Marker/GetAllMarkers?cityId=${cityId}`, values);
+}
+
 export function getFilteredPaginatedMarkers({
   cityId, page, search, ...values
 }) {
@@ -226,5 +230,13 @@ export function deleteStoriesItem(id) {
 }
 
 export function sendPush(values) {
-  return api.post('Login/SendPushNotification', values);
+  return fetch(`${BASE_URL}Login/SendPushNotification`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+    body: JSON.stringify(values),
+  })
+    .then((res) => (res.ok || res.status === 504 ? res : Promise.reject(`Ошибка: ${res.status}`)));
 }
