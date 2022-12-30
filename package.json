@@ -2,7 +2,7 @@
   "name": "volker-admin-frontend",
   "version": "0.1.0",
   "private": true,
-  "homepage": "/",
+  "homepage": "./",
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.6",
     "bootstrap": "^5.2.2",
